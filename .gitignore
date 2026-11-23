@@ -1,0 +1,25 @@
+# deps
+node_modules/
+
+# expo
+.expo/
+expo-env.d.ts
+web-build/
+dist/
+ios/
+android/
+
+# metro / misc
+.metro-health-check*
+*.tsbuildinfo
+npm-debug.*
+*.log
+
+# env
+.env
+.env*.local
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/

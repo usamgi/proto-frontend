@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+
+/* 공유 패키지에서 className 을 쓰게 되면 스캔 대상에 포함 */
+@source '../../../packages/shared/src';

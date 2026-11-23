@@ -1,0 +1,6 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# Expo 문서 권장: 일부 RN 라이브러리가 isolated 설치에서 빌드 오류를 내므로 hoisted 사용
+nodeLinker: hoisted
