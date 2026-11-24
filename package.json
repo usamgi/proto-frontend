@@ -8,6 +8,15 @@
     "mobile:android": "pnpm --filter mobile android",
     "web": "pnpm --filter web dev",
     "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "devDependencies": {
+    "prettier": "^3.10.1",
+    "prettier-plugin-tailwindcss": "^0.8.1"
   }
 }
