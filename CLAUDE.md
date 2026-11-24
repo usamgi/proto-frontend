@@ -38,4 +38,4 @@ pnpm pr           # push 하고 main 대상 PR 열기/갱신. --dry-run은 .pr-b
 
 ## 커밋
 
-Conventional Commits에 한글 제목(`feat: 그룹 생성 화면 추가`). type은 feat, fix, refactor, style, docs, test, chore, build, ci, perf, revert. commitlint가 `commit-msg` 훅과 CI에서 검사한다. 기능 브랜치는 `main`에서 `타입/작업이름`으로 딴다(`feat/group-create`, `fix/comment-keyboard`).
+Conventional Commits에 한글 제목(`feat: 그룹 생성 화면 추가`). 제목은 `추가`, `수정`, `연동`처럼 명사형으로 끝내고, 영문과 코드 뒤 조사는 붙여 쓴다(`README를`). type은 feat, fix, refactor, style, docs, test, chore, build, ci, perf, revert. commitlint가 `commit-msg` 훅과 CI에서 검사한다. 기능 브랜치는 `main`에서 `타입/작업이름`으로 딴다(`feat/group-create`, `fix/comment-keyboard`).
