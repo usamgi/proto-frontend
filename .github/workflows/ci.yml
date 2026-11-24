@@ -1,0 +1,41 @@
+# 로컬 git 훅은 --no-verify로 우회된다. 훅과 같은 검사를 전체 파일에 다시 돌린다.
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  HUSKY: '0'
+
+jobs:
+  check:
+    name: 정적 검사
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # commitlint가 대상 브랜치와 비교해야 해서 히스토리를 모두 받는다
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm format:check
+      - name: 커밋 제목 검사
+        if: github.event_name == 'pull_request'
+        run: pnpm exec commitlint --from "origin/${{ github.base_ref }}" --to "${{ github.event.pull_request.head.sha }}"
