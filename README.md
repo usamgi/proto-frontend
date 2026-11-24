@@ -30,10 +30,10 @@ pnpm typecheck         # 전체 타입체크
 
 두 앱 모두 Tailwind **v4** 를 쓰고, 설정은 CSS 파일에서 한다 (`tailwind.config.js` 없음).
 
-| | 엔트리 CSS | 연결 |
-| --- | --- | --- |
+|        | 엔트리 CSS                   | 연결                                                                        |
+| ------ | ---------------------------- | --------------------------------------------------------------------------- |
 | mobile | `apps/mobile/src/global.css` | `metro.config.js` 의 `withUniwindConfig`, `src/app/_layout.tsx` 에서 import |
-| web | `apps/web/src/index.css` | `vite.config.ts` 의 `@tailwindcss/vite`, `src/main.tsx` 에서 import |
+| web    | `apps/web/src/index.css`     | `vite.config.ts` 의 `@tailwindcss/vite`, `src/main.tsx` 에서 import         |
 
 ```tsx
 // mobile — React Native 컴포넌트에 className 사용
