@@ -24,6 +24,23 @@ pnpm install
 pnpm mobile            # Expo 개발 서버 → Expo Go 로 QR 스캔
 pnpm web               # http://localhost:5173
 pnpm typecheck         # 전체 타입체크
+pnpm lint              # 전체 ESLint
+pnpm format            # Prettier 일괄 적용
+pnpm pr                # 현재 브랜치를 push 하고 PR 열기
+```
+
+## 커밋 훅
+
+커밋 메시지는 `타입: 내용` 형식으로 쓴다(`feat: 그룹 생성 화면 추가`). 형식이 다르면 훅과 CI가 막는다.
+
+GUI(소스트리, VS Code 등)로 커밋하면 훅이 `node`나 `pnpm`을 찾지 못할 수 있다. GUI는 셸 프로필을 읽지 않기 때문이다. husky가 훅마다 먼저 읽는 `~/.config/husky/init.sh`를 각자 한 번 만든다.
+
+```bash
+mkdir -p ~/.config/husky
+cat > ~/.config/husky/init.sh <<'EOF'
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" >/dev/null 2>&1
+EOF
 ```
 
 ## 스타일링 (Tailwind CSS v4)
