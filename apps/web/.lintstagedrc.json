@@ -1,0 +1,7 @@
+{
+  "*.{js,jsx,ts,tsx}": [
+    "eslint --fix --no-warn-ignored",
+    "prettier --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore"
+  ],
+  "*.{json,css,md}": "prettier --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore"
+}

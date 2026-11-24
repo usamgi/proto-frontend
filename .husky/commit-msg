@@ -1,0 +1,2 @@
+. "$(dirname "$0")/requireTools.sh"
+pnpm exec commitlint --edit "$1"
