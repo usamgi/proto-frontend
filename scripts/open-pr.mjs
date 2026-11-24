@@ -6,7 +6,6 @@ import { draftPr } from './draft-pr.mjs';
 import {
   BODY_PATH,
   DEFAULT_BASE,
-  DETAIL_PLACEHOLDER,
   REMOTE,
   WHY_PLACEHOLDER,
   buildPr,
@@ -81,13 +80,11 @@ function prepare(pr, openTitle) {
   let title = readTitleFromBody(body) ?? pr.title ?? openTitle;
 
   const needsWhy = body.includes(WHY_PLACEHOLDER);
-  const needsDetail = body.includes(DETAIL_PLACEHOLDER);
-  if (!title || needsWhy || needsDetail) {
+  if (!title || needsWhy) {
     process.stderr.write('[pr] 초안을 만드는 중\n');
     const draft = draftPr({ subjects: pr.subjects, diff: pr.diff });
     if (draft) {
       if (needsWhy) body = fillPlaceholder(body, WHY_PLACEHOLDER, draft.why);
-      if (needsDetail) body = fillPlaceholder(body, DETAIL_PLACEHOLDER, draft.detail);
       title ??= draft.title;
     } else {
       process.stderr.write(`[pr] 초안을 만들지 못했다. ${BODY_PATH}를 손으로 채운다\n`);

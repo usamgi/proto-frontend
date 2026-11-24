@@ -5,15 +5,9 @@ export const DEFAULT_BASE = 'main';
 export const REMOTE = 'origin';
 export const BODY_PATH = '.pr-body.md';
 export const TITLE_PLACEHOLDER = '<제목을 적는다. 커밋 제목처럼 명사형으로 끝낸다>';
-/** 이 문자열들이 본문에 그대로 남아 있으면 그 절을 아직 아무도 채우지 않은 것입니다. */
+/** 이 문자열이 본문에 그대로 남아 있으면 그 절을 아직 아무도 채우지 않은 것입니다. */
 export const WHY_PLACEHOLDER = `<!--
 이 변경이 왜 필요한지 적는다. 무엇이 불편했거나 없었는지를 한두 문장으로 쓴다.
--->`;
-export const DETAIL_PLACEHOLDER = `<!--
-커밋 목록만으로 설명이 부족한 변경을 문제마다 풀어 쓴다. 아래를 채운다.
-- 어떻게 고쳤는지
-- 판단이 갈린 지점과 고른 이유
-- 근거가 되는 실행 결과
 -->`;
 
 /** 읽는 사람이 핵심부터 보도록 이 순서로 묶습니다. */
@@ -94,8 +88,6 @@ export function buildPr(baseBranch = DEFAULT_BASE) {
 ## 📝 작업 내용
 
 ${taskGroups(subjects)}
-
-${DETAIL_PLACEHOLDER}
 
 ## ❔ 왜?
 
