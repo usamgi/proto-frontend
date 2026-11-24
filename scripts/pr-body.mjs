@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 
-export const DEFAULT_BASE = 'main';
+export const DEFAULT_BASE = 'develop';
 export const REMOTE = 'origin';
 export const BODY_PATH = '.pr-body.md';
 export const TITLE_PLACEHOLDER = '<제목을 적는다. 커밋 제목처럼 명사형으로 끝낸다>';
@@ -98,7 +98,7 @@ ${WHY_PLACEHOLDER}
 - [ ] \`pnpm typecheck\`와 \`pnpm lint\` 통과
 - [ ] Expo Go 또는 브라우저에서 직접 확인
 - [ ] 화면이 Figma 시안과 일치하는지 확인
-- [ ] 요청과 무관한 변경이 섞이지 않았는지 확인
+- [ ] 머지할 브랜치가 develop인지 확인
 
 ${branchMarker(branch)}
 `;

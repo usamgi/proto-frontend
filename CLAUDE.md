@@ -18,7 +18,7 @@ pnpm web          # http://localhost:5173
 pnpm typecheck    # 전체 타입체크
 pnpm lint         # 전체 ESLint. 경고도 실패
 pnpm format       # Prettier
-pnpm pr           # push 하고 main 대상 PR 열기/갱신. --dry-run은 .pr-body.md만 만든다
+pnpm pr           # push 하고 develop 대상 PR 열기/갱신. --dry-run은 .pr-body.md만 만든다
 ```
 
 네이티브 라이브러리는 `pnpm --filter mobile exec expo install <패키지>`로 설치한다. 작업을 마치기 전에 `pnpm typecheck`와 `pnpm lint`를 돌린다.
@@ -38,4 +38,4 @@ pnpm pr           # push 하고 main 대상 PR 열기/갱신. --dry-run은 .pr-b
 
 ## 커밋
 
-Conventional Commits에 한글 제목(`feat: 그룹 생성 화면 추가`). 제목은 `추가`, `수정`, `연동`처럼 명사형으로 끝내고, 영문과 코드 뒤 조사는 붙여 쓴다(`README를`). type은 feat, fix, refactor, style, docs, test, chore, build, ci, perf, revert. commitlint가 `commit-msg` 훅과 CI에서 검사한다. 기능 브랜치는 `main`에서 `타입/작업이름`으로 딴다(`feat/group-create`, `fix/comment-keyboard`).
+Conventional Commits에 한글 제목(`feat: 그룹 생성 화면 추가`). 제목은 `추가`, `수정`, `연동`처럼 명사형으로 끝내고, 영문과 코드 뒤 조사는 붙여 쓴다(`README를`). type은 feat, fix, refactor, style, docs, test, chore, build, ci, perf, revert. commitlint가 `commit-msg` 훅과 CI에서 검사한다. 기능 브랜치는 `develop`에서 `타입/작업이름`으로 딴다(`feat/group-create`, `fix/comment-keyboard`).
