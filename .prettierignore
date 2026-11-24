@@ -1,0 +1,8 @@
+node_modules
+pnpm-lock.yaml
+.expo
+dist
+expo-env.d.ts
+apps/mobile/src/uniwind-types.d.ts
+apps/mobile/AGENTS.md
+apps/mobile/assets/expo.icon
