@@ -26,7 +26,7 @@ pnpm web               # http://localhost:5173
 pnpm typecheck         # 전체 타입체크
 pnpm lint              # 전체 ESLint
 pnpm format            # Prettier 일괄 적용
-pnpm pr                # 현재 브랜치를 push 하고 PR 열기
+pnpm pr                # 현재 브랜치를 push 하고 PR 열기 (docs/pr-guide.md)
 ```
 
 ## 커밋 훅
