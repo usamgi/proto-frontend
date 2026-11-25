@@ -4,6 +4,7 @@ import { CreateGroupPage } from './pages/onboarding/CreateGroupPage';
 import { EnterInviteLinkPage } from './pages/onboarding/EnterInviteLinkPage';
 import { GroupEntryPage } from './pages/onboarding/GroupEntryPage';
 import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
+import { JoinGroupPage } from './pages/onboarding/JoinGroupPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
 
 export function App() {
@@ -15,6 +16,7 @@ export function App() {
       <Route path="/group/new" element={<CreateGroupPage />} />
       <Route path="/group/invite" element={<InviteMembersPage />} />
       <Route path="/join" element={<EnterInviteLinkPage />} />
+      <Route path="/join/confirm" element={<JoinGroupPage />} />
     </Routes>
   );
 }
