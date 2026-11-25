@@ -1,5 +1,6 @@
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 
+import { LandingPage } from './pages/landing/LandingPage';
 import { PrivacyPage } from './pages/legal/PrivacyPage';
 import { TermsPage } from './pages/legal/TermsPage';
 import { CreateGroupPage } from './pages/onboarding/CreateGroupPage';
@@ -14,7 +15,7 @@ import { NicknamePage } from './pages/onboarding/NicknamePage';
 export function App() {
   return (
     <Routes>
-      <Route index element={<Navigate to="/login" replace />} />
+      <Route index element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/group" element={<GroupEntryPage />} />
       <Route path="/group/new" element={<CreateGroupPage />} />
