@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router';
 
 import { CreateGroupPage } from './pages/onboarding/CreateGroupPage';
+import { EnterInviteLinkPage } from './pages/onboarding/EnterInviteLinkPage';
 import { GroupEntryPage } from './pages/onboarding/GroupEntryPage';
 import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
@@ -13,6 +14,7 @@ export function App() {
       <Route path="/group" element={<GroupEntryPage />} />
       <Route path="/group/new" element={<CreateGroupPage />} />
       <Route path="/group/invite" element={<InviteMembersPage />} />
+      <Route path="/join" element={<EnterInviteLinkPage />} />
     </Routes>
   );
 }
