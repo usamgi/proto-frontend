@@ -132,7 +132,7 @@ export function toDescription(body) {
 
 export function readExistingBody(branch) {
   try {
-    const body = readFileSync(BODY_PATH, 'utf8');
+    const body = readFileSync(BODY_PATH, 'utf8').replace(/\r\n/g, '\n');
     return body.includes(branchMarker(branch)) ? body : null;
   } catch {
     return null;
