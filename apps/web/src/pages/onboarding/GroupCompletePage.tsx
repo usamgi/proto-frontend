@@ -14,7 +14,7 @@ export function GroupCompletePage() {
   if (!group) return <Navigate to="/group" replace />;
 
   // TODO: 홈 화면을 만들면 홈으로 보낸다
-  const finish = () => navigate('/');
+  const finish = () => navigate('/login');
 
   return (
     <Screen header={<Header onClose={finish} />} footer={<Button onClick={finish}>완료</Button>}>
