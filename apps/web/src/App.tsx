@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router';
 
+import { AuthCallbackPage } from './pages/auth/AuthCallbackPage';
 import { LandingPage } from './pages/landing/LandingPage';
 import { PrivacyPage } from './pages/legal/PrivacyPage';
 import { TermsPage } from './pages/legal/TermsPage';
@@ -17,6 +18,7 @@ export function App() {
     <Routes>
       <Route index element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
       <Route path="/group" element={<GroupEntryPage />} />
       <Route path="/group/new" element={<CreateGroupPage />} />
       <Route path="/group/invite" element={<InviteMembersPage />} />
