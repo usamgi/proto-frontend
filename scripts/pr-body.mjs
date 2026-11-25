@@ -60,7 +60,7 @@ function taskGroups(subjects) {
     groups.get(item.label).push(item.text);
   }
   return [...groups]
-    .map(([label, texts]) => `**${label}**\n\n${texts.map((text) => `- [x] ${text}`).join('\n')}`)
+    .map(([label, texts]) => `**${label}**\n\n${texts.map((text) => `- ${text}`).join('\n')}`)
     .join('\n\n');
 }
 
