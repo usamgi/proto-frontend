@@ -2,3 +2,33 @@
 
 /* 공유 패키지에서 className 을 쓰게 되면 스캔 대상에 포함 */
 @source '../../../packages/shared/src';
+
+@theme {
+  --font-sans:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-logo: 'SUIT', var(--font-sans);
+
+  --color-background: #f7f7f8;
+  --color-ink: #05080f;
+  --color-ink-sub: #5b6170;
+  --color-navy: #1f2124;
+  --color-blue: #6fbafe;
+  --color-sky: #a0e1ff;
+  --color-line: #d2d2d2;
+  --color-fill: #ededef;
+  --color-kakao: #fee400;
+  --color-gray-5: #27272a;
+
+  --text-title: 32px;
+  --text-title--line-height: 44px;
+  --text-title--letter-spacing: -0.8096px;
+  --text-heading: 20px;
+  --text-heading--line-height: 28px;
+  --text-heading--letter-spacing: -0.24px;
+}
+
+@layer base {
+  body {
+    @apply bg-background font-sans text-ink;
+  }
+}
