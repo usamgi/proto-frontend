@@ -1,5 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router';
 
+import { PrivacyPage } from './pages/legal/PrivacyPage';
+import { TermsPage } from './pages/legal/TermsPage';
 import { CreateGroupPage } from './pages/onboarding/CreateGroupPage';
 import { EnterInviteLinkPage } from './pages/onboarding/EnterInviteLinkPage';
 import { GroupCompletePage } from './pages/onboarding/GroupCompletePage';
@@ -21,6 +23,8 @@ export function App() {
       <Route path="/join/confirm" element={<JoinGroupPage />} />
       <Route path="/nickname" element={<NicknamePage />} />
       <Route path="/group/done" element={<GroupCompletePage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
     </Routes>
   );
 }
