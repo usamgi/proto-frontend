@@ -103,8 +103,9 @@ function prepare(pr, openTitle) {
   if (!readTitleFromBody(body)) body = `# ${title}\n\n${body.replace(/^#\s+.*\n+/, '')}`;
   writeBody(body);
 
-  const lint = spawnSync('pnpm', ['exec', 'commitlint'], {
+  const lint = spawnSync('pnpm exec commitlint', {
     input: title,
+    shell: true,
     stdio: ['pipe', 'inherit', 'inherit'],
   });
   if (lint.status !== 0) fail(`제목이 커밋 규칙을 어긴다: ${title}`);
