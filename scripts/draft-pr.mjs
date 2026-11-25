@@ -1,8 +1,17 @@
-import { execFileSync } from 'node:child_process';
+import { execSync } from 'node:child_process';
 
 /** diff 전체를 넘기면 호출이 길어집니다. 맥락이 끊기지 않는 선에서 자릅니다. */
 const MAX_DIFF_BYTES = 120_000;
 const TIMEOUT_MS = 180_000;
+
+/**
+ * 셸을 거쳐 실행합니다. Windows에서 npm으로 설치한 claude는 `claude.cmd`라서 셸 없이는 찾지 못합니다.
+ * 셸에서 인자가 쪼개지지 않게 도구 목록은 쉼표로 잇습니다. 명령에 사용자 입력은 들어가지 않습니다.
+ * `--setting-sources user`: 프로젝트 설정의 훅이 초안 실행에 끼어들면 초안 대신 훅에 대한 답이 출력됩니다.
+ */
+const CLAUDE_COMMAND =
+  'claude -p --setting-sources user ' +
+  '--disallowed-tools Bash,Edit,Write,Read,Glob,Grep,WebFetch,WebSearch,Task';
 
 const INSTRUCTION = `아래는 PR로 올릴 변경이다. PR 제목과 "왜?"를 쓴다.
 
@@ -71,25 +80,20 @@ function parseDraft(output) {
  */
 export function draftPr({ subjects, diff }) {
   try {
-    const output = execFileSync(
-      'claude',
-      [
-        '-p',
-        // 프로젝트 설정의 훅이 초안 실행에 끼어들면 초안 대신 훅에 대한 답이 출력된다
-        '--setting-sources',
-        'user',
-        '--disallowed-tools',
-        'Bash Edit Write Read Glob Grep WebFetch WebSearch Task',
-      ],
-      {
-        input: buildPrompt({ subjects, diff }),
-        encoding: 'utf8',
-        timeout: TIMEOUT_MS,
-        stdio: ['pipe', 'pipe', 'ignore'],
-      },
-    );
+    const output = execSync(CLAUDE_COMMAND, {
+      input: buildPrompt({ subjects, diff }),
+      encoding: 'utf8',
+      timeout: TIMEOUT_MS,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
     return parseDraft(output.trim());
-  } catch {
+  } catch (error) {
+    const reason =
+      error.code === 'ETIMEDOUT'
+        ? `${TIMEOUT_MS / 1000}초 안에 답이 오지 않았습니다`
+        : error.stderr?.toString().trim().split('\n')[0] ||
+          'claude를 실행하지 못했습니다. Claude Code 설치와 로그인을 확인합니다';
+    process.stderr.write(`[pr] 초안 실패: ${reason}\n`);
     return null;
   }
 }

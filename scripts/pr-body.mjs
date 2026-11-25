@@ -60,7 +60,7 @@ function taskGroups(subjects) {
     groups.get(item.label).push(item.text);
   }
   return [...groups]
-    .map(([label, texts]) => `**${label}**\n\n${texts.map((text) => `- [x] ${text}`).join('\n')}`)
+    .map(([label, texts]) => `**${label}**\n\n${texts.map((text) => `- ${text}`).join('\n')}`)
     .join('\n\n');
 }
 
@@ -132,7 +132,7 @@ export function toDescription(body) {
 
 export function readExistingBody(branch) {
   try {
-    const body = readFileSync(BODY_PATH, 'utf8');
+    const body = readFileSync(BODY_PATH, 'utf8').replace(/\r\n/g, '\n');
     return body.includes(branchMarker(branch)) ? body : null;
   } catch {
     return null;
