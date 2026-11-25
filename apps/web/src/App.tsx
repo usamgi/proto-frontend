@@ -6,6 +6,7 @@ import { GroupEntryPage } from './pages/onboarding/GroupEntryPage';
 import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
 import { JoinGroupPage } from './pages/onboarding/JoinGroupPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
+import { NicknamePage } from './pages/onboarding/NicknamePage';
 
 export function App() {
   return (
@@ -17,6 +18,7 @@ export function App() {
       <Route path="/group/invite" element={<InviteMembersPage />} />
       <Route path="/join" element={<EnterInviteLinkPage />} />
       <Route path="/join/confirm" element={<JoinGroupPage />} />
+      <Route path="/nickname" element={<NicknamePage />} />
     </Routes>
   );
 }
