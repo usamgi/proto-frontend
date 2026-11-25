@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@proto/shared": "workspace:*",
+    "@supabase/supabase-js": "^2.119.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-router": "^8.5.2"
