@@ -7,6 +7,7 @@ import emojiStarStruck from '../../assets/emoji-star-struck.svg';
 import emojiThinking from '../../assets/emoji-thinking.svg';
 import googleLogo from '../../assets/google-logo.svg';
 import kakaoLogo from '../../assets/kakao-logo.svg';
+import { supabase } from '../../shared/api/supabase';
 import { Button } from '../../shared/ui/Button';
 import { Screen } from '../../shared/ui/Screen';
 
@@ -21,7 +22,15 @@ const CHIPS = [
 
 export function LoginPage() {
   const navigate = useNavigate();
+  // TODO: 카카오 로그인 연동
   const login = () => navigate('/group');
+
+  const loginWithGoogle = () => {
+    void supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    });
+  };
 
   return (
     <Screen
@@ -30,7 +39,7 @@ export function LoginPage() {
           <Button variant="kakao" icon={kakaoLogo} onClick={login}>
             카카오로 계속하기
           </Button>
-          <Button variant="white" icon={googleLogo} onClick={login}>
+          <Button variant="white" icon={googleLogo} onClick={loginWithGoogle}>
             Google로 계속하기
           </Button>
         </div>
