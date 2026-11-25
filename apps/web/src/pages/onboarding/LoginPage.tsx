@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router';
 
-import appleLogo from '../../assets/apple-logo.svg';
 import emojiEyes from '../../assets/emoji-eyes.svg';
 import emojiHeartEyes from '../../assets/emoji-heart-eyes.svg';
 import emojiSleeping from '../../assets/emoji-sleeping.svg';
@@ -33,9 +32,6 @@ export function LoginPage() {
           </Button>
           <Button variant="white" icon={googleLogo} onClick={login}>
             Google로 계속하기
-          </Button>
-          <Button icon={appleLogo} onClick={login}>
-            Apple로 계속하기
           </Button>
         </div>
       }
