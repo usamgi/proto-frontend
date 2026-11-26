@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router';
 
-import { BrandHero } from '../../shared/ui/BrandHero';
-import { Button } from '../../shared/ui/Button';
-import { Screen } from '../../shared/ui/Screen';
+import { BrandHero } from '@/shared/ui/BrandHero';
+import { Button } from '@/shared/ui/Button';
+import { Screen } from '@/shared/ui/Screen';
 
 /** 로그인 전 첫 화면. 구글 OAuth 앱 홈페이지라 앱 설명과 약관 링크를 함께 둔다 */
 export function LandingPage() {

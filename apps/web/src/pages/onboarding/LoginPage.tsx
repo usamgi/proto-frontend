@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
 
-import googleLogo from '../../assets/google-logo.svg';
-import kakaoLogo from '../../assets/kakao-logo.svg';
-import { supabase } from '../../shared/api/supabase';
-import { BrandHero } from '../../shared/ui/BrandHero';
-import { Button } from '../../shared/ui/Button';
-import { Screen } from '../../shared/ui/Screen';
+import googleLogo from '@/assets/google-logo.svg';
+import kakaoLogo from '@/assets/kakao-logo.svg';
+import { supabase } from '@/shared/api/supabase';
+import { BrandHero } from '@/shared/ui/BrandHero';
+import { Button } from '@/shared/ui/Button';
+import { Screen } from '@/shared/ui/Screen';
 
 export function LoginPage() {
   const navigate = useNavigate();

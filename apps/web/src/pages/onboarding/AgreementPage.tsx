@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router';
 
-import checkCircleOff from '../../assets/check-circle-off.svg';
-import checkCircleOn from '../../assets/check-circle-on.svg';
-import checkOff from '../../assets/check-off.svg';
-import checkOn from '../../assets/check-on.svg';
-import chevronRight from '../../assets/chevron-right.svg';
-import { Button } from '../../shared/ui/Button';
-import { Header } from '../../shared/ui/Header';
-import { Screen } from '../../shared/ui/Screen';
-import { ScreenTitle } from '../../shared/ui/ScreenTitle';
+import checkCircleOff from '@/assets/check-circle-off.svg';
+import checkCircleOn from '@/assets/check-circle-on.svg';
+import checkOff from '@/assets/check-off.svg';
+import checkOn from '@/assets/check-on.svg';
+import chevronRight from '@/assets/chevron-right.svg';
+import { Button } from '@/shared/ui/Button';
+import { Header } from '@/shared/ui/Header';
+import { Screen } from '@/shared/ui/Screen';
+import { ScreenTitle } from '@/shared/ui/ScreenTitle';
 import { useOnboarding, type Agreement } from './onboarding-context';
 
 const ITEMS: { id: Agreement; label: string; required: boolean; detail?: string }[] = [

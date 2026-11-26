@@ -1,4 +1,4 @@
-import check from '../../assets/check.svg';
+import check from '@/assets/check.svg';
 
 export function Toast({ message }: { message: string }) {
   return (

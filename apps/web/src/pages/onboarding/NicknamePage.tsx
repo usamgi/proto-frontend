@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { Button } from '../../shared/ui/Button';
-import { Header } from '../../shared/ui/Header';
-import { Screen } from '../../shared/ui/Screen';
-import { ScreenTitle } from '../../shared/ui/ScreenTitle';
-import { TextField } from '../../shared/ui/TextField';
+import { Button } from '@/shared/ui/Button';
+import { Header } from '@/shared/ui/Header';
+import { Screen } from '@/shared/ui/Screen';
+import { ScreenTitle } from '@/shared/ui/ScreenTitle';
+import { TextField } from '@/shared/ui/TextField';
 
 export function NicknamePage() {
   const navigate = useNavigate();

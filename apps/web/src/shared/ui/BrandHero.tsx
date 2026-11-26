@@ -1,8 +1,8 @@
-import emojiEyes from '../../assets/emoji-eyes.svg';
-import emojiHeartEyes from '../../assets/emoji-heart-eyes.svg';
-import emojiSleeping from '../../assets/emoji-sleeping.svg';
-import emojiStarStruck from '../../assets/emoji-star-struck.svg';
-import emojiThinking from '../../assets/emoji-thinking.svg';
+import emojiEyes from '@/assets/emoji-eyes.svg';
+import emojiHeartEyes from '@/assets/emoji-heart-eyes.svg';
+import emojiSleeping from '@/assets/emoji-sleeping.svg';
+import emojiStarStruck from '@/assets/emoji-star-struck.svg';
+import emojiThinking from '@/assets/emoji-thinking.svg';
 
 /** 시안(폭 402) 기준 칩 중심 좌표와 지름 */
 const CHIPS = [

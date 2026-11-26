@@ -1,18 +1,18 @@
-import add from '../../assets/add.svg';
-import avatarJisu from '../../assets/avatar-jisu.jpg';
-import avatarMinji from '../../assets/avatar-minji.jpg';
-import avatarMore from '../../assets/avatar-more.jpg';
-import avatarSeoyeon from '../../assets/avatar-seoyeon.jpg';
-import avatarYujin from '../../assets/avatar-yujin.jpg';
-import blur1 from '../../assets/room-blur-1.jpg';
-import blur2 from '../../assets/room-blur-2.jpg';
-import blur3 from '../../assets/room-blur-3.jpg';
-import sky1 from '../../assets/room-sky-1.jpg';
-import sky2 from '../../assets/room-sky-2.jpg';
-import sky3 from '../../assets/room-sky-3.jpg';
-import sky4 from '../../assets/room-sky-4.jpg';
-import { Header } from '../../shared/ui/Header';
-import { Screen } from '../../shared/ui/Screen';
+import add from '@/assets/add.svg';
+import avatarJisu from '@/assets/avatar-jisu.jpg';
+import avatarMinji from '@/assets/avatar-minji.jpg';
+import avatarMore from '@/assets/avatar-more.jpg';
+import avatarSeoyeon from '@/assets/avatar-seoyeon.jpg';
+import avatarYujin from '@/assets/avatar-yujin.jpg';
+import blur1 from '@/assets/room-blur-1.jpg';
+import blur2 from '@/assets/room-blur-2.jpg';
+import blur3 from '@/assets/room-blur-3.jpg';
+import sky1 from '@/assets/room-sky-1.jpg';
+import sky2 from '@/assets/room-sky-2.jpg';
+import sky3 from '@/assets/room-sky-3.jpg';
+import sky4 from '@/assets/room-sky-4.jpg';
+import { Header } from '@/shared/ui/Header';
+import { Screen } from '@/shared/ui/Screen';
 
 interface Room {
   name: string;

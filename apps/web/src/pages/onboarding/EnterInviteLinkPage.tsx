@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import link from '../../assets/link.svg';
-import { Button } from '../../shared/ui/Button';
-import { Header } from '../../shared/ui/Header';
-import { Screen } from '../../shared/ui/Screen';
-import { ScreenTitle } from '../../shared/ui/ScreenTitle';
-import { TextField } from '../../shared/ui/TextField';
+import link from '@/assets/link.svg';
+import { Button } from '@/shared/ui/Button';
+import { Header } from '@/shared/ui/Header';
+import { Screen } from '@/shared/ui/Screen';
+import { ScreenTitle } from '@/shared/ui/ScreenTitle';
+import { TextField } from '@/shared/ui/TextField';
 
 export function EnterInviteLinkPage() {
   const navigate = useNavigate();
