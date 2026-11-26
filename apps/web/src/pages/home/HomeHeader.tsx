@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 import { AddRoomPopoverButton } from './AddRoomPopoverButton';
 import { AddRoomSheetButton } from './AddRoomSheetButton';
 import { BellIcon } from './icons/BellIcon';
@@ -13,7 +15,7 @@ interface HomeHeaderProps {
  * @description 홈 상단의 로고와 방 추가, 알림, 프로필 버튼.
  *
  * @remarks
- * 알림과 프로필은 가는 화면이 아직 없어 눌러도 아무 일이 없습니다.
+ * 알림은 가는 화면이 아직 없어 눌러도 아무 일이 없습니다.
  * @internal
  * @name HomeHeader
  * @tag header
@@ -29,9 +31,9 @@ export function HomeHeader({ addMenu }: HomeHeaderProps) {
         <button type="button" aria-label="알림">
           <BellIcon />
         </button>
-        <button type="button" aria-label="프로필">
+        <Link to="/profile" aria-label="프로필">
           <PersonIcon />
-        </button>
+        </Link>
       </div>
     </header>
   );

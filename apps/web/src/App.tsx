@@ -16,6 +16,7 @@ import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
 import { JoinGroupPage } from './pages/onboarding/JoinGroupPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
 import { NicknamePage } from './pages/onboarding/NicknamePage';
+import { ProfilePage } from './pages/profile/ProfilePage';
 import { AuthGate } from './shared/auth/AuthGate';
 import { TabLayout } from './shared/ui/TabLayout';
 
@@ -51,6 +52,7 @@ export function App() {
         <Route element={<TabLayout />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route path="/camera" element={<CameraPage />} />
       </Route>
