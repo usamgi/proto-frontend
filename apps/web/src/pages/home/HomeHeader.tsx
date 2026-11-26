@@ -1,3 +1,6 @@
+import { useRef } from 'react';
+
+import { AddRoomSheet } from './AddRoomSheet';
 import { AddIcon } from './icons/AddIcon';
 import { BellIcon } from './icons/BellIcon';
 import { LogoIcon } from './icons/LogoIcon';
@@ -7,19 +10,26 @@ import { PersonIcon } from './icons/PersonIcon';
  * @description 홈 상단의 로고와 방 추가, 알림, 프로필 버튼.
  *
  * @remarks
- * 세 버튼이 가는 화면은 아직 없어 눌러도 아무 일이 없습니다.
+ * 방 추가는 바텀시트를 엽니다. 알림과 프로필은 가는 화면이 아직 없어 눌러도 아무 일이 없습니다.
  * @internal
  * @name HomeHeader
  * @tag header
  */
 export function HomeHeader() {
+  const addRoomSheetRef = useRef<HTMLDialogElement>(null);
+
   return (
     <header className="flex h-17 items-center justify-between px-4 py-2.5">
       <h1 className="text-blue">
         <LogoIcon title="USAGI" />
       </h1>
       <div className="flex items-center gap-2 text-navy">
-        <button type="button" aria-label="방 추가">
+        <button
+          type="button"
+          aria-label="방 추가"
+          aria-haspopup="dialog"
+          onClick={() => addRoomSheetRef.current?.showModal()}
+        >
           <AddIcon />
         </button>
         <button type="button" aria-label="알림">
@@ -29,6 +39,7 @@ export function HomeHeader() {
           <PersonIcon />
         </button>
       </div>
+      <AddRoomSheet ref={addRoomSheetRef} />
     </header>
   );
 }

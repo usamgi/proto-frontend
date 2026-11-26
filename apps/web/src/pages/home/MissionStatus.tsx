@@ -4,11 +4,14 @@ import { useCountdown } from './use-countdown';
 /** 아바타 자리는 넷입니다. 다섯 명부터는 마지막 자리가 "+N"으로 바뀝니다. */
 const MAX_AVATARS = 4;
 
+const SECONDS_PER_MINUTE = 60;
+const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+
 function formatCountdown(totalSeconds: number) {
   const pad = (value: number) => String(value).padStart(2, '0');
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  const hours = Math.floor(totalSeconds / SECONDS_PER_HOUR);
+  const minutes = Math.floor((totalSeconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
+  const seconds = totalSeconds % SECONDS_PER_MINUTE;
 
   return `${pad(hours)} : ${pad(minutes)} : ${pad(seconds)} 남음`;
 }

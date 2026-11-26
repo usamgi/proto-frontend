@@ -1,3 +1,4 @@
+import { ChipBoard } from './ChipBoard';
 import { HomeHeader } from './HomeHeader';
 import { MissionStatus } from './MissionStatus';
 import { MissionTitle } from './MissionTitle';
@@ -11,7 +12,7 @@ import { MOCK_MISSION } from './mock/home';
  * @tag div
  */
 export function HomePage() {
-  const { word, participants } = MOCK_MISSION;
+  const { word, participants, friends } = MOCK_MISSION;
 
   return (
     <div className="relative mx-auto min-h-dvh max-w-100.5 bg-surface pt-[env(safe-area-inset-top)] pb-32">
@@ -24,6 +25,7 @@ export function HomePage() {
         <main className="flex flex-col items-center gap-3.25 pt-4.5">
           <MissionTitle word={word} />
           <MissionStatus participants={participants} />
+          <ChipBoard friends={friends} />
         </main>
       </div>
     </div>
