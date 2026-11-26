@@ -1,12 +1,5 @@
 import type { IconProps } from './icon-props';
 
-/**
- * @description 사람 모양 프로필 아이콘.
- *
- * @internal
- * @name PersonIcon
- * @tag svg
- */
 export function PersonIcon({ className = 'size-7', title }: IconProps) {
   return (
     <svg

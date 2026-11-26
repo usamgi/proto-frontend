@@ -1,12 +1,5 @@
 import type { IconProps } from './icon-props';
 
-/**
- * @description USAGI 글자 로고.
- *
- * @internal
- * @name LogoIcon
- * @tag svg
- */
 export function LogoIcon({ className = 'h-5 w-auto', title }: IconProps) {
   return (
     <svg

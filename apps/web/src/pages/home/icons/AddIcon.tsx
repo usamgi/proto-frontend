@@ -1,12 +1,5 @@
 import type { IconProps } from './icon-props';
 
-/**
- * @description 더하기 아이콘.
- *
- * @internal
- * @name AddIcon
- * @tag svg
- */
 export function AddIcon({ className = 'size-7', title }: IconProps) {
   return (
     <svg

@@ -1,12 +1,5 @@
 import type { IconProps } from './icon-props';
 
-/**
- * @description 종 모양 알림 아이콘.
- *
- * @internal
- * @name BellIcon
- * @tag svg
- */
 export function BellIcon({ className = 'size-7', title }: IconProps) {
   return (
     <svg
