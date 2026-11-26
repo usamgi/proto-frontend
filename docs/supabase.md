@@ -21,6 +21,7 @@ cp apps/web/.env.example apps/web/.env.local
 
 - 웹: `apps/web/src/shared/api/supabase.ts`
 - 인증 flow는 PKCE. Google OAuth 후 `/auth/callback`에서 세션을 확인한다
+- 세션 유지와 로그인 상태별 화면 접근 제어는 `docs/auth-session.md`
 - 화면·기능에 필요한 짧은 쿼리 함수만 `shared/api` 근처에 둔다. Repository 계층은 만들지 않는다
 
 ## 도메인 관계
