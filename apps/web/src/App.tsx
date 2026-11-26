@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router';
 
 import { AuthCallbackPage } from './pages/auth/AuthCallbackPage';
+import { CameraPage } from './pages/camera/CameraPage';
 import { GroupsPage } from './pages/groups/GroupsPage';
 import { HomePage } from './pages/home/HomePage';
 import { LandingPage } from './pages/landing/LandingPage';
@@ -42,6 +43,7 @@ export function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/groups" element={<GroupsPage />} />
       </Route>
+      <Route path="/camera" element={<CameraPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
     </Routes>
