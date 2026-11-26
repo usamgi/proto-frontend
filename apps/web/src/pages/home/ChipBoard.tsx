@@ -1,17 +1,16 @@
 import type { ReactElement } from 'react';
 import { Link } from 'react-router';
 
+import { formatUploadedAgo } from './format-uploaded-ago';
 import type { Friend, FriendPhoto } from './home-mission';
 import { AddCircleIcon } from './icons/AddCircleIcon';
 import { LockIcon } from './icons/LockIcon';
+import { InitialAvatar } from './InitialAvatar';
 
 /** 칩 자리는 넷이고 그중 하나는 내 사진 칩이라 친구는 셋까지 보입니다. */
 const MAX_FRIEND_CHIPS = 3;
 /** 친구가 이보다 적으면 빈자리를 친구 초대 칩으로 채웁니다. 시안의 친구 0명, 1명 화면이 칩 둘입니다. */
 const MIN_FRIEND_SLOTS = 2;
-
-const MINUTE_MS = 60 * 1000;
-const HOUR_MINUTES = 60;
 
 /** 친구 칩 자리. 칩 가운데의 위치이고, 세로는 보드 위쪽에서 잽니다. */
 const FRIEND_SLOTS = [
@@ -32,15 +31,6 @@ const CARD =
   'relative flex h-51 w-[153.8px] flex-col items-center justify-center overflow-hidden rounded-3xl border-[0.4px] border-blue bg-white bg-linear-to-r from-blue/16 to-blue/16 drop-shadow-[0_9px_2px_rgba(98,131,160,0.12)]';
 const LABEL = 'text-body-18 leading-8 font-medium text-navy/50';
 
-function formatUploadedAgo(uploadedAt: string) {
-  const minutes = Math.floor((Date.now() - new Date(uploadedAt).getTime()) / MINUTE_MS);
-
-  if (minutes < 1) return '방금';
-  if (minutes < HOUR_MINUTES) return `${minutes}분 전`;
-
-  return `${Math.floor(minutes / HOUR_MINUTES)}시간 전`;
-}
-
 function InviteChip() {
   return (
     <div className={CARD}>
@@ -53,21 +43,10 @@ function InviteChip() {
 }
 
 function FriendChip({ nickname, avatarUrl }: Pick<Friend, 'nickname' | 'avatarUrl'>) {
-  const avatarClass = 'size-[57.6px] rounded-full border-[2.16px] border-white';
-
   return (
     <div className={`${CARD} gap-2.5`}>
       <p className={LABEL}>{nickname}</p>
-      {avatarUrl ? (
-        <img src={avatarUrl} alt="" className={`${avatarClass} object-cover`} />
-      ) : (
-        <span
-          aria-hidden
-          className={`${avatarClass} flex items-center justify-center bg-linear-to-b from-avatar-from/52 to-avatar-to/52 text-chip-initial font-semibold text-navy/50`}
-        >
-          {nickname.slice(0, 1)}
-        </span>
-      )}
+      <InitialAvatar nickname={nickname} avatarUrl={avatarUrl} />
     </div>
   );
 }
@@ -109,14 +88,17 @@ function MyChip({ hasFriendPhotos }: { hasFriendPhotos: boolean }) {
 function ChipSlot({
   slot,
   delay,
+  name,
   children,
 }: {
   slot: string;
   delay: string;
+  /** 방 형성 모션이 칩 자리를 찾을 때 쓰는 이름(`data-chip-slot`) */
+  name: string;
   children: ReactElement;
 }) {
   return (
-    <div className={`absolute -translate-x-1/2 -translate-y-1/2 ${slot}`}>
+    <div data-chip-slot={name} className={`absolute -translate-x-1/2 -translate-y-1/2 ${slot}`}>
       <div className="motion-safe:animate-float" style={{ animationDelay: delay }}>
         {children}
       </div>
@@ -157,11 +139,16 @@ export function ChipBoard({ friends }: ChipBoardProps) {
   return (
     <div className="relative h-135 w-full">
       {chips.map((chip, index) => (
-        <ChipSlot key={chip.key} slot={FRIEND_SLOTS[index]} delay={FLOAT_DELAYS[index]}>
+        <ChipSlot
+          key={chip.key}
+          name={`friend-${index}`}
+          slot={FRIEND_SLOTS[index]}
+          delay={FLOAT_DELAYS[index]}
+        >
           {chip}
         </ChipSlot>
       ))}
-      <ChipSlot slot={MY_SLOT} delay={MY_FLOAT_DELAY}>
+      <ChipSlot name="me" slot={MY_SLOT} delay={MY_FLOAT_DELAY}>
         <MyChip hasFriendPhotos={hasFriendPhotos} />
       </ChipSlot>
     </div>
