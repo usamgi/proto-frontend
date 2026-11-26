@@ -36,6 +36,17 @@ pnpm pr           # push 하고 develop 대상 PR 열기/갱신. --dry-run은 .p
 - Tailwind 4라 설정은 `tailwind.config`가 아니라 엔트리 CSS의 `@theme`에 한다. mobile은 `apps/mobile/src/global.css`, web은 `apps/web/src/index.css`
 - `apps/mobile/src/uniwind-types.d.ts`는 Metro가 생성한다. 손으로 고치지 않는다
 
+## 디자인
+
+- Figma: https://www.figma.com/design/5sdA2yIxkdiFfjh88rkUPI/%EC%9A%B03%EA%B8%B0?node-id=448-36711&t=XQZIFUVd4CEJMW20-0
+- UI 구현·수정 시 위 시안을 기준으로 한다. 공통 컴포넌트와 시안이 다르면 임의로 맞추지 말고 묻는다.
+
+## Supabase
+
+- 별도 API 없음. 프론트에서 `supabase-js`로 테이블을 직접 읽고 쓴다 (UT용)
+- 스키마·환경변수·주의사항은 `docs/supabase.md`
+- 브라우저에는 publishable 키만 쓴다. service_role은 프론트에 넣지 않는다
+
 ## 커밋
 
 Conventional Commits에 한글 제목(`feat: 그룹 생성 화면 추가`). 제목은 `추가`, `수정`, `연동`처럼 명사형으로 끝내고, 영문과 코드 뒤 조사는 붙여 쓴다(`README를`). type은 feat, fix, refactor, style, docs, test, chore, build, ci, perf, revert. commitlint가 `commit-msg` 훅과 CI에서 검사한다. 기능 브랜치는 `develop`에서 `타입/작업이름`으로 딴다(`feat/group-create`, `fix/comment-keyboard`).
