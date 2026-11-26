@@ -45,6 +45,24 @@
   --text-label-13: 13px;
   --text-label-13--line-height: 14px;
   --text-label-13--letter-spacing: -0.26px;
+  --text-body-16: 16px;
+  --text-body-16--line-height: 18px;
+  --text-body-16--letter-spacing: -0.32px;
+  --text-chip-initial: 28.8px;
+  --text-chip-initial--line-height: 38.4px;
+  --text-chip-initial--letter-spacing: -0.576px;
+
+  --animate-float: float 3s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-1deg);
+    }
+    50% {
+      transform: translateY(-4px) rotate(1deg);
+    }
+  }
 }
 
 /* 라이선스가 포맷 변경을 막아 받은 TTF를 그대로 쓴다 */
