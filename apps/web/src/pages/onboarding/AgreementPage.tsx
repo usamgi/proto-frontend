@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import checkCircleOff from '@/assets/check-circle-off.svg';
 import checkCircleOn from '@/assets/check-circle-on.svg';
@@ -7,6 +6,7 @@ import checkOff from '@/assets/check-off.svg';
 import checkOn from '@/assets/check-on.svg';
 import chevronRight from '@/assets/chevron-right.svg';
 import { supabase } from '@/shared/api/supabase';
+import { useWelcomeToast } from '@/shared/auth/use-welcome-toast';
 import { Button } from '@/shared/ui/Button';
 import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
@@ -33,24 +33,11 @@ const ITEMS: { id: Agreement; label: string; required: boolean; detail?: string 
 ];
 
 const LABEL = 'text-[16px] leading-[26px] tracking-[0.0912px]';
-const TOAST_DURATION = 2000;
 
 export function AgreementPage() {
   const navigate = useNavigate();
   const { agreed, setAgreed } = useOnboarding();
-  const location = useLocation();
-  // 로그인 직후 콜백이 넘겨 준 닉네임. null이면 토스트를 띄우지 않는다
-  const [welcome, setWelcome] = useState<string | null>(
-    () => (location.state as { welcome?: string } | null)?.welcome ?? null,
-  );
-
-  useEffect(() => {
-    if (welcome === null) return;
-    // 약관 상세를 다녀오거나 새로고침해도 다시 뜨지 않게 history state를 비운다
-    void navigate('.', { replace: true, state: null });
-    const timer = setTimeout(() => setWelcome(null), TOAST_DURATION);
-    return () => clearTimeout(timer);
-  }, [welcome, navigate]);
+  const welcome = useWelcomeToast();
 
   const allAgreed = agreed.length === ITEMS.length;
   const canNext = ITEMS.every(({ id, required }) => !required || agreed.includes(id));
@@ -71,9 +58,9 @@ export function AgreementPage() {
       header={<Header />}
       footer={
         <>
-          {welcome !== null && (
+          {welcome && (
             <div className="absolute bottom-full left-1/2 mb-4 -translate-x-1/2">
-              <Toast message={welcome ? `${welcome}님 환영합니다` : '환영합니다'} />
+              <Toast message={welcome} />
             </div>
           )}
           <Button disabled={!canNext} onClick={submit}>
