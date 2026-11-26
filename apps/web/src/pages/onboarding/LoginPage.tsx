@@ -10,7 +10,7 @@ import { Screen } from '../../shared/ui/Screen';
 export function LoginPage() {
   const navigate = useNavigate();
   // TODO: 카카오 로그인 연동
-  const login = () => navigate('/group');
+  const login = () => navigate('/agreement');
 
   const loginWithGoogle = () => {
     void supabase.auth.signInWithOAuth({
