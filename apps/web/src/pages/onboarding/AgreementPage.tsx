@@ -6,6 +6,7 @@ import checkCircleOn from '@/assets/check-circle-on.svg';
 import checkOff from '@/assets/check-off.svg';
 import checkOn from '@/assets/check-on.svg';
 import chevronRight from '@/assets/chevron-right.svg';
+import { supabase } from '@/shared/api/supabase';
 import { Button } from '@/shared/ui/Button';
 import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
@@ -54,6 +55,13 @@ export function AgreementPage() {
   const allAgreed = agreed.length === ITEMS.length;
   const canNext = ITEMS.every(({ id, required }) => !required || agreed.includes(id));
 
+  // 동의를 저장하면 세션의 사용자 정보가 바뀌어 AuthGate가 홈으로 보낸다
+  const submit = () => {
+    void supabase.auth.updateUser({
+      data: { agreed_at: new Date().toISOString(), marketing_agreed: agreed.includes('marketing') },
+    });
+  };
+
   const toggleAll = () => setAgreed(allAgreed ? [] : ITEMS.map(({ id }) => id));
   const toggle = (id: Agreement) =>
     setAgreed(agreed.includes(id) ? agreed.filter((item) => item !== id) : [...agreed, id]);
@@ -68,7 +76,7 @@ export function AgreementPage() {
               <Toast message={welcome ? `${welcome}님 환영합니다` : '환영합니다'} />
             </div>
           )}
-          <Button disabled={!canNext} onClick={() => navigate('/home')}>
+          <Button disabled={!canNext} onClick={submit}>
             다음
           </Button>
         </>

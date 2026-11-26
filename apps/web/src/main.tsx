@@ -5,13 +5,16 @@ import { BrowserRouter } from 'react-router';
 import { App } from './App';
 import './index.css';
 import { OnboardingProvider } from './pages/onboarding/OnboardingProvider';
+import { AuthProvider } from './shared/auth/AuthProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <OnboardingProvider>
-        <App />
-      </OnboardingProvider>
+      <AuthProvider>
+        <OnboardingProvider>
+          <App />
+        </OnboardingProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 );

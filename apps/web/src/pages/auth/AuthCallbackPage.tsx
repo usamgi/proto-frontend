@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import { supabase } from '@/shared/api/supabase';
+import { getAuthStatus, START_PAGE } from '@/shared/auth/auth-context';
 
 /** 소셜 로그인 뒤 돌아오는 곳. URL의 code를 세션으로 바꾼 뒤 다음 화면으로 보낸다 */
 export function AuthCallbackPage() {
@@ -17,8 +18,11 @@ export function AuthCallbackPage() {
         .select('nickname')
         .eq('id', session.user.id)
         .maybeSingle<{ nickname: string }>();
-      // 약관 동의 화면이 이 이름으로 환영 토스트를 띄운다
-      await navigate('/agreement', { replace: true, state: { welcome: profile?.nickname ?? '' } });
+      // 처음이면 약관 동의, 동의를 마쳤으면 홈으로 간다. 도착한 화면이 이 이름으로 환영 토스트를 띄운다
+      await navigate(START_PAGE[getAuthStatus(session)], {
+        replace: true,
+        state: { welcome: profile?.nickname ?? '' },
+      });
     });
   }, [navigate]);
 
