@@ -17,11 +17,10 @@ export function TabLayout() {
           <img src={tabHome} alt="" className="size-7" />
           <span className={LABEL}>홈</span>
         </NavLink>
-        {/* 카메라 화면은 아직 없다 */}
-        <button type="button" className={TAB}>
+        <NavLink to="/camera" className={TAB}>
           <img src={tabCamera} alt="" className="size-7" />
           <span className={LABEL}>카메라</span>
-        </button>
+        </NavLink>
         <NavLink to="/groups" className={({ isActive }) => `${TAB} ${isActive ? 'bg-navy/8' : ''}`}>
           <img src={tabGroups} alt="" className="size-7" />
           <span className={LABEL}>그룹</span>
