@@ -10,7 +10,7 @@ export function AuthCallbackPage() {
   useEffect(() => {
     // getSession은 클라이언트가 URL의 code를 교환할 때까지 기다린다
     void supabase.auth.getSession().then(({ data }) => {
-      navigate(data.session ? '/group' : '/login', { replace: true });
+      navigate(data.session ? '/agreement' : '/login', { replace: true });
     });
   }, [navigate]);
 

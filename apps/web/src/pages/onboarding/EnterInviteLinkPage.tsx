@@ -16,7 +16,10 @@ export function EnterInviteLinkPage() {
     <Screen
       header={<Header />}
       footer={
-        <Button disabled={!value.trim()} onClick={() => navigate('/join/confirm')}>
+        <Button
+          disabled={!value.trim()}
+          onClick={() => navigate('/nickname', { state: { joined: true } })}
+        >
           다음
         </Button>
       }

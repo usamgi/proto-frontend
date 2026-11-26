@@ -6,10 +6,11 @@ import { HomePage } from './pages/home/HomePage';
 import { LandingPage } from './pages/landing/LandingPage';
 import { PrivacyPage } from './pages/legal/PrivacyPage';
 import { TermsPage } from './pages/legal/TermsPage';
+import { AgreementDetailPage } from './pages/onboarding/AgreementDetailPage';
+import { AgreementPage } from './pages/onboarding/AgreementPage';
 import { CreateGroupPage } from './pages/onboarding/CreateGroupPage';
 import { EnterInviteLinkPage } from './pages/onboarding/EnterInviteLinkPage';
 import { GroupCompletePage } from './pages/onboarding/GroupCompletePage';
-import { GroupEntryPage } from './pages/onboarding/GroupEntryPage';
 import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
 import { JoinGroupPage } from './pages/onboarding/JoinGroupPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
@@ -22,7 +23,15 @@ export function App() {
       <Route index element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
-      <Route path="/group" element={<GroupEntryPage />} />
+      <Route path="/agreement" element={<AgreementPage />} />
+      <Route
+        path="/agreement/terms"
+        element={<AgreementDetailPage id="terms" title="서비스 이용 약관" />}
+      />
+      <Route
+        path="/agreement/privacy"
+        element={<AgreementDetailPage id="privacy" title="개인정보처리방침" />}
+      />
       <Route path="/group/new" element={<CreateGroupPage />} />
       <Route path="/group/invite" element={<InviteMembersPage />} />
       <Route path="/join" element={<EnterInviteLinkPage />} />

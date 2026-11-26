@@ -5,10 +5,15 @@ export interface Group {
   createdAt: Date;
 }
 
+export type Agreement = 'age' | 'terms' | 'privacy' | 'marketing';
+
 interface OnboardingState {
   /** 만들었거나 참여하기로 한 그룹 */
   group: Group | null;
   setGroup: (group: Group) => void;
+  /** 약관 동의 화면에서 체크한 항목. 약관 상세 화면을 다녀와도 유지한다 */
+  agreed: Agreement[];
+  setAgreed: (agreed: Agreement[]) => void;
 }
 
 export const OnboardingContext = createContext<OnboardingState | null>(null);
