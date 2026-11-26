@@ -24,7 +24,6 @@ export function App() {
     <Routes>
       {/* 로그아웃 상태에서만 */}
       <Route element={<AuthGate allow="guest" />}>
-        <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Route>
 
@@ -57,6 +56,7 @@ export function App() {
       </Route>
 
       {/* 누구나 */}
+      <Route index element={<LandingPage />} />
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />

@@ -101,7 +101,7 @@ if (!session) ...         // 이제 확실히 로그아웃
 ### 문제
 
 - 로그아웃한 사용자가 주소창에 `/home`을 치면 홈이 보인다.
-- 로그인한 사용자가 `/login`이나 랜딩(`/`)에 다시 들어간다.
+- 로그인한 사용자가 `/login`에 다시 들어간다.
 - 약관 동의 전 사용자가 `/home`으로 바로 간다.
 
 ### 개념: 라우트 가드
@@ -127,23 +127,31 @@ export function AuthGate({ allow }: { allow: AuthStatus }) {
 `App.tsx`에서 화면을 상태별로 묶는다.
 
 ```tsx
-<Route element={<AuthGate allow="guest" />}>     {/* /, /login */}
+<Route element={<AuthGate allow="guest" />}>     {/* /login */}
 <Route element={<AuthGate allow="agreement" />}> {/* /agreement, /agreement/terms, /agreement/privacy */}
 <Route element={<AuthGate allow="member" />}>    {/* /home, /groups, /camera, /group/*, /join, /nickname */}
-{/* 누구나: /auth/callback, /privacy, /terms */}
+{/* 누구나: /, /auth/callback, /privacy, /terms */}
+```
+
+랜딩(`/`)은 구글 OAuth 앱 홈페이지라 로그인 상태와 상관없이 보인다. 대신 "시작하기"가 지금 상태의 첫 화면으로 보낸다.
+
+```tsx
+<Button onClick={() => navigate(START_PAGE[getAuthStatus(session)])}>시작하기</Button>
 ```
 
 ### 예시
 
-| 사용자 상태 | 들어간 주소       | 결과                |
-| ----------- | ----------------- | ------------------- |
-| `guest`     | `/home`           | `/login`으로 이동   |
-| `guest`     | `/agreement`      | `/login`으로 이동   |
-| `agreement` | `/home`           | `/agreement`로 이동 |
-| `agreement` | `/login`          | `/agreement`로 이동 |
-| `member`    | `/` 또는 `/login` | `/home`으로 이동    |
-| `member`    | `/agreement`      | `/home`으로 이동    |
-| 누구나      | `/privacy`        | 그대로 보임         |
+| 사용자 상태 | 들어간 주소      | 결과                |
+| ----------- | ---------------- | ------------------- |
+| `guest`     | `/home`          | `/login`으로 이동   |
+| `guest`     | `/agreement`     | `/login`으로 이동   |
+| `agreement` | `/home`          | `/agreement`로 이동 |
+| `agreement` | `/login`         | `/agreement`로 이동 |
+| `member`    | `/login`         | `/home`으로 이동    |
+| `member`    | `/agreement`     | `/home`으로 이동    |
+| 누구나      | `/`, `/privacy`  | 그대로 보임         |
+| `member`    | `/`에서 시작하기 | `/home`으로 이동    |
+| `guest`     | `/`에서 시작하기 | `/login`으로 이동   |
 
 **새 화면을 추가할 때**는 `App.tsx`에서 누가 들어와야 하는지에 맞는 `AuthGate` 묶음 안에 넣기만 하면 된다. 대부분은 `member` 묶음이다.
 
@@ -239,4 +247,5 @@ const welcome = useWelcomeToast(); // "박지우님 환영합니다" → 2초 �
   2. 첫 로그인 → 약관 동의 화면 + 환영 토스트 → 동의하면 홈으로 간다.
   3. 홈에서 새로고침 → 로그인이 유지되고 토스트는 다시 안 뜬다.
   4. 로그인 상태로 `/login` → 홈으로 간다.
-  5. 로그아웃 후 다시 로그인 → 약관 없이 홈 + 환영 토스트가 뜬다.
+  5. 로그인 상태로 `/` → 랜딩이 보이고, 시작하기를 누르면 홈으로 간다.
+  6. 로그아웃 후 다시 로그인 → 약관 없이 홈 + 환영 토스트가 뜬다.
