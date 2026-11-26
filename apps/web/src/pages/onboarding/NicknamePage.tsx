@@ -12,8 +12,7 @@ export function NicknamePage() {
   const joined = useLocation().state?.joined === true;
   const [nickname, setNickname] = useState('');
 
-  // TODO: 참여한 사람은 홈으로 보낸다. 홈 화면이 생기기 전까지는 로그인으로 돌아간다
-  const next = () => navigate(joined ? '/login' : '/group/done');
+  const next = () => navigate(joined ? '/home' : '/group/done');
 
   return (
     <Screen
