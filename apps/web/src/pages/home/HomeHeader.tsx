@@ -1,37 +1,31 @@
-import { useRef } from 'react';
-
-import { AddRoomSheet } from './AddRoomSheet';
-import { AddIcon } from './icons/AddIcon';
+import { AddRoomPopoverButton } from './AddRoomPopoverButton';
+import { AddRoomSheetButton } from './AddRoomSheetButton';
 import { BellIcon } from './icons/BellIcon';
 import { LogoIcon } from './icons/LogoIcon';
 import { PersonIcon } from './icons/PersonIcon';
+
+interface HomeHeaderProps {
+  /** 방 추가 메뉴 모양. 촬영 전 홈은 바텀시트, 촬영 후 홈은 + 아래 팝오버입니다(시안). */
+  addMenu: 'sheet' | 'popover';
+}
 
 /**
  * @description 홈 상단의 로고와 방 추가, 알림, 프로필 버튼.
  *
  * @remarks
- * 방 추가는 바텀시트를 엽니다. 알림과 프로필은 가는 화면이 아직 없어 눌러도 아무 일이 없습니다.
+ * 알림과 프로필은 가는 화면이 아직 없어 눌러도 아무 일이 없습니다.
  * @internal
  * @name HomeHeader
  * @tag header
  */
-export function HomeHeader() {
-  const addRoomSheetRef = useRef<HTMLDialogElement>(null);
-
+export function HomeHeader({ addMenu }: HomeHeaderProps) {
   return (
     <header className="flex h-17 items-center justify-between px-4 py-2.5">
       <h1 className="text-blue">
         <LogoIcon title="USAGI" />
       </h1>
       <div className="flex items-center gap-2 text-navy">
-        <button
-          type="button"
-          aria-label="방 추가"
-          aria-haspopup="dialog"
-          onClick={() => addRoomSheetRef.current?.showModal()}
-        >
-          <AddIcon />
-        </button>
+        {addMenu === 'sheet' ? <AddRoomSheetButton /> : <AddRoomPopoverButton />}
         <button type="button" aria-label="알림">
           <BellIcon />
         </button>
@@ -39,7 +33,6 @@ export function HomeHeader() {
           <PersonIcon />
         </button>
       </div>
-      <AddRoomSheet ref={addRoomSheetRef} />
     </header>
   );
 }
