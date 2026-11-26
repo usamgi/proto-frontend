@@ -52,6 +52,9 @@
   --text-chip-initial: 28.8px;
   --text-chip-initial--line-height: 38.4px;
   --text-chip-initial--letter-spacing: -0.576px;
+  --text-reading-16: 16px;
+  --text-reading-16--line-height: 26px;
+  --text-reading-16--letter-spacing: 0.0912px;
 
   --animate-float: float 3s ease-in-out infinite;
   --animate-sheet-up: sheet-up 0.3s cubic-bezier(0.2, 0, 0, 1);
