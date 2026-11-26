@@ -35,6 +35,7 @@ pnpm pr           # push 하고 develop 대상 PR 열기/갱신. --dry-run은 .p
 
 - Tailwind 4라 설정은 `tailwind.config`가 아니라 엔트리 CSS의 `@theme`에 한다. mobile은 `apps/mobile/src/global.css`, web은 `apps/web/src/index.css`
 - `apps/mobile/src/uniwind-types.d.ts`는 Metro가 생성한다. 손으로 고치지 않는다
+- import는 같은 폴더와 그 아래면 `./`, 위 폴더로 올라가야 하면 `../` 대신 `@/` 별칭을 쓴다. 자세한 것은 `docs/import.md`
 
 ## 디자인
 
