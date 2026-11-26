@@ -61,16 +61,21 @@ const AVATAR = 'size-7 rounded-full border border-white shadow-[0_4px_4px_rgba(3
 
 export function GroupsPage() {
   return (
-    <div className="relative min-h-dvh bg-[#fafafa] bg-[linear-gradient(180deg,rgba(111,186,254,0.192)_0%,rgba(111,186,254,0)_25.51%)]">
-      <Screen header={<Header title="그룹" />}>
-        <div className="mt-[26px] flex gap-2 px-4">
+    <div className="relative isolate mx-auto min-h-dvh max-w-100.5 bg-[#fafafa]">
+      <div className="absolute inset-x-0 top-0 -z-10 h-[calc(68px+env(safe-area-inset-top))] bg-white" />
+      <Screen
+        header={
+          <div className="px-4 py-2.5">
+            <Header title="그룹" />
+          </div>
+        }
+      >
+        <div className="mt-5 flex gap-1 px-4">
           {FILTERS.map(({ label, active }) => (
             <span
               key={label}
-              className={`flex h-10 items-center rounded-full px-5 text-[14px] leading-[18px] ${
-                active
-                  ? 'bg-blue font-semibold text-white'
-                  : 'border border-fill bg-white font-medium text-navy'
+              className={`flex h-11 items-center rounded-full px-4 text-reading-16 font-medium ${
+                active ? 'bg-blue text-surface' : 'border border-navy/12 bg-white text-navy'
               }`}
             >
               {label}
@@ -78,7 +83,7 @@ export function GroupsPage() {
           ))}
         </div>
 
-        <ul className="mt-6 flex flex-col gap-4 px-4">
+        <ul className="mt-6.5 flex flex-col gap-4 px-4">
           {ROOMS.map((room) => (
             <li
               key={room.name}
@@ -134,7 +139,7 @@ export function GroupsPage() {
         </div>
       </Screen>
 
-      <div className="absolute inset-x-0 top-[calc(56px+env(safe-area-inset-top))] bottom-0 bg-linear-to-b from-white/0 to-white to-90%" />
+      <div className="absolute inset-x-0 top-[calc(76px+env(safe-area-inset-top))] bottom-0 bg-linear-to-b from-white/0 to-white to-90%" />
       <p className="fixed top-1/2 left-1/2 -translate-1/2 rounded-[52px] bg-navy px-3 py-2 text-[18px] leading-[18px] font-semibold tracking-[-0.36px] whitespace-nowrap text-white backdrop-blur-[25px]">
         준비 중입니다!
       </p>
