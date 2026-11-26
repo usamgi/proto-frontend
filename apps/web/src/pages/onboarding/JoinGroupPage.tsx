@@ -16,7 +16,7 @@ const MEMBER_COUNT = 5;
 
 export function JoinGroupPage() {
   const navigate = useNavigate();
-  const join = () => navigate('/nickname', { state: { joined: true } });
+  const join = () => navigate('/home');
 
   return (
     <Screen header={<Header />} footer={<Button onClick={join}>그룹 참여하기</Button>}>

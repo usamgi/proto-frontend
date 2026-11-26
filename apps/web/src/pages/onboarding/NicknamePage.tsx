@@ -12,7 +12,7 @@ export function NicknamePage() {
   const joined = useLocation().state?.joined === true;
   const [nickname, setNickname] = useState('');
 
-  const next = () => navigate(joined ? '/home' : '/group/done');
+  const next = () => navigate(joined ? '/join/confirm' : '/group/done');
 
   return (
     <Screen

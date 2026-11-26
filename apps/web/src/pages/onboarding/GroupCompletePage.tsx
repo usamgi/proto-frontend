@@ -11,7 +11,7 @@ export function GroupCompletePage() {
   const navigate = useNavigate();
   const { group } = useOnboarding();
 
-  if (!group) return <Navigate to="/group" replace />;
+  if (!group) return <Navigate to="/group/new" replace />;
 
   const finish = () => navigate('/home');
 

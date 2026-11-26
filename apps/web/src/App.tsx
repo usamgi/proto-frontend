@@ -11,7 +11,6 @@ import { AgreementPage } from './pages/onboarding/AgreementPage';
 import { CreateGroupPage } from './pages/onboarding/CreateGroupPage';
 import { EnterInviteLinkPage } from './pages/onboarding/EnterInviteLinkPage';
 import { GroupCompletePage } from './pages/onboarding/GroupCompletePage';
-import { GroupEntryPage } from './pages/onboarding/GroupEntryPage';
 import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
 import { JoinGroupPage } from './pages/onboarding/JoinGroupPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
@@ -33,7 +32,6 @@ export function App() {
         path="/agreement/privacy"
         element={<AgreementDetailPage id="privacy" title="개인정보처리방침" />}
       />
-      <Route path="/group" element={<GroupEntryPage />} />
       <Route path="/group/new" element={<CreateGroupPage />} />
       <Route path="/group/invite" element={<InviteMembersPage />} />
       <Route path="/join" element={<EnterInviteLinkPage />} />

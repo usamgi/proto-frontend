@@ -30,7 +30,7 @@ export function InviteMembersPage() {
     return () => clearTimeout(timer);
   }, [copied]);
 
-  if (!group) return <Navigate to="/group" replace />;
+  if (!group) return <Navigate to="/group/new" replace />;
 
   const copyLink = () => {
     void navigator.clipboard.writeText(INVITE_LINK).then(() => setCopied(true));
