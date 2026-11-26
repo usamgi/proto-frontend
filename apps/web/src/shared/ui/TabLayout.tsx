@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router';
 
 import tabCamera from '@/assets/tab-camera.svg';
+import tabGroupsFill from '@/assets/tab-groups-fill.svg';
 import tabGroups from '@/assets/tab-groups.svg';
 import tabHome from '@/assets/tab-home.svg';
 
@@ -22,8 +23,12 @@ export function TabLayout() {
           <span className={LABEL}>카메라</span>
         </NavLink>
         <NavLink to="/groups" className={({ isActive }) => `${TAB} ${isActive ? 'bg-navy/8' : ''}`}>
-          <img src={tabGroups} alt="" className="size-7" />
-          <span className={LABEL}>그룹</span>
+          {({ isActive }) => (
+            <>
+              <img src={isActive ? tabGroupsFill : tabGroups} alt="" className="size-7" />
+              <span className={LABEL}>그룹</span>
+            </>
+          )}
         </NavLink>
       </nav>
     </>
