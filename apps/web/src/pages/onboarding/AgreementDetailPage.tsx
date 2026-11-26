@@ -21,7 +21,15 @@ export function AgreementDetailPage({ id, title }: AgreementDetailPageProps) {
   };
 
   return (
-    <Screen header={<Header title={title} />} footer={<Button onClick={agree}>동의</Button>}>
+    <Screen
+      header={
+        // 시안에서 이 헤더는 상태 표시줄 아래 10px 여백을 둔다
+        <div className="pt-2.5">
+          <Header title={title} />
+        </div>
+      }
+      footer={<Button onClick={agree}>동의</Button>}
+    >
       {/* TODO: 노션 약관 페이지를 웹뷰(iframe)로 띄운다 */}
       <div className="flex-1" />
     </Screen>
