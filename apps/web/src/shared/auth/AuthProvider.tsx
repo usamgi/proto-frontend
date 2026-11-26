@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { supabase } from '@/shared/api/supabase';
+
 import { AuthContext } from './auth-context';
 
 /** 로그인 세션을 앱 전체에 나눠 준다 */

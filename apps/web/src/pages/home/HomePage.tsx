@@ -1,5 +1,6 @@
 import { useWelcomeToast } from '@/shared/auth/use-welcome-toast';
 import { Toast } from '@/shared/ui/Toast';
+
 import { ChipBoard } from './ChipBoard';
 import { HomeHeader } from './HomeHeader';
 import { MissionStatus } from './MissionStatus';

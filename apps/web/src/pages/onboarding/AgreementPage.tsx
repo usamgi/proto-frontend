@@ -12,6 +12,7 @@ import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
 import { ScreenTitle } from '@/shared/ui/ScreenTitle';
 import { Toast } from '@/shared/ui/Toast';
+
 import { useOnboarding, type Agreement } from './onboarding-context';
 
 const ITEMS: { id: Agreement; label: string; required: boolean; detail?: string }[] = [
