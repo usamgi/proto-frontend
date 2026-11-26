@@ -23,6 +23,7 @@
   --color-ink-mute: #9aa0ae;
   --color-avatar-from: #81c3ff;
   --color-avatar-to: #b6d4ef;
+  --color-handle: #d1d6db;
 
   --text-title: 32px;
   --text-title--line-height: 44px;
@@ -53,6 +54,8 @@
   --text-chip-initial--letter-spacing: -0.576px;
 
   --animate-float: float 3s ease-in-out infinite;
+  --animate-sheet-up: sheet-up 0.3s cubic-bezier(0.2, 0, 0, 1);
+  --animate-fade-in: fade-in 0.2s ease-out;
 
   @keyframes float {
     0%,
@@ -61,6 +64,18 @@
     }
     50% {
       transform: translateY(-4px) rotate(1deg);
+    }
+  }
+
+  @keyframes sheet-up {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
     }
   }
 }
@@ -82,5 +97,10 @@
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
+  }
+
+  /* 모달 dialog는 뒤 화면의 스크롤을 막지 않는다. 바텀시트가 열려 있는 동안 문서 스크롤을 잠근다 */
+  html:has(dialog[open]) {
+    overflow: hidden;
   }
 }
