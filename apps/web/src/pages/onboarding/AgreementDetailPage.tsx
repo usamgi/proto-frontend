@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router';
 
-import { Button } from '../../shared/ui/Button';
-import { Header } from '../../shared/ui/Header';
-import { Screen } from '../../shared/ui/Screen';
+import { Button } from '@/shared/ui/Button';
+import { Header } from '@/shared/ui/Header';
+import { Screen } from '@/shared/ui/Screen';
 import { useOnboarding, type Agreement } from './onboarding-context';
 
 interface AgreementDetailPageProps {

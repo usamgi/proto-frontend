@@ -1,8 +1,8 @@
 import { NavLink, Outlet } from 'react-router';
 
-import tabCamera from '../../assets/tab-camera.svg';
-import tabGroups from '../../assets/tab-groups.svg';
-import tabHome from '../../assets/tab-home.svg';
+import tabCamera from '@/assets/tab-camera.svg';
+import tabGroups from '@/assets/tab-groups.svg';
+import tabHome from '@/assets/tab-home.svg';
 
 const TAB = 'flex flex-1 flex-col items-center gap-0.5 rounded-[40px] px-5 py-3';
 const LABEL = 'text-[13px] leading-[14px] font-medium tracking-[-0.26px] text-navy';

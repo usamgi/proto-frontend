@@ -1,4 +1,4 @@
-import cancel from '../../assets/cancel.svg';
+import cancel from '@/assets/cancel.svg';
 
 interface TextFieldProps {
   value: string;

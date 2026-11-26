@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
-import { supabase } from '../../shared/api/supabase';
+import { supabase } from '@/shared/api/supabase';
 
 /** 소셜 로그인 뒤 돌아오는 곳. URL의 code를 세션으로 바꾼 뒤 다음 화면으로 보낸다 */
 export function AuthCallbackPage() {

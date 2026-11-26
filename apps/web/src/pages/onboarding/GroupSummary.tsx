@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { GroupAvatar } from '../../shared/ui/GroupAvatar';
+import { GroupAvatar } from '@/shared/ui/GroupAvatar';
 import { formatDate, type Group } from './onboarding-context';
 
 interface GroupSummaryProps {

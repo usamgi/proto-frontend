@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 
-import arrowBack from '../../assets/arrow-back-ios.svg';
-import close from '../../assets/close.svg';
+import arrowBack from '@/assets/arrow-back-ios.svg';
+import close from '@/assets/close.svg';
 
 interface HeaderProps {
   /** 주면 오른쪽에 닫기 버튼을, 안 주면 왼쪽에 뒤로 가기 버튼을 둔다 */

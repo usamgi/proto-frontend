@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router';
 
-import close from '../../assets/close-24.svg';
-import contentCopy from '../../assets/content-copy.svg';
-import inviteQr from '../../assets/invite-qr.svg';
-import kakaoLogo from '../../assets/kakao-logo.svg';
-import qrCode from '../../assets/qr-code.svg';
-import { Button } from '../../shared/ui/Button';
-import { GroupAvatar } from '../../shared/ui/GroupAvatar';
-import { Header } from '../../shared/ui/Header';
-import { Screen } from '../../shared/ui/Screen';
-import { ScreenTitle } from '../../shared/ui/ScreenTitle';
-import { Toast } from '../../shared/ui/Toast';
+import close from '@/assets/close-24.svg';
+import contentCopy from '@/assets/content-copy.svg';
+import inviteQr from '@/assets/invite-qr.svg';
+import kakaoLogo from '@/assets/kakao-logo.svg';
+import qrCode from '@/assets/qr-code.svg';
+import { Button } from '@/shared/ui/Button';
+import { GroupAvatar } from '@/shared/ui/GroupAvatar';
+import { Header } from '@/shared/ui/Header';
+import { Screen } from '@/shared/ui/Screen';
+import { ScreenTitle } from '@/shared/ui/ScreenTitle';
+import { Toast } from '@/shared/ui/Toast';
 import { useOnboarding } from './onboarding-context';
 
 /** 서버 연동 전까지 쓰는 가짜 초대 링크 */

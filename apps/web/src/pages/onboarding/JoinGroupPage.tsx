@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router';
 
-import avatarJisu from '../../assets/avatar-jisu.jpg';
-import avatarMinji from '../../assets/avatar-minji.jpg';
-import avatarSeoyeon from '../../assets/avatar-seoyeon.jpg';
-import { Button } from '../../shared/ui/Button';
-import { Header } from '../../shared/ui/Header';
-import { Screen } from '../../shared/ui/Screen';
-import { ScreenTitle } from '../../shared/ui/ScreenTitle';
+import avatarJisu from '@/assets/avatar-jisu.jpg';
+import avatarMinji from '@/assets/avatar-minji.jpg';
+import avatarSeoyeon from '@/assets/avatar-seoyeon.jpg';
+import { Button } from '@/shared/ui/Button';
+import { Header } from '@/shared/ui/Header';
+import { Screen } from '@/shared/ui/Screen';
+import { ScreenTitle } from '@/shared/ui/ScreenTitle';
 import { GroupSummary } from './GroupSummary';
 import { INVITED_GROUP } from './onboarding-context';
 
