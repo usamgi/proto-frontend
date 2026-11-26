@@ -9,8 +9,16 @@ export function AuthCallbackPage() {
 
   useEffect(() => {
     // getSession은 클라이언트가 URL의 code를 교환할 때까지 기다린다
-    void supabase.auth.getSession().then(({ data }) => {
-      navigate(data.session ? '/agreement' : '/login', { replace: true });
+    void supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) return navigate('/login', { replace: true });
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('nickname')
+        .eq('id', session.user.id)
+        .maybeSingle<{ nickname: string }>();
+      // 약관 동의 화면이 이 이름으로 환영 토스트를 띄운다
+      await navigate('/agreement', { replace: true, state: { welcome: profile?.nickname ?? '' } });
     });
   }, [navigate]);
 
