@@ -7,6 +7,7 @@
   --font-sans:
     'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-logo: 'SUIT', var(--font-sans);
+  --font-word: 'SD UNICEF Hearty', var(--font-sans);
 
   --color-background: #f7f7f8;
   --color-ink: #05080f;
@@ -18,6 +19,10 @@
   --color-fill: #ededef;
   --color-kakao: #fee400;
   --color-gray-5: #27272a;
+  --color-surface: #fafafa;
+  --color-ink-mute: #9aa0ae;
+  --color-avatar-from: #81c3ff;
+  --color-avatar-to: #b6d4ef;
 
   --text-title: 32px;
   --text-title--line-height: 44px;
@@ -25,6 +30,29 @@
   --text-heading: 20px;
   --text-heading--line-height: 28px;
   --text-heading--letter-spacing: -0.24px;
+  --text-word: 82px;
+  --text-word--line-height: 84.933px;
+  --text-word--letter-spacing: -1.0319px;
+  --text-word-sm: 64px;
+  --text-word-sm--line-height: 66px;
+  --text-word-sm--letter-spacing: -0.8px;
+  --text-body-18: 18px;
+  --text-body-18--line-height: 16px;
+  --text-body-18--letter-spacing: -0.36px;
+  --text-body-14: 14px;
+  --text-body-14--line-height: 16px;
+  --text-body-14--letter-spacing: -0.28px;
+  --text-label-13: 13px;
+  --text-label-13--line-height: 14px;
+  --text-label-13--letter-spacing: -0.26px;
+}
+
+/* 라이선스가 포맷 변경을 막아 받은 TTF를 그대로 쓴다 */
+@font-face {
+  font-family: 'SD UNICEF Hearty';
+  src: url('./assets/fonts/SDUNICEFHeartyTT.ttf') format('truetype');
+  font-weight: 400;
+  font-display: block;
 }
 
 @layer base {
