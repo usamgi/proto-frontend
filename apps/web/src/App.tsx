@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router';
 
 import { AuthCallbackPage } from './pages/auth/AuthCallbackPage';
+import { GroupsPage } from './pages/groups/GroupsPage';
+import { HomePage } from './pages/home/HomePage';
 import { LandingPage } from './pages/landing/LandingPage';
 import { PrivacyPage } from './pages/legal/PrivacyPage';
 import { TermsPage } from './pages/legal/TermsPage';
@@ -12,6 +14,7 @@ import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
 import { JoinGroupPage } from './pages/onboarding/JoinGroupPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
 import { NicknamePage } from './pages/onboarding/NicknamePage';
+import { TabLayout } from './shared/ui/TabLayout';
 
 export function App() {
   return (
@@ -26,6 +29,10 @@ export function App() {
       <Route path="/join/confirm" element={<JoinGroupPage />} />
       <Route path="/nickname" element={<NicknamePage />} />
       <Route path="/group/done" element={<GroupCompletePage />} />
+      <Route element={<TabLayout />}>
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/groups" element={<GroupsPage />} />
+      </Route>
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
     </Routes>
