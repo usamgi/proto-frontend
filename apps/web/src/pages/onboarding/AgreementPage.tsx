@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 
 import checkCircleOff from '@/assets/check-circle-off.svg';
 import checkCircleOn from '@/assets/check-circle-on.svg';
@@ -9,6 +10,7 @@ import { Button } from '@/shared/ui/Button';
 import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
 import { ScreenTitle } from '@/shared/ui/ScreenTitle';
+import { Toast } from '@/shared/ui/Toast';
 import { useOnboarding, type Agreement } from './onboarding-context';
 
 const ITEMS: { id: Agreement; label: string; required: boolean; detail?: string }[] = [
@@ -30,10 +32,24 @@ const ITEMS: { id: Agreement; label: string; required: boolean; detail?: string 
 ];
 
 const LABEL = 'text-[16px] leading-[26px] tracking-[0.0912px]';
+const TOAST_DURATION = 2000;
 
 export function AgreementPage() {
   const navigate = useNavigate();
   const { agreed, setAgreed } = useOnboarding();
+  const location = useLocation();
+  // 로그인 직후 콜백이 넘겨 준 닉네임. null이면 토스트를 띄우지 않는다
+  const [welcome, setWelcome] = useState<string | null>(
+    () => (location.state as { welcome?: string } | null)?.welcome ?? null,
+  );
+
+  useEffect(() => {
+    if (welcome === null) return;
+    // 약관 상세를 다녀오거나 새로고침해도 다시 뜨지 않게 history state를 비운다
+    void navigate('.', { replace: true, state: null });
+    const timer = setTimeout(() => setWelcome(null), TOAST_DURATION);
+    return () => clearTimeout(timer);
+  }, [welcome, navigate]);
 
   const allAgreed = agreed.length === ITEMS.length;
   const canNext = ITEMS.every(({ id, required }) => !required || agreed.includes(id));
@@ -46,9 +62,16 @@ export function AgreementPage() {
     <Screen
       header={<Header />}
       footer={
-        <Button disabled={!canNext} onClick={() => navigate('/home')}>
-          다음
-        </Button>
+        <>
+          {welcome !== null && (
+            <div className="absolute bottom-full left-1/2 mb-4 -translate-x-1/2">
+              <Toast message={welcome ? `${welcome}님 환영합니다` : '환영합니다'} />
+            </div>
+          )}
+          <Button disabled={!canNext} onClick={() => navigate('/home')}>
+            다음
+          </Button>
+        </>
       }
     >
       <ScreenTitle title="서비스 이용 약관" />
