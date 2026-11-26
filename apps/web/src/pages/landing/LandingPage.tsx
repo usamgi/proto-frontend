@@ -1,12 +1,17 @@
 import { Link, useNavigate } from 'react-router';
 
+import { getAuthStatus, START_PAGE, useAuth } from '@/shared/auth/auth-context';
 import { BrandHero } from '@/shared/ui/BrandHero';
 import { Button } from '@/shared/ui/Button';
 import { Screen } from '@/shared/ui/Screen';
 
-/** 로그인 전 첫 화면. 구글 OAuth 앱 홈페이지라 앱 설명과 약관 링크를 함께 둔다 */
+/**
+ * 첫 화면. 구글 OAuth 앱 홈페이지라 앱 설명과 약관 링크를 함께 두고, 로그인 상태와 상관없이 보인다.
+ * 시작하기는 상태에 맞는 첫 화면(로그인·약관 동의·홈)으로 보낸다
+ */
 export function LandingPage() {
   const navigate = useNavigate();
+  const { session } = useAuth();
 
   return (
     <Screen
@@ -17,7 +22,7 @@ export function LandingPage() {
             <br />
             그룹 친구들과 같은 주제의 사진을 나란히 모아 봐요
           </p>
-          <Button onClick={() => navigate('/login')}>시작하기</Button>
+          <Button onClick={() => navigate(START_PAGE[getAuthStatus(session)])}>시작하기</Button>
           <nav className="flex gap-3 text-[13px] text-ink-sub">
             <Link to="/privacy" className="font-semibold underline">
               개인정보처리방침
