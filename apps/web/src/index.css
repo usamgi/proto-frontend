@@ -31,4 +31,10 @@
   body {
     @apply bg-background font-sans text-ink;
   }
+
+  /* Tailwind 4는 버튼 커서를 default로 둔다. 누를 수 있는 요소는 포인터로 보인다 */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
