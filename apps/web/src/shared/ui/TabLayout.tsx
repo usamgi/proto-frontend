@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router';
+import { NavLink, Outlet, useMatch } from 'react-router';
 
 import tabCamera from '@/assets/tab-camera.svg';
 import tabGroupsFill from '@/assets/tab-groups-fill.svg';
@@ -11,6 +11,9 @@ const LABEL = 'text-[13px] leading-[14px] font-medium tracking-[-0.26px] text-na
 
 /** 하단 탭이 붙는 화면들의 레이아웃 */
 export function TabLayout() {
+  // 프로필은 홈에서 들어가는 화면이라 홈 탭을 켜 둔다(시안)
+  const isProfile = useMatch('/profile') !== null;
+
   return (
     <>
       <Outlet />
