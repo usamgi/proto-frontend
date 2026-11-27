@@ -22,7 +22,7 @@ export function CreateGroupPage() {
     setFailed(false);
     try {
       setGroup(await createGroup(name.trim()));
-      void navigate('/group/invite');
+      void navigate('/nickname');
     } catch {
       setFailed(true);
       setPending(false);

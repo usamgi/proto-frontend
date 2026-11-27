@@ -12,7 +12,6 @@ import { AgreementPage } from './pages/onboarding/AgreementPage';
 import { CreateGroupPage } from './pages/onboarding/CreateGroupPage';
 import { EnterInviteLinkPage } from './pages/onboarding/EnterInviteLinkPage';
 import { GroupCompletePage } from './pages/onboarding/GroupCompletePage';
-import { InviteMembersPage } from './pages/onboarding/InviteMembersPage';
 import { JoinGroupPage } from './pages/onboarding/JoinGroupPage';
 import { LoginPage } from './pages/onboarding/LoginPage';
 import { NicknamePage } from './pages/onboarding/NicknamePage';
@@ -44,7 +43,6 @@ export function App() {
       {/* 약관 동의까지 마친 뒤에만 */}
       <Route element={<AuthGate allow="member" />}>
         <Route path="/group/new" element={<CreateGroupPage />} />
-        <Route path="/group/invite" element={<InviteMembersPage />} />
         <Route path="/join" element={<EnterInviteLinkPage />} />
         <Route path="/join/confirm" element={<JoinGroupPage />} />
         <Route path="/nickname" element={<NicknamePage />} />

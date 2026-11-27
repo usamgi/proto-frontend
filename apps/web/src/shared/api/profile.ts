@@ -1,7 +1,7 @@
 import { supabase } from './supabase';
 
 export interface Profile {
-  nickname: string;
+  name: string;
   avatar_url: string | null;
 }
 
@@ -9,7 +9,7 @@ export interface Profile {
 export async function fetchProfile(userId: string) {
   const { data } = await supabase
     .from('profiles')
-    .select('nickname, avatar_url')
+    .select('name, avatar_url')
     .eq('id', userId)
     .maybeSingle<Profile>();
   return data;

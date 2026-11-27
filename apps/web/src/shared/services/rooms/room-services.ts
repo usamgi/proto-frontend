@@ -32,7 +32,7 @@ export async function servFetchMyGroups(userId: string): Promise<GroupRow[]> {
 export async function servFetchVisibleMembers(): Promise<MemberRow[]> {
   const { data, error } = await supabase
     .from('group_members')
-    .select('group_id, user_id')
+    .select('group_id, user_id, nickname')
     .order('joined_at')
     .returns<MemberRow[]>();
   if (error) throw error;
@@ -49,7 +49,7 @@ export async function servFetchVisibleMembers(): Promise<MemberRow[]> {
 export async function servFetchVisibleProfiles(): Promise<ProfileRow[]> {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url')
+    .select('id, name, avatar_url')
     .returns<ProfileRow[]>();
   if (error) throw error;
 
