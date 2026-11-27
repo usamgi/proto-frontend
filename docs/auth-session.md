@@ -220,7 +220,7 @@ UT 범위에서는 스키마를 건드리지 않는 `user_metadata`를 쓴다.
 
 ### 해결
 
-1. `/auth/callback`이 `profiles.nickname`을 조회해 상태별 첫 화면으로 보내면서 `state: { welcome: 닉네임 }`을 넘긴다.
+1. `/auth/callback`이 `profiles.name`을 조회해 상태별 첫 화면으로 보내면서 `state: { welcome: 이름 }`을 넘긴다.
 2. `useWelcomeToast()`가 그 값을 자기 상태로 옮기고, 곧바로 `navigate('.', { replace: true, state: null })`로 history state를 비운다. 2초 뒤에는 `null`을 돌려준다.
 3. 약관 동의 화면과 홈이 이 훅을 쓴다.
 

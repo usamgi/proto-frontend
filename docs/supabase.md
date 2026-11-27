@@ -46,12 +46,12 @@ missions (날짜와 회차당 1개, unique(mission_date, round))
 
 ### `profiles` — 사용자 프로필
 
-| 컬럼         | 타입          | 메모                     |
-| ------------ | ------------- | ------------------------ |
-| `id`         | uuid PK       | `auth.users(id)` CASCADE |
-| `nickname`   | text not null |                          |
-| `avatar_url` | text          |                          |
-| `created_at` | timestamptz   | default now()            |
+| 컬럼         | 타입          | 메모                                                         |
+| ------------ | ------------- | ------------------------------------------------------------ |
+| `id`         | uuid PK       | `auth.users(id)` CASCADE                                     |
+| `name`       | text not null | 소셜 로그인에서 받은 이름(대개 실명). 사용자가 바꾸지 않는다 |
+| `avatar_url` | text          |                                                              |
+| `created_at` | timestamptz   | default now()                                                |
 
 ### `groups` — 그룹
 
@@ -65,13 +65,14 @@ missions (날짜와 회차당 1개, unique(mission_date, round))
 
 ### `group_members` — 그룹 멤버
 
-| 컬럼        | 타입          | 메모                                       |
-| ----------- | ------------- | ------------------------------------------ |
-| `id`        | uuid PK       |                                            |
-| `group_id`  | uuid not null | → `groups` CASCADE                         |
-| `user_id`   | uuid not null | → `auth.users` CASCADE                     |
-| `role`      | text          | `'owner'` \| `'member'` (default `member`) |
-| `joined_at` | timestamptz   |                                            |
+| 컬럼        | 타입          | 메모                                                            |
+| ----------- | ------------- | --------------------------------------------------------------- |
+| `id`        | uuid PK       |                                                                 |
+| `group_id`  | uuid not null | → `groups` CASCADE                                              |
+| `user_id`   | uuid not null | → `auth.users` CASCADE                                          |
+| `role`      | text          | `'owner'` \| `'member'` (default `member`)                      |
+| `joined_at` | timestamptz   |                                                                 |
+| `nickname`  | text          | 이 그룹에서만 쓰는 닉네임. null이면 `profiles.name`을 보여 준다 |
 
 `unique(group_id, user_id)`. 인덱스: `user_id`.
 
