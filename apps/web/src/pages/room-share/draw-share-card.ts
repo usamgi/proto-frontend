@@ -184,6 +184,20 @@ function cellRect(index: number) {
 }
 
 /**
+ * @description 칸 수에 따른 카드 높이(폭 320 기준 CSS px). 이미지를 만들기 전에 화면에 같은 크기 자리를 잡아 둘 때도 씁니다.
+ *
+ * @internal
+ */
+export function shareCardHeight(cellCount: number) {
+  const gridBottom = Math.max(
+    ...Array.from({ length: cellCount }, (_, index) => cellRect(index).y + CELL_H),
+    GRID_TOP,
+  );
+
+  return gridBottom + FOOTER_GAP + FOOTER_H + BOTTOM_PADDING;
+}
+
+/**
  * @description 시안(ROM-03 Share)의 사진 카드를 캔버스에 그려 PNG로 만듭니다.
  *
  * @remarks
@@ -209,9 +223,8 @@ export async function drawShareCard({ groupName, keyword, missionDate, cells }: 
     ...[500, 600, 700].map((weight) => document.fonts.load(`${weight} 16px ${FONT}`, allText)),
   ]);
 
-  const gridBottom = Math.max(...cells.map((_, index) => cellRect(index).y + CELL_H), GRID_TOP);
-  const footerTop = gridBottom + FOOTER_GAP;
-  const height = footerTop + FOOTER_H + BOTTOM_PADDING;
+  const height = shareCardHeight(cells.length);
+  const footerTop = height - BOTTOM_PADDING - FOOTER_H;
 
   const canvas = document.createElement('canvas');
   canvas.width = WIDTH * SCALE;
