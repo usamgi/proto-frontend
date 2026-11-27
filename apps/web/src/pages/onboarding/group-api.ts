@@ -85,33 +85,42 @@ export function inviteLinkOf(group: Group) {
 export async function fetchGroupMembers(groupId: string): Promise<GroupMember[]> {
   const { data: members, error } = await supabase
     .from('group_members')
-    .select('user_id')
+    .select('user_id, nickname')
     .eq('group_id', groupId)
     .order('joined_at')
-    .returns<{ user_id: string }[]>();
+    .returns<{ user_id: string; nickname: string | null }[]>();
   if (error) throw error;
 
   const { data: profiles, error: profileError } = await supabase
     .from('profiles')
-    .select('id, nickname')
+    .select('id, name')
     .in(
       'id',
       members.map((member) => member.user_id),
     )
-    .returns<{ id: string; nickname: string }[]>();
+    .returns<{ id: string; name: string }[]>();
   if (profileError) throw profileError;
 
-  return profiles;
+  const nameOf = new Map(profiles.map((profile) => [profile.id, profile.name]));
+  // 그룹 닉네임을 정하지 않은 멤버는 프로필 이름(소셜 로그인 이름)을 보여 준다
+  return members.map(({ user_id, nickname }) => ({
+    id: user_id,
+    nickname: nickname ?? nameOf.get(user_id) ?? '',
+  }));
 }
 
 /**
- * @description 내 닉네임을 저장합니다.
+ * @description 이 그룹에서만 쓰는 내 닉네임을 저장합니다(`group_members.nickname`).
  *
  * @remarks
- * 화면 문구는 "이 그룹에서만 쓰는 닉네임"이지만 테이블에 그룹별 닉네임 자리가 없어 프로필 닉네임 하나로 저장합니다.
+ * 저장하지 않으면 `null`로 남고, 화면에는 프로필 이름이 보입니다.
  * @throws 저장에 실패하면 Supabase 오류
  */
-export async function updateNickname(userId: string, nickname: string) {
-  const { error } = await supabase.from('profiles').update({ nickname }).eq('id', userId);
+export async function updateGroupNickname(groupId: string, userId: string, nickname: string) {
+  const { error } = await supabase
+    .from('group_members')
+    .update({ nickname })
+    .eq('group_id', groupId)
+    .eq('user_id', userId);
   if (error) throw error;
 }
