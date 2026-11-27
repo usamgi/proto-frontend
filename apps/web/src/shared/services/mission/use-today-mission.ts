@@ -50,7 +50,7 @@ export function useTodayMissionSync() {
  * @description 모든 사람의 회차를 바꿉니다. UT에서 하루에 두 단어를 쓰기 위한 것입니다.
  *
  * @public
- * @returns 회차를 바꾸는 `switchRound`와, 바꾸는 중인지 `isSwitching`. 바꾼 뒤 미션을 다시 읽습니다.
+ * @returns 회차를 바꾸는 `switchRound`와, 바꾸는 중인지 `isSwitching`. 바꾼 뒤 미션을 다시 읽습니다. `switchRound`에 넘긴 `onSuccess`·`onError`는 다시 읽기가 끝난 뒤 불립니다.
  */
 export function useSwitchMissionRound() {
   const queryClient = useQueryClient();
@@ -59,5 +59,8 @@ export function useSwitchMissionRound() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: missionQueries.all }),
   });
 
-  return { switchRound: () => mutate(), isSwitching: isPending };
+  return {
+    switchRound: (options?: Parameters<typeof mutate>[1]) => mutate(undefined, options),
+    isSwitching: isPending,
+  };
 }
