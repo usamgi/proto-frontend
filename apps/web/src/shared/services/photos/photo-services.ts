@@ -49,7 +49,7 @@ export async function servCreatePhotoUrls(imagePaths: string[]) {
  * @description 찍은 사진을 고른 방마다 저장소에 올리고 `photos`에 기록합니다.
  *
  * @remarks
- * 저장소 경로는 `<방>/<나>/<미션>.jpg`입니다. 저장소 정책이 첫 폴더(방 멤버인지)와 둘째 폴더(나인지)를 봅니다. 같은 회차에 다시 보내면 그 방의 사진과 캡션을 덮어씁니다.
+ * 저장소 경로는 `<방>/<나>/<미션>.jpg`입니다. 저장소 정책이 첫 폴더(방 멤버인지)와 둘째 폴더(나인지)를 봅니다. 같은 회차에 다시 보내면 그 방의 사진과 캡션, 보낸 시각을 덮어씁니다.
  * @public
  * @throws JPEG가 아니거나 너무 크면, 또는 올리기나 기록에 실패하면 `Error`
  */
@@ -63,6 +63,8 @@ export async function servUploadPhoto({
   if (photo.type !== 'image/jpeg' || photo.size > MAX_PHOTO_BYTES) {
     throw new Error('올릴 수 없는 사진');
   }
+
+  const sentAt = new Date().toISOString();
 
   await Promise.all(
     groupIds.map(async (groupId) => {
@@ -79,6 +81,7 @@ export async function servUploadPhoto({
           mission_id: missionId,
           image_path: path,
           caption: caption || null,
+          created_at: sentAt,
         },
         { onConflict: 'group_id,user_id,mission_id' },
       );
