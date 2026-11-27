@@ -3,6 +3,7 @@ import { supabase } from '@/shared/api/supabase';
 import {
   PHOTO_BUCKET,
   SIGNED_URL_SECONDS,
+  type GroupPhotoRow,
   type PhotoRow,
   type UploadPhotoRequest,
 } from './photo-types';
@@ -25,6 +26,24 @@ export async function servFetchMissionPhotos(missionId: string): Promise<PhotoRo
     .eq('mission_id', missionId)
     .order('created_at')
     .returns<PhotoRow[]>();
+  if (error) throw error;
+
+  return data;
+}
+
+/**
+ * @description 한 방에 올라온 사진을 모든 미션에 걸쳐 올린 순서로 읽습니다(`photos`). 정책(RLS)이 내 방이 아니면 비워서 돌려줍니다.
+ *
+ * @public
+ * @throws 읽기에 실패하면 Supabase 오류
+ */
+export async function servFetchGroupPhotos(groupId: string): Promise<GroupPhotoRow[]> {
+  const { data, error } = await supabase
+    .from('photos')
+    .select('group_id, user_id, mission_id, image_path, caption, created_at')
+    .eq('group_id', groupId)
+    .order('created_at')
+    .returns<GroupPhotoRow[]>();
   if (error) throw error;
 
   return data;

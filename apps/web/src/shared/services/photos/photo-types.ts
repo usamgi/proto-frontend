@@ -12,6 +12,9 @@ export type PhotoRow = Pick<
   'group_id' | 'user_id' | 'image_path' | 'caption' | 'created_at'
 >;
 
+/** 한 방의 지난 사진까지 읽을 때의 칸. 어느 미션 사진인지 함께 읽습니다. */
+export type GroupPhotoRow = PhotoRow & Pick<TableRow<'photos'>, 'mission_id'>;
+
 /** 사진 한 장을 여러 방에 올릴 때 넘기는 값 */
 export interface UploadPhotoRequest {
   /** 올릴 JPEG. 5MB를 넘으면 거절합니다. */

@@ -11,8 +11,10 @@ const LABEL = 'text-[13px] leading-[14px] font-medium tracking-[-0.26px] text-na
 
 /** 하단 탭이 붙는 화면들의 레이아웃 */
 export function TabLayout() {
-  // 프로필은 홈에서 들어가는 화면이라 홈 탭을 켜 둔다(시안)
+  // 프로필과 방 상세는 홈에서 들어가는 화면이라 홈 탭을 켜 둔다(시안)
   const isProfile = useMatch('/profile') !== null;
+  const isRoomDetail = useMatch('/rooms/:groupId') !== null;
+  const isHomeChild = isProfile || isRoomDetail;
 
   return (
     <>
@@ -20,11 +22,15 @@ export function TabLayout() {
       <nav className="fixed bottom-[max(31px,env(safe-area-inset-bottom))] left-1/2 z-10 flex w-[calc(100%-32px)] max-w-[370px] -translate-x-1/2 gap-1.5 rounded-[36px] bg-white p-1.5 drop-shadow-[0_0_6px_rgba(31,33,36,0.08)]">
         <NavLink
           to="/home"
-          className={({ isActive }) => `${TAB} ${isActive || isProfile ? 'bg-navy/8' : ''}`}
+          className={({ isActive }) => `${TAB} ${isActive || isHomeChild ? 'bg-navy/8' : ''}`}
         >
           {({ isActive }) => (
             <>
-              <img src={isActive || isProfile ? tabHomeFill : tabHome} alt="" className="size-7" />
+              <img
+                src={isActive || isHomeChild ? tabHomeFill : tabHome}
+                alt=""
+                className="size-7"
+              />
               <span className={LABEL}>홈</span>
             </>
           )}

@@ -77,7 +77,8 @@ export function AfterUploadHome({
               name={room.name}
               cells={cellsOf(meIn(room), room, pickedFriendIds.get(room.id) ?? [])}
               doneCount={doneCountOf(room)}
-              sendTo={room.myPhoto ? undefined : `/camera?group=${room.id}`}
+              detailTo={`/rooms/${room.id}`}
+              isLocked={!room.myPhoto}
               isIntroTarget={index === 0}
             />
           ))}

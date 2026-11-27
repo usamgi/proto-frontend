@@ -1,6 +1,6 @@
 import { supabase } from '@/shared/api/supabase';
 
-import type { MissionRow, TodayMission } from './mission-types';
+import type { DatedMissionRow, MissionRow, StartedMission, TodayMission } from './mission-types';
 
 /** 미션 날짜는 한국 날짜입니다. 기기 시간대와 상관없이 같은 날로 봅니다. */
 const MISSION_TIME_ZONE = 'Asia/Seoul';
@@ -45,6 +45,35 @@ export async function servFetchTodayMission(): Promise<TodayMission | null> {
   const found = missions.find((mission) => mission.round === activeRound);
 
   return found ? { id: found.id, keyword: found.keyword } : null;
+}
+
+/**
+ * @description 지금까지 열린 미션을 최근 것부터 읽습니다. 오늘 지금 회차보다 뒤의 회차와 내일 이후 미션은 빼고 읽습니다.
+ *
+ * @public
+ * @throws 읽기에 실패하면 Supabase 오류
+ */
+export async function servFetchStartedMissions(): Promise<StartedMission[]> {
+  const today = todayInKorea();
+  const [activeRound, { data, error }] = await Promise.all([
+    servFetchActiveRound(),
+    supabase
+      .from('missions')
+      .select('id, keyword, round, mission_date')
+      .lte('mission_date', today)
+      .order('mission_date', { ascending: false })
+      .order('round', { ascending: false })
+      .returns<DatedMissionRow[]>(),
+  ]);
+  if (error) throw error;
+
+  return data
+    .filter((mission) => mission.mission_date < today || mission.round <= activeRound)
+    .map((mission) => ({
+      id: mission.id,
+      keyword: mission.keyword,
+      missionDate: mission.mission_date,
+    }));
 }
 
 /**

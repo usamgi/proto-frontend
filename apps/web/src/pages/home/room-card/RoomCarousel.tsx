@@ -6,26 +6,34 @@ const CARD_STEP_PX = 320;
 const DOT_SIZES = ['size-2', 'size-1.5', 'size-1.25', 'size-1'];
 /** 방이 하나일 때 손가락보다 덜 따라오게 해서 더 넘길 방이 없다는 느낌을 줍니다. */
 const DRAG_RESISTANCE = 0.4;
+/** 이만큼 옆으로 움직여야 끌기로 봅니다. 덜 움직이고 떼면 클릭이라 카드 링크로 갑니다. */
+const DRAG_THRESHOLD_PX = 8;
 
 function SingleRoom({ card }: { card: ReactElement }) {
-  const [dragStartX, setDragStartX] = useState<number | null>(null);
+  const [pressStartX, setPressStartX] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [offsetX, setOffsetX] = useState(0);
-  const isDragging = dragStartX !== null;
 
   function release() {
-    setDragStartX(null);
+    setPressStartX(null);
+    setIsDragging(false);
     setOffsetX(0);
   }
 
   return (
     <div className="flex justify-center px-4">
       <div
-        onPointerDown={(event: PointerEvent<HTMLDivElement>) => {
-          event.currentTarget.setPointerCapture(event.pointerId);
-          setDragStartX(event.clientX);
-        }}
+        onPointerDown={(event: PointerEvent<HTMLDivElement>) => setPressStartX(event.clientX)}
         onPointerMove={(event) => {
-          if (dragStartX !== null) setOffsetX((event.clientX - dragStartX) * DRAG_RESISTANCE);
+          if (pressStartX === null) return;
+          const deltaX = event.clientX - pressStartX;
+          if (!isDragging) {
+            if (Math.abs(deltaX) < DRAG_THRESHOLD_PX) return;
+            // 누르자마자 붙잡으면 클릭이 이 감싸개에서 끝나 링크에 닿지 않아서, 끌기로 본 뒤에만 붙잡습니다
+            event.currentTarget.setPointerCapture(event.pointerId);
+            setIsDragging(true);
+          }
+          setOffsetX(deltaX * DRAG_RESISTANCE);
         }}
         onPointerUp={release}
         onPointerCancel={release}

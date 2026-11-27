@@ -12,20 +12,29 @@ interface RoomCardProps {
   doneCount: number;
   /** 보낸 직후의 모션이 주인공으로 삼는 카드(방금 보낸 방)면 `true`. 나머지 카드는 옆에서 밀려 들어옵니다. */
   isIntroTarget: boolean;
-  /** 내가 이 방에 아직 안 보냈을 때 주는 촬영 화면 주소. 주면 친구 사진을 가리고, 네 칸을 누르면 이 주소로 갑니다. */
-  sendTo?: string;
+  /** 네 칸을 누르면 가는 방 상세 주소 */
+  detailTo: string;
+  /** 내가 이 방에 아직 안 보냈으면 `true`. 친구 사진을 가립니다. */
+  isLocked: boolean;
 }
 
 /**
  * @description 방 하나의 사진 네 칸과 방 이름, 오늘 올린 사람 수를 붙인 카드.
  *
  * @remarks
- * 내가 보낸 방의 카드는 눌러도 아무 일이 없습니다. `sendTo`를 준 카드의 친구 사진은 화면에서만 가립니다. 사진 주소는 그대로 브라우저에 오므로 보안이 아닙니다.
+ * 네 칸을 누르면 방 상세로 갑니다. `isLocked`인 카드의 친구 사진은 화면에서만 가립니다. 사진 주소는 그대로 브라우저에 오므로 보안이 아닙니다.
  * @internal
  * @name RoomCard
  * @tag article
  */
-export function RoomCard({ name, cells, doneCount, isIntroTarget, sendTo }: RoomCardProps) {
+export function RoomCard({
+  name,
+  cells,
+  doneCount,
+  isIntroTarget,
+  detailTo,
+  isLocked,
+}: RoomCardProps) {
   const grid = (
     <div data-intro={isIntroTarget ? 'card' : undefined} className="grid grid-cols-2">
       {cells.map((member, index) => (
@@ -34,7 +43,7 @@ export function RoomCard({ name, cells, doneCount, isIntroTarget, sendTo }: Room
           member={member}
           index={index}
           isIntroTarget={isIntroTarget}
-          isLocked={sendTo !== undefined}
+          isLocked={isLocked}
         />
       ))}
     </div>
@@ -46,13 +55,9 @@ export function RoomCard({ name, cells, doneCount, isIntroTarget, sendTo }: Room
       data-intro={isIntroTarget ? 'target' : 'next'}
       className="flex w-77 shrink-0 snap-start flex-col gap-3"
     >
-      {sendTo ? (
-        <Link to={sendTo} aria-label={`${name}에 사진 보내기`}>
-          {grid}
-        </Link>
-      ) : (
-        grid
-      )}
+      <Link to={detailTo} aria-label={`${name} 자세히 보기`}>
+        {grid}
+      </Link>
       <p
         data-intro={isIntroTarget ? 'info' : undefined}
         className="flex items-center gap-1 text-navy"
