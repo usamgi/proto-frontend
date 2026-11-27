@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
+import { fetchProfile } from '@/shared/api/profile';
 import { supabase } from '@/shared/api/supabase';
 import { getAuthStatus, START_PAGE } from '@/shared/auth/auth-context';
 
@@ -13,11 +14,7 @@ export function AuthCallbackPage() {
     void supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) return navigate('/login', { replace: true });
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('nickname')
-        .eq('id', session.user.id)
-        .maybeSingle<{ nickname: string }>();
+      const profile = await fetchProfile(session.user.id);
       // 처음이면 약관 동의, 동의를 마쳤으면 홈으로 간다. 도착한 화면이 이 이름으로 환영 토스트를 띄운다
       await navigate(START_PAGE[getAuthStatus(session)], {
         replace: true,
