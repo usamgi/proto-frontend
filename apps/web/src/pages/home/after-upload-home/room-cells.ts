@@ -32,19 +32,22 @@ export function orderRooms(rooms: Room[]) {
 }
 
 /**
- * @description 방마다 친구 칸에 보일 사람을 랜덤으로 골라 id로 돌려줍니다.
+ * @description 방마다 친구 칸에 보일 사람을 랜덤으로 골라 id로 돌려줍니다. 사진을 올린 친구를 먼저 고릅니다.
  *
  * @remarks
- * 부를 때마다 결과가 다릅니다. 화면에서는 처음 그릴 때 한 번만 부르고 기억해 둡니다.
+ * 부를 때마다 결과가 다릅니다. 화면에서는 처음 그릴 때 한 번만 부르고 기억해 둡니다. 그 뒤에 사진을 올린 친구는 다시 열 때 앞자리로 옵니다.
  * @internal
  * @returns 방 id에서 고른 사람 id들로 가는 표
  */
 export function pickFriendIds(rooms: Room[]) {
   return new Map(
-    rooms.map((room) => [
-      room.id,
-      pickRandom(room.members, FRIEND_CELLS).map((member) => member.id),
-    ]),
+    rooms.map((room) => {
+      const shot = room.members.filter((member) => member.photo);
+      const notShot = room.members.filter((member) => !member.photo);
+      const picked = [...pickRandom(shot, FRIEND_CELLS), ...pickRandom(notShot, FRIEND_CELLS)];
+
+      return [room.id, picked.slice(0, FRIEND_CELLS).map((member) => member.id)];
+    }),
   );
 }
 
