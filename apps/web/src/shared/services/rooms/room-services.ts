@@ -49,7 +49,7 @@ export async function servFetchVisibleMembers(): Promise<MemberRow[]> {
 export async function servFetchVisibleProfiles(): Promise<ProfileRow[]> {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url')
+    .select('id, name, avatar_url')
     .returns<ProfileRow[]>();
   if (error) throw error;
 

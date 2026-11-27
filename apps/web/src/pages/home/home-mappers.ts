@@ -52,7 +52,7 @@ export function toHomeData(userId: string, rows: HomeRows): HomeData {
   const profileOf = new Map(profiles.map((profile) => [profile.id, profile]));
   const personOf = (id: string): Participant => ({
     id,
-    nickname: profileOf.get(id)?.nickname ?? '',
+    nickname: profileOf.get(id)?.name ?? '',
     avatarUrl: null,
   });
   const roomPhotoOf = (photo: PhotoRow) => ({
@@ -73,7 +73,7 @@ export function toHomeData(userId: string, rows: HomeRows): HomeData {
   });
 
   return {
-    myNickname: profileOf.get(userId)?.nickname ?? '',
+    myNickname: profileOf.get(userId)?.name ?? '',
     hasSent: photos.some((photo) => photo.user_id === userId),
     participants: participantIds.map(personOf),
     friends,

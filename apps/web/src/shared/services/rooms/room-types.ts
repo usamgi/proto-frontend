@@ -7,4 +7,4 @@ export type GroupRow = Pick<TableRow<'groups'>, 'id' | 'name'>;
 export type MemberRow = Pick<TableRow<'group_members'>, 'group_id' | 'user_id'>;
 
 /** `profiles` 표에서 읽는 칸 */
-export type ProfileRow = Pick<TableRow<'profiles'>, 'id' | 'nickname' | 'avatar_url'>;
+export type ProfileRow = Pick<TableRow<'profiles'>, 'id' | 'name' | 'avatar_url'>;

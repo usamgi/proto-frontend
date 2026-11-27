@@ -18,7 +18,7 @@ export function AuthCallbackPage() {
       // 처음이면 약관 동의, 동의를 마쳤으면 홈으로 간다. 도착한 화면이 이 이름으로 환영 토스트를 띄운다
       await navigate(START_PAGE[getAuthStatus(session)], {
         replace: true,
-        state: { welcome: profile?.nickname ?? '' },
+        state: { welcome: profile?.name ?? '' },
       });
     });
   }, [navigate]);

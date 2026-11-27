@@ -40,6 +40,7 @@ export type Database = {
           group_id: string;
           id: string;
           joined_at: string | null;
+          nickname: string | null;
           role: string;
           user_id: string;
         };
@@ -47,6 +48,7 @@ export type Database = {
           group_id: string;
           id?: string;
           joined_at?: string | null;
+          nickname?: string | null;
           role?: string;
           user_id: string;
         };
@@ -54,6 +56,7 @@ export type Database = {
           group_id?: string;
           id?: string;
           joined_at?: string | null;
+          nickname?: string | null;
           role?: string;
           user_id?: string;
         };
@@ -141,19 +144,19 @@ export type Database = {
           avatar_url: string | null;
           created_at: string | null;
           id: string;
-          nickname: string;
+          name: string;
         };
         Insert: {
           avatar_url?: string | null;
           created_at?: string | null;
           id: string;
-          nickname: string;
+          name: string;
         };
         Update: {
           avatar_url?: string | null;
           created_at?: string | null;
           id?: string;
-          nickname?: string;
+          name?: string;
         };
       };
       reactions: {

@@ -98,17 +98,17 @@ export function ProfilePage() {
           {profile?.avatar_url ? (
             <img src={profile.avatar_url} alt="" className={`${AVATAR} object-cover`} />
           ) : (
-            // 프로필 사진이 없으면 홈의 InitialAvatar처럼 닉네임 첫 글자를 그린다
+            // 프로필 사진이 없으면 홈의 InitialAvatar처럼 이름 첫 글자를 그린다
             <span
               aria-hidden
               className={`${AVATAR} flex shrink-0 items-center justify-center bg-linear-to-b from-avatar-from/52 to-avatar-to/52 text-[24px] font-semibold text-navy/50`}
             >
-              {profile?.nickname.slice(0, 1)}
+              {profile?.name.slice(0, 1)}
             </span>
           )}
           <div className="pt-1.5">
             <p className="flex items-center gap-1 text-[20px] leading-7 font-semibold text-navy">
-              {profile?.nickname}
+              {profile?.name}
               <img src={edit} alt="" />
             </p>
             <p className="mt-0.5 text-[14px] leading-[18px] font-medium text-ink-mute">
