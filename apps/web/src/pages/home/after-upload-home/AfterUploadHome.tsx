@@ -74,7 +74,11 @@ export function AfterUploadHome({
             <RoomCard
               key={room.id}
               name={room.name}
-              cells={cellsOf(me, room, pickedFriendIds.get(room.id) ?? [])}
+              cells={cellsOf(
+                { ...me, nickname: room.myNickname },
+                room,
+                pickedFriendIds.get(room.id) ?? [],
+              )}
               doneCount={doneCountOf(room)}
               sendTo={room.myPhoto ? undefined : `/camera?group=${room.id}`}
               isIntroTarget={index === 0}

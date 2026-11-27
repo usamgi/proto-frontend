@@ -36,6 +36,8 @@ export interface Room {
   /** 촬영 화면의 그룹 id와 같습니다. */
   id: string;
   name: string;
+  /** 이 방에서 쓰는 내 닉네임. 정하지 않았으면 프로필 이름입니다. */
+  myNickname: string;
   /** 내가 이 방에 보낸 사진. 이 방에 아직 안 보냈으면 `null`입니다. */
   myPhoto: RoomPhoto | null;
   /** 나를 뺀 방 사람들. 카드에는 이 가운데 세 명이 랜덤으로 보입니다. */

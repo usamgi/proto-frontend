@@ -32,7 +32,7 @@ export async function servFetchMyGroups(userId: string): Promise<GroupRow[]> {
 export async function servFetchVisibleMembers(): Promise<MemberRow[]> {
   const { data, error } = await supabase
     .from('group_members')
-    .select('group_id, user_id')
+    .select('group_id, user_id, nickname')
     .order('joined_at')
     .returns<MemberRow[]>();
   if (error) throw error;

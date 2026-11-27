@@ -19,21 +19,30 @@ function roomsOf(
   personOf: (id: string) => Participant,
   roomPhotoOf: (photo: PhotoRow) => RoomMember['photo'],
 ): Room[] {
+  // 방 안에서는 그 방의 닉네임(group_members.nickname)을, 정하지 않았으면 프로필 이름을 쓴다
+  const roomPersonOf = (member: MemberRow): Participant => {
+    const person = personOf(member.user_id);
+    return { ...person, nickname: member.nickname ?? person.nickname };
+  };
+
   return groups.map((group) => {
     const myPhoto = photos.find((photo) => photo.group_id === group.id && photo.user_id === userId);
+    const roomMembers = members.filter((member) => member.group_id === group.id);
+    const me = roomMembers.find((member) => member.user_id === userId);
 
     return {
       id: group.id,
       name: group.name,
+      myNickname: me ? roomPersonOf(me).nickname : personOf(userId).nickname,
       myPhoto: myPhoto ? roomPhotoOf(myPhoto) : null,
-      members: members
-        .filter((member) => member.group_id === group.id && member.user_id !== userId)
+      members: roomMembers
+        .filter((member) => member.user_id !== userId)
         .map((member): RoomMember => {
           const photo = photos.find(
             (row) => row.group_id === group.id && row.user_id === member.user_id,
           );
 
-          return { ...personOf(member.user_id), photo: photo ? roomPhotoOf(photo) : null };
+          return { ...roomPersonOf(member), photo: photo ? roomPhotoOf(photo) : null };
         }),
     };
   });
