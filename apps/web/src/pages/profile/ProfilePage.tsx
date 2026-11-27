@@ -1,4 +1,5 @@
-import avatarYujin from '@/assets/avatar-yujin.jpg';
+import { useEffect, useState } from 'react';
+
 import edit from '@/assets/edit.svg';
 import blur1 from '@/assets/room-blur-1.jpg';
 import blur2 from '@/assets/room-blur-2.jpg';
@@ -7,7 +8,9 @@ import sky1 from '@/assets/room-sky-1.jpg';
 import sky2 from '@/assets/room-sky-2.jpg';
 import sky3 from '@/assets/room-sky-3.jpg';
 import sky4 from '@/assets/room-sky-4.jpg';
+import { fetchProfile, type Profile } from '@/shared/api/profile';
 import { supabase } from '@/shared/api/supabase';
+import { useAuth } from '@/shared/auth/auth-context';
 import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
 
@@ -46,7 +49,16 @@ function CalendarDay({ day }: { day: number }) {
   );
 }
 
+const AVATAR = 'size-16 rounded-full border border-white shadow-[0_4px_4px_rgba(31,33,36,0.08)]';
+
 export function ProfilePage() {
+  const userId = useAuth().session?.user.id;
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    if (userId) void fetchProfile(userId).then(setProfile);
+  }, [userId]);
+
   return (
     <div className="relative isolate mx-auto min-h-dvh max-w-100.5 bg-[#fafafa]">
       <div className="absolute inset-x-0 top-0 -z-10 h-[calc(68px+env(safe-area-inset-top))] bg-white" />
@@ -58,14 +70,20 @@ export function ProfilePage() {
         }
       >
         <div className="mt-6 flex items-start gap-3.5 px-4">
-          <img
-            src={avatarYujin}
-            alt=""
-            className="size-16 rounded-full border border-white object-cover shadow-[0_4px_4px_rgba(31,33,36,0.08)]"
-          />
+          {profile?.avatar_url ? (
+            <img src={profile.avatar_url} alt="" className={`${AVATAR} object-cover`} />
+          ) : (
+            // 프로필 사진이 없으면 홈의 InitialAvatar처럼 닉네임 첫 글자를 그린다
+            <span
+              aria-hidden
+              className={`${AVATAR} flex shrink-0 items-center justify-center bg-linear-to-b from-avatar-from/52 to-avatar-to/52 text-[24px] font-semibold text-navy/50`}
+            >
+              {profile?.nickname.slice(0, 1)}
+            </span>
+          )}
           <div className="pt-1.5">
             <p className="flex items-center gap-1 text-[20px] leading-7 font-semibold text-navy">
-              유진
+              {profile?.nickname}
               <img src={edit} alt="" />
             </p>
             <p className="mt-0.5 text-[14px] leading-[18px] font-medium text-ink-mute">
