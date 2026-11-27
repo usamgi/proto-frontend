@@ -24,18 +24,20 @@ function closeOnBackdrop(event: MouseEvent<HTMLDialogElement>) {
 
 interface AddRoomSheetProps {
   ref: Ref<HTMLDialogElement>;
+  /** 시트 제목. 방이 하나도 없어 홈이 시트를 스스로 열 때는 `시작하기`를 넘깁니다. */
+  title: string;
 }
 
 /**
  * @description 홈의 + 버튼이 여는 방 추가 바텀시트.
  *
  * @remarks
- * 호출부가 `ref`로 받은 dialog의 `showModal()`을 불러 엽니다. 딤을 누르거나 Esc를 누르면 닫힙니다.
+ * 호출부가 `ref`로 받은 dialog의 `showModal()`을 불러 엽니다. 연 뒤에는 제목(`h2`)에 포커스를 옮겨야 첫 링크에 포커스 테두리가 생기지 않습니다. 딤을 누르거나 Esc를 누르면 닫힙니다.
  * @internal
  * @name AddRoomSheet
  * @tag dialog
  */
-export function AddRoomSheet({ ref }: AddRoomSheetProps) {
+export function AddRoomSheet({ ref, title }: AddRoomSheetProps) {
   return (
     <dialog
       ref={ref}
@@ -47,9 +49,10 @@ export function AddRoomSheet({ ref }: AddRoomSheetProps) {
         <span aria-hidden className="h-1 w-10 rounded-xs bg-handle" />
         <h2
           id="add-room-title"
-          className="self-stretch text-body-18 leading-5.5 font-bold tracking-normal text-ink"
+          tabIndex={-1}
+          className="self-stretch text-body-18 leading-5.5 font-bold tracking-normal text-ink outline-none"
         >
-          방 추가
+          {title}
         </h2>
         <ul className="flex w-full flex-col gap-6">
           {OPTIONS.map(({ to, title, description, tone }) => (

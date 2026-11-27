@@ -19,10 +19,14 @@ function statusOf(groups: GroupRow[] | undefined, isError: boolean): MyGroupsSta
  * 다시 읽기에 실패해도 전에 읽은 방이 있으면 그대로 씁니다.
  * @public
  * @param userId 로그인한 내 id
- * @returns 내 방 `groups`(읽기 전이거나 실패하면 빈 배열)와 상태 `status`
+ * @returns 내 방 `groups`(읽기 전이거나 실패하면 빈 배열), 상태 `status`, 전에 읽은 방을 보이며 새로 읽는 중인지 `isRefreshing`
  */
 export function useMyGroups(userId: string) {
-  const { data, isError } = useQuery(roomQueries.mine(userId));
+  const { data, isError, isFetching } = useQuery(roomQueries.mine(userId));
 
-  return { groups: data ?? [], status: statusOf(data, isError) };
+  return {
+    groups: data ?? [],
+    status: statusOf(data, isError),
+    isRefreshing: data !== undefined && isFetching,
+  };
 }

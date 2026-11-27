@@ -1,6 +1,7 @@
 import { useAuth } from '@/shared/auth/auth-context';
 import { useWelcomeToast } from '@/shared/auth/use-welcome-toast';
 import { useTodayMission, useTodayMissionSync } from '@/shared/services/mission/use-today-mission';
+import { useMyGroups } from '@/shared/services/rooms/use-my-groups';
 import { useTodayShot } from '@/shared/stores/today-shot';
 import { Toast } from '@/shared/ui/Toast';
 
@@ -41,7 +42,7 @@ function StatusMessage({ children }: { children: string }) {
  * @description 오늘 지금 회차의 단어와 내 방들의 사진을 보여 주는 홈 화면.
  *
  * @remarks
- * 같은 회차에 다른 방으로 또 보낸 직후에는 새로 읽은 내용이 올 때까지 비워 둡니다. 전에 읽어 둔 방 카드로 모션을 시작하면 도중에 카드가 바뀌기 때문입니다.
+ * 같은 회차에 다른 방으로 또 보낸 직후에는 새로 읽은 내용이 올 때까지 비워 둡니다. 전에 읽어 둔 방 카드로 모션을 시작하면 도중에 카드가 바뀌기 때문입니다. 방이 없다는 판단도 새로 읽기가 끝난 뒤에만 해서, 방을 만들고 돌아왔을 때 전에 읽은 빈 목록으로 시작하기 시트가 열리지 않게 합니다.
  * @internal
  * @name HomePage
  * @tag div
@@ -51,6 +52,10 @@ export function HomePage() {
   const { session } = useAuth();
   const { mission, status: missionStatus } = useTodayMission();
   const home = useHomeData(session?.user.id ?? '', mission?.id ?? null);
+  const { status: groupsStatus, isRefreshing: isGroupsRefreshing } = useMyGroups(
+    session?.user.id ?? '',
+  );
+  const isFirstStart = groupsStatus === 'empty' && !isGroupsRefreshing;
   const isIntroPending = useTodayShot((state) => state.pendingIntro !== null);
   useTodayMissionSync();
 
@@ -73,7 +78,10 @@ export function HomePage() {
         className="pointer-events-none absolute inset-x-0 top-0 h-64.25 bg-linear-to-b from-blue/19 to-transparent"
       />
       <div className="relative">
-        <HomeHeader addMenu={home.status === 'ready' && home.data.hasSent ? 'popover' : 'sheet'} />
+        <HomeHeader
+          addMenu={home.status === 'ready' && home.data.hasSent ? 'popover' : 'sheet'}
+          isFirstStart={isFirstStart}
+        />
         <main>{renderBody()}</main>
       </div>
       {welcome && (
