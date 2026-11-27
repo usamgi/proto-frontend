@@ -8,6 +8,8 @@ import { PersonIcon } from './icons/PersonIcon';
 interface HomeHeaderProps {
   /** 방 추가 메뉴 모양. 촬영 전 홈은 바텀시트, 촬영 후 홈은 + 아래 팝오버입니다(시안). */
   addMenu: 'sheet' | 'popover';
+  /** 속한 방이 하나도 없으면 `true`. 바텀시트일 때만 쓰고, 시트를 스스로 엽니다. */
+  isFirstStart: boolean;
 }
 
 /**
@@ -19,14 +21,18 @@ interface HomeHeaderProps {
  * @name HomeHeader
  * @tag header
  */
-export function HomeHeader({ addMenu }: HomeHeaderProps) {
+export function HomeHeader({ addMenu, isFirstStart }: HomeHeaderProps) {
   return (
     <header className="flex h-17 items-center justify-between px-4 py-2.5">
       <h1 className="text-blue">
         <LogoIcon title="USAGI" />
       </h1>
       <div className="flex items-center gap-2 text-navy">
-        {addMenu === 'sheet' ? <AddRoomSheetButton /> : <AddRoomPopoverButton />}
+        {addMenu === 'sheet' ? (
+          <AddRoomSheetButton isFirstStart={isFirstStart} />
+        ) : (
+          <AddRoomPopoverButton />
+        )}
         <button type="button" aria-label="알림">
           <BellIcon />
         </button>
