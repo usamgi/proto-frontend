@@ -34,7 +34,7 @@ export function PreviewActions({ isSending, canSend, onRetake, onSend }: Preview
         aria-label="보내기"
         disabled={!canSend || isSending}
         onClick={onSend}
-        className="group flex size-21 items-center justify-center rounded-full bg-white/20"
+        className="group flex size-21 items-center justify-center rounded-full bg-white/20 pt-5 pr-5 pb-3.75 pl-4.25"
       >
         <SendIcon className="size-10 text-white group-disabled:opacity-50" />
       </button>
