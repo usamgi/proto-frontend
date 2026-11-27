@@ -240,7 +240,7 @@ const welcome = useWelcomeToast(); // "박지우님 환영합니다" → 2초 �
 
 ## 직접 확인하는 법
 
-- **로그아웃 상태 만들기**: 아직 로그아웃 버튼이 없다. 개발자 도구 → Application → Local Storage에서 `sb-ezhlepdrdverctyeuvnd-auth-token`을 지우고 새로고침한다.
+- **로그아웃 상태 만들기**: 프로필(`/profile`)의 "로그아웃 (임시)" 버튼을 누른다. `supabase.auth.signOut()`이 `SIGNED_OUT` 이벤트를 보내 세션이 비고, `member` 화면을 감싼 `AuthGate`가 `/login`으로 보낸다.
 - **첫 로그인 다시 보기**: Supabase 대시보드 → Authentication → Users에서 사용자를 지우거나, 그 사용자의 `raw_user_meta_data`에서 `agreed_at`을 지운다.
 - **확인할 시나리오**
   1. 로그아웃 상태로 `/home` → `/login`으로 간다.
