@@ -9,12 +9,6 @@ const BOX: Record<WordPlacement, string> = {
   after: 'h-[65.948px]',
 };
 
-/** 디자이너가 준 그림의 높이입니다. 단어마다 폭은 달라도 높이는 같습니다. */
-const IMAGE_HEIGHT: Record<WordPlacement, string> = {
-  before: 'h-14.75',
-  after: 'h-11.5',
-};
-
 function textSize(word: string, placement: WordPlacement) {
   if (placement === 'after') return 'text-word-md';
 
@@ -31,6 +25,8 @@ interface MissionWordProps {
 /**
  * @description 오늘의 단어. 디자이너가 준 그림이 있으면 그림으로, 없으면 글자로 그립니다.
  *
+ * @remarks
+ * 그림은 단어마다 높이가 달라 SVG에 적힌 크기 그대로 그립니다.
  * @internal
  * @name MissionWord
  * @tag p
@@ -41,7 +37,7 @@ export function MissionWord({ word, placement }: MissionWordProps) {
   return (
     <p className={`flex max-w-full items-center font-bold text-navy ${BOX[placement]}`}>
       {image ? (
-        <img src={image} alt={word} className={`w-auto max-w-full ${IMAGE_HEIGHT[placement]}`} />
+        <img src={image} alt={word} className="h-auto max-w-full" />
       ) : (
         <span className={textSize(word, placement)}>{word}</span>
       )}
