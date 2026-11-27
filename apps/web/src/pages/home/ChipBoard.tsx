@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import { Link } from 'react-router';
 
+import { FadeInPhoto } from './FadeInPhoto';
 import { formatUploadedAgo } from './format-uploaded-ago';
 import type { Friend, FriendPhoto } from './home-mission';
 import { AddCircleIcon } from './icons/AddCircleIcon';
@@ -57,7 +58,7 @@ function FriendChip({ nickname, avatarUrl }: Pick<Friend, 'nickname' | 'avatarUr
 function LockedChip({ nickname, photo }: { nickname: string; photo: FriendPhoto }) {
   return (
     <div className={CARD}>
-      <img
+      <FadeInPhoto
         src={photo.url}
         alt=""
         className="absolute inset-0 size-full scale-110 object-cover blur-md"

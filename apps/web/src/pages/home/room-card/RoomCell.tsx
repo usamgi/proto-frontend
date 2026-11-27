@@ -1,3 +1,4 @@
+import { FadeInPhoto } from '@/pages/home/FadeInPhoto';
 import { formatUploadedAgo } from '@/pages/home/format-uploaded-ago';
 import type { RoomMember, RoomPhoto } from '@/pages/home/home-mission';
 import { LockIcon } from '@/pages/home/icons/LockIcon';
@@ -25,11 +26,14 @@ function PhotoCell({
   introIndex,
 }: CellProps & { nickname: string; photo: RoomPhoto; isMine: boolean }) {
   return (
-    <div data-intro-cell={introIndex} className={`${CELL} ${corner} justify-between py-4`}>
-      <img
+    <div
+      data-intro-cell={introIndex}
+      className={`${CELL} ${corner} ${EMPTY_BACKGROUND} justify-between py-4`}
+    >
+      <FadeInPhoto
         src={photo.url}
         alt={`${nickname} 사진`}
-        data-intro={isMine && introIndex !== undefined ? 'my-photo' : undefined}
+        intro={isMine && introIndex !== undefined ? 'my-photo' : undefined}
         className="absolute inset-0 size-full object-cover"
       />
       <div
@@ -55,8 +59,8 @@ function LockedCell({
   corner,
 }: Pick<CellProps, 'corner'> & { nickname: string; photo: RoomPhoto }) {
   return (
-    <div className={`${CELL} ${corner} justify-center`}>
-      <img
+    <div className={`${CELL} ${corner} ${EMPTY_BACKGROUND} justify-center`}>
+      <FadeInPhoto
         src={photo.url}
         alt=""
         className="absolute inset-0 size-full scale-110 object-cover blur-md"
