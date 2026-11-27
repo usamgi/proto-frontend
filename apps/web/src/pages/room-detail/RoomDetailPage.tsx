@@ -56,6 +56,7 @@ function MissionPhotos({ userId, groupId, rows, mission, isCurrentMission }: Mis
             cell={cell}
             photoUrl={'photoPath' in cell ? (urls?.get(cell.photoPath) ?? '') : ''}
             groupId={groupId}
+            missionId={mission.id}
           />
         ))}
       </ul>

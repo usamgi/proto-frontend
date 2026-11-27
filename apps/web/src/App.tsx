@@ -18,6 +18,7 @@ import { NicknamePage } from './pages/onboarding/NicknamePage';
 import { ProfilePage } from './pages/profile/ProfilePage';
 import { RoomDetailPage } from './pages/room-detail/RoomDetailPage';
 import { RoomSharePage } from './pages/room-share/RoomSharePage';
+import { PhotoDecoratePage } from './pages/photo-decorate/PhotoDecoratePage';
 import { AuthGate } from './shared/auth/AuthGate';
 import { TabLayout } from './shared/ui/TabLayout';
 
@@ -57,6 +58,7 @@ export function App() {
         </Route>
         <Route path="/camera" element={<CameraPage />} />
         <Route path="/rooms/:groupId/share" element={<RoomSharePage />} />
+        <Route path="/rooms/:groupId/photos" element={<PhotoDecoratePage />} />
       </Route>
 
       {/* 누구나 */}
