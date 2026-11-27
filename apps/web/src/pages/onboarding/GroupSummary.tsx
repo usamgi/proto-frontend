@@ -6,7 +6,7 @@ import { formatDate, type Group } from './onboarding-context';
 interface GroupSummaryProps {
   group: Group;
   /** 그룹 정보 아래에 보여 줄 멤버 현황 */
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export function GroupSummary({ group, children }: GroupSummaryProps) {
