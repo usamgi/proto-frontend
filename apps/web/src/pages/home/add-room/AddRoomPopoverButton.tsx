@@ -1,10 +1,12 @@
 import { useId, useRef } from 'react';
 
-import { AddRoomPopover } from './AddRoomPopover';
-import { AddIcon } from './icons/AddIcon';
+import { AddIcon } from '@/pages/home/icons/AddIcon';
 
-/** 시안에서 팝오버는 + 버튼 아래 11px에 뜨고, 오른쪽 끝을 상단 여백(16px)에 맞춥니다. */
+import { AddRoomPopover } from './AddRoomPopover';
+
+/** 팝오버가 + 버튼 아래로 떨어지는 거리 */
 const POPOVER_GAP_PX = 11;
+/** 헤더의 좌우 여백과 같습니다. 팝오버 오른쪽 끝을 헤더 내용의 끝에 맞추려고 씁니다. */
 const HEADER_PADDING_PX = 16;
 
 function placePopover(button: HTMLButtonElement, popover: HTMLElement) {

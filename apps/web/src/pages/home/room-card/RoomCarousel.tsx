@@ -39,6 +39,7 @@ function SingleRoom({ card }: { card: ReactElement }) {
 }
 
 interface RoomCarouselProps {
+  /** 방 카드들. 하나면 가운데에 두고, 둘 이상이면 가로로 넘깁니다. */
   cards: ReactElement[];
   /** 방 형성 모션 중이면 `true`. 칸이 카드 밖 칩 자리에서 출발하므로 잘리지 않게 넘침을 엽니다. */
   isIntroPlaying: boolean;
@@ -48,8 +49,7 @@ interface RoomCarouselProps {
  * @description 방 카드를 가로로 넘기는 목록과 지금 위치를 알려 주는 점.
  *
  * @remarks
- * 방이 둘 이상이면 왼쪽 여백 16에서 시작하고 다음 카드가 오른쪽에 살짝 보입니다. 마지막 카드도 왼쪽 여백에 맞춰 멈추도록 오른쪽에 화면 폭에서 카드 폭과 여백(324px)을 뺀 만큼 비워 둡니다. 점을 누르면 그 카드로 넘어갑니다. 마우스로 끌어서는 넘어가지 않는 PC 브라우저에서도 넘겨 볼 수 있게 합니다.
- * 방이 하나면 카드를 가운데에 두고, 옆으로 밀면 따라오다가 손을 떼면 제자리로 돌아옵니다. 점은 그리지 않습니다.
+ * 점을 누르면 그 카드로 넘어갑니다. 마우스로 끌어서는 넘어가지 않는 PC 브라우저에서도 넘겨 볼 수 있게 하려는 것입니다. 방이 하나면 점을 그리지 않습니다.
  * @internal
  * @name RoomCarousel
  * @tag div

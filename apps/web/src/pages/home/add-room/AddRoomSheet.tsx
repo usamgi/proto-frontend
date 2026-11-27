@@ -1,7 +1,7 @@
 import type { MouseEvent, Ref } from 'react';
 import { Link } from 'react-router';
 
-import { ArrowForwardIcon } from './icons/ArrowForwardIcon';
+import { ArrowForwardIcon } from '@/pages/home/icons/ArrowForwardIcon';
 
 const OPTIONS = [
   {

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
+import { FlipCameraIcon } from '@/pages/camera/icons/FlipCameraIcon';
+import { GalleryIcon } from '@/pages/camera/icons/GalleryIcon';
+import { ShutterIcon } from '@/pages/camera/icons/ShutterIcon';
+import { VIEWFINDER } from '@/pages/camera/viewfinder';
 import { Button } from '@/shared/ui/Button';
 
 import { capturePhoto } from './capture-photo';
-import { FlipCameraIcon } from './icons/FlipCameraIcon';
-import { GalleryIcon } from './icons/GalleryIcon';
-import { ShutterIcon } from './icons/ShutterIcon';
 import { useCamera, type CameraStatus, type Facing } from './use-camera';
-import { VIEWFINDER } from './viewfinder';
 
 const NOTICES: Record<
   Exclude<CameraStatus, 'starting' | 'ready'>,

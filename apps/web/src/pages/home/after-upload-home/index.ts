@@ -1,0 +1,1 @@
+export { AfterUploadHome } from './AfterUploadHome';

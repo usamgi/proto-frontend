@@ -1,8 +1,8 @@
 import type { Ref } from 'react';
 import { Link } from 'react-router';
 
-import { GroupAddIcon } from './icons/GroupAddIcon';
-import { LinkIcon } from './icons/LinkIcon';
+import { GroupAddIcon } from '@/pages/home/icons/GroupAddIcon';
+import { LinkIcon } from '@/pages/home/icons/LinkIcon';
 
 const ITEMS = [
   { to: '/group/new', label: '방 만들기', Icon: GroupAddIcon },
@@ -29,7 +29,8 @@ export function AddRoomPopover({ id, ref }: AddRoomPopoverProps) {
       id={id}
       ref={ref}
       popover="auto"
-      className="fixed [inset:auto] [margin:0] w-50 rounded-2xl bg-white p-1.5 drop-shadow-[0_0_12px_rgba(26,36,51,0.02)]"
+      // check-style-disable-next-line — 브라우저가 popover에 주는 기본 margin(auto)을 지워야 호출부가 잡은 자리에 뜬다
+      className="fixed [inset:auto] [margin:0] w-50 rounded-2xl bg-white p-1.5 drop-shadow-menu"
     >
       <ul className="flex flex-col">
         {ITEMS.map(({ to, label, Icon }) => (

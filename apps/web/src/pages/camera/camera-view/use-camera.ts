@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
+/** 카메라 방향. 후면(`environment`)과 전면(`user`)입니다. */
 export type Facing = 'environment' | 'user';
+/** 카메라 상태. `denied`는 권한을 거부했을 때, `unavailable`은 그 밖의 이유로 켜지 못했을 때입니다. */
 export type CameraStatus = 'starting' | 'ready' | 'denied' | 'unavailable';
 
 /** 4:3으로 잘라도 1600px을 넘게 남도록 넉넉히 요청합니다. 기기가 못 주면 가까운 값을 줍니다. */

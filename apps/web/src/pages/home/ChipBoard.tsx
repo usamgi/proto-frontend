@@ -21,14 +21,17 @@ const FRIEND_SLOTS = [
 const MY_SLOT = 'left-[72.71%] top-[191.3px] -rotate-[0.21deg]';
 
 /**
- * 칩마다 박자가 달라 보이도록 둥둥의 시작점을 어긋나게 둡니다.
+ * @description 칩마다 박자가 달라 보이도록 둥둥의 시작점을 어긋나게 둡니다.
+ *
+ * @remarks
  * `animate-float` 단축 속성이 지연을 0으로 덮어써서 클래스가 아니라 인라인 스타일로 줍니다.
  */
 const FLOAT_DELAYS = ['0s', '-1.6s', '-0.8s'];
+/** 내 칩도 친구 칩 셋과 박자가 겹치지 않게 따로 어긋나게 둡니다. */
 const MY_FLOAT_DELAY = '-2.3s';
 
 const CARD =
-  'relative flex h-51 w-[153.8px] flex-col items-center justify-center overflow-hidden rounded-3xl border-[0.4px] border-blue bg-white bg-linear-to-r from-blue/16 to-blue/16 drop-shadow-[0_9px_2px_rgba(98,131,160,0.12)]';
+  'relative flex h-51 w-[153.8px] flex-col items-center justify-center overflow-hidden rounded-3xl border-[0.4px] border-blue bg-white bg-linear-to-r from-blue/16 to-blue/16 drop-shadow-chip';
 const LABEL = 'text-body-18 leading-8 font-medium text-navy/50';
 
 function InviteChip() {

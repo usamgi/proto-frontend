@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 
+import { AddIcon } from '@/pages/home/icons/AddIcon';
+
 import { AddRoomSheet } from './AddRoomSheet';
-import { AddIcon } from './icons/AddIcon';
 
 /**
  * @description 누르면 방 추가 바텀시트를 여는 + 버튼. 촬영 전 홈에서 씁니다.

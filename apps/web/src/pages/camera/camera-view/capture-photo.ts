@@ -2,6 +2,7 @@
 const PHOTO_ASPECT = 3 / 4;
 /** 올릴 원본의 긴 변 상한입니다. 상한이 없으면 기기 원본 크기가 그대로 올라갑니다. */
 const MAX_LONG_EDGE = 1600;
+/** 화질과 용량 사이에서 고른 값입니다. 긴 변 1600px 사진이 보통 1MB 안쪽으로 나옵니다. */
 const JPEG_QUALITY = 0.9;
 
 /**
