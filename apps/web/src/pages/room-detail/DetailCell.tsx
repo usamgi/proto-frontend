@@ -70,18 +70,14 @@ export function DetailCell({ cell, photoUrl, groupId }: DetailCellProps) {
       <li className={`${CELL} ${EMPTY_BACKGROUND} justify-center`}>
         <div className="flex h-24 flex-col items-center justify-between">
           <p className={LABEL}>내 사진</p>
-          {cell.canSend ? (
-            <div className="flex h-12 items-center">
-              <Link
-                to={`/camera?group=${groupId}`}
-                className="rounded-[32px] bg-navy px-5 py-2 text-[16px] leading-5 font-semibold tracking-[-0.32px] text-white"
-              >
-                사진 찍기
-              </Link>
-            </div>
-          ) : (
-            <InitialAvatar nickname={cell.nickname} avatarUrl={null} />
-          )}
+          <div className="flex h-12 items-center">
+            <Link
+              to={`/camera?group=${groupId}`}
+              className="rounded-[32px] bg-navy px-5 py-2 text-[16px] leading-5 font-semibold tracking-[-0.32px] text-white"
+            >
+              사진 찍기
+            </Link>
+          </div>
         </div>
       </li>
     );
