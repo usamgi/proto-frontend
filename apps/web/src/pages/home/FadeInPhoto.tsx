@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface FadeInPhotoProps {
-  /** 사진 주소. 바뀌면 새 사진이 올 때까지 다시 숨깁니다. */
+  /** 사진 주소. 바뀌면 새 사진이 올 때까지 다시 숨깁니다. 아직 주소가 없으면 빈 문자열이고, 그때는 그리지 않습니다. */
   src: string;
   alt: string;
   className: string;
@@ -25,6 +25,7 @@ export function FadeInPhoto({ src, alt, className, intro }: FadeInPhotoProps) {
   const markIfCached = (image: HTMLImageElement | null) => {
     if (image?.complete && image.naturalWidth > 0) setLoadedSrc(src);
   };
+  if (!src) return null;
 
   return (
     <img

@@ -4,12 +4,16 @@ import type { GroupRow, MemberRow, ProfileRow } from '@/shared/services/rooms/ro
 import type { Friend, HomeData, Participant, Room, RoomMember } from './home-mission';
 
 /** 홈 한 화면을 그리려고 읽어 온 표 모양의 묶음 */
-export interface HomeRows {
+export interface HomeTableRows {
   groups: GroupRow[];
   members: MemberRow[];
   photos: PhotoRow[];
   profiles: ProfileRow[];
-  /** 저장소 경로에서 서명 URL로 */
+}
+
+/** 표 모양의 묶음과 사진 주소 */
+export interface HomeRows extends HomeTableRows {
+  /** 저장소 경로에서 서명 URL로. 아직 만들지 못한 사진은 빠져 있고, 그 사진은 주소가 빈 문자열이 됩니다. */
   urls: Map<string, string>;
 }
 

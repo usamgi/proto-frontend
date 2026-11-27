@@ -42,7 +42,7 @@ function StatusMessage({ children }: { children: string }) {
  * @description 오늘 지금 회차의 단어와 내 방들의 사진을 보여 주는 홈 화면.
  *
  * @remarks
- * 같은 회차에 다른 방으로 또 보낸 직후에는 새로 읽은 내용이 올 때까지 비워 둡니다. 전에 읽어 둔 방 카드로 모션을 시작하면 도중에 카드가 바뀌기 때문입니다. 방이 없다는 판단도 새로 읽기가 끝난 뒤에만 해서, 방을 만들고 돌아왔을 때 전에 읽은 빈 목록으로 시작하기 시트가 열리지 않게 합니다.
+ * 같은 회차에 다른 방으로 또 보낸 직후에는 새로 읽은 내용과 사진 주소가 올 때까지 비워 둡니다. 전에 읽어 둔 방 카드로 모션을 시작하면 도중에 카드가 바뀌기 때문입니다. 방이 없다는 판단도 새로 읽기가 끝난 뒤에만 해서, 방을 만들고 돌아왔을 때 전에 읽은 빈 목록으로 시작하기 시트가 열리지 않게 합니다.
  * @internal
  * @name HomePage
  * @tag div
@@ -66,7 +66,8 @@ export function HomePage() {
       return <StatusMessage>불러오지 못했어요. 잠시 뒤 다시 열어 주세요</StatusMessage>;
     }
     if (!mission || home.status === 'loading') return null;
-    if (isIntroPending && home.isRemembered && home.data.hasSent) return null;
+    const isWaitingForIntro = home.isRemembered || home.isPhotoUrlsPending;
+    if (isIntroPending && isWaitingForIntro && home.data.hasSent) return null;
 
     return <HomeBody key={mission.id} word={mission.keyword} data={home.data} />;
   }

@@ -13,7 +13,7 @@ import {
   servFetchVisibleProfiles,
 } from '@/shared/services/rooms/room-services';
 
-import { toHomeData, type HomeRows } from './home-mappers';
+import type { HomeTableRows } from './home-mappers';
 
 /** 사진을 보낸 뒤 모든 쿼리를 다시 읽게 해도(무효화) 주소는 다시 쓰도록, 무효화가 아니라 만든 시각만 봅니다. */
 function reusableUrlOf(photo: PhotoRow) {
@@ -57,7 +57,7 @@ async function photoUrlsOf(photos: PhotoRow[]) {
   );
 }
 
-async function fetchHomeRows(userId: string, missionId: string): Promise<HomeRows> {
+async function fetchHomeRows(userId: string, missionId: string): Promise<HomeTableRows> {
   const [groups, visibleMembers, visiblePhotos, profiles] = await Promise.all([
     servFetchMyGroups(userId),
     servFetchVisibleMembers(),
@@ -67,22 +67,30 @@ async function fetchHomeRows(userId: string, missionId: string): Promise<HomeRow
   const groupIds = new Set(groups.map((group) => group.id));
   const members = visibleMembers.filter((member) => groupIds.has(member.group_id));
   const photos = visiblePhotos.filter((photo) => groupIds.has(photo.group_id));
-  const urls = await photoUrlsOf(photos);
 
-  return { groups, members, photos, profiles, urls };
+  return { groups, members, photos, profiles };
 }
 
 /**
- * @description 홈 쿼리의 키와 읽는 함수. 방, 멤버, 사진, 프로필을 함께 읽고 사진 주소를 만든 뒤 홈이 그리는 모양으로 바꿉니다.
+ * @description 홈 쿼리의 키와 읽는 함수. 방, 멤버, 사진, 프로필을 함께 읽고, 사진 주소는 따로 만듭니다.
  *
  * @remarks
- * 사진 주소는 만든 지 50분이 안 됐으면 전에 만든 것을 다시 씁니다. 다시 읽을 때마다 새로 만들면 주소가 바뀌어 브라우저가 같은 사진을 처음부터 다시 받습니다.
+ * 사진 주소를 기다리지 않고 홈을 먼저 그리려고 둘을 나눴습니다. 사진 주소는 만든 지 50분이 안 됐으면 전에 만든 것을 다시 씁니다. 다시 읽을 때마다 새로 만들면 주소가 바뀌어 브라우저가 같은 사진을 처음부터 다시 받습니다.
  */
 export const homeQueries = {
   all: ['home'] as const,
-  data: (userId: string, missionId: string) =>
+  rows: (userId: string, missionId: string) =>
     queryOptions({
       queryKey: [...homeQueries.all, userId, missionId] as const,
-      queryFn: async () => toHomeData(userId, await fetchHomeRows(userId, missionId)),
+      queryFn: () => fetchHomeRows(userId, missionId),
+    }),
+  photoUrls: (photos: PhotoRow[]) =>
+    queryOptions({
+      queryKey: [
+        ...homeQueries.all,
+        'photo-urls',
+        photos.map((photo) => `${photo.image_path}@${photo.created_at ?? ''}`),
+      ] as const,
+      queryFn: () => photoUrlsOf(photos),
     }),
 };
