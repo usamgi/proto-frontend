@@ -11,8 +11,13 @@ import sky4 from '@/assets/room-sky-4.jpg';
 import { fetchProfile, type Profile } from '@/shared/api/profile';
 import { supabase } from '@/shared/api/supabase';
 import { useAuth } from '@/shared/auth/auth-context';
+import {
+  useSwitchMissionRound,
+  useTodayMission,
+} from '@/shared/services/mission/use-today-mission';
 import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
+import { Toast } from '@/shared/ui/Toast';
 
 // TODO: 프로필 기능을 열면 서버 데이터로 바꾼다. 지금은 준비 중 화면의 배경이다
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
@@ -20,6 +25,7 @@ const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 const DAYS_IN_MONTH = 30;
 const TODAY = 22;
 const PHOTOS = [sky1, sky2, sky3, sky4, blur1, blur2, blur3];
+const TOAST_DURATION = 2000;
 const PHOTO_DAYS = [1, 2, 3, 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 20, 21];
 
 function CalendarDay({ day }: { day: number }) {
@@ -55,9 +61,28 @@ export function ProfilePage() {
   const userId = useAuth().session?.user.id;
   const [profile, setProfile] = useState<Profile | null>(null);
 
+  const { mission } = useTodayMission();
+  const { switchRound, isSwitching } = useSwitchMissionRound();
+  /** 회차를 바꾼 결과. 토스트로 2초간 보여 준다 */
+  const [switchResult, setSwitchResult] = useState<'success' | 'error' | null>(null);
+
   useEffect(() => {
     if (userId) void fetchProfile(userId).then(setProfile);
   }, [userId]);
+
+  useEffect(() => {
+    if (!switchResult) return;
+    const timer = setTimeout(() => setSwitchResult(null), TOAST_DURATION);
+    return () => clearTimeout(timer);
+  }, [switchResult]);
+
+  // 바꾼 뒤 미션을 다시 읽고 나서 결과가 정해지므로 mission은 이미 새 회차의 것이다
+  const switchMessage =
+    switchResult === 'error'
+      ? '키워드를 바꾸지 못했어요'
+      : mission
+        ? `키워드가 '${mission.keyword}'(으)로 바뀌었어요`
+        : '오늘 이 회차의 키워드가 없어요';
 
   return (
     <div className="relative isolate mx-auto min-h-dvh max-w-100.5 bg-[#fafafa]">
@@ -112,9 +137,26 @@ export function ProfilePage() {
 
       <div className="absolute inset-x-0 top-[calc(142px+env(safe-area-inset-top))] bottom-0 bg-linear-to-b from-white/0 via-white/90 via-33% to-white to-67%" />
       <div className="absolute inset-x-0 top-[calc(172px+env(safe-area-inset-top))] bottom-0 bg-linear-to-b from-white/0 to-white to-90%" />
-      <p className="fixed top-1/2 left-1/2 -translate-1/2 text-[24px] leading-[18px] font-semibold tracking-[-0.48px] whitespace-nowrap text-navy opacity-60">
+      {/* UT용: 누르면 모든 사람의 오늘의 단어가 다음 회차로 바뀐다 */}
+      <button
+        type="button"
+        onClick={() =>
+          switchRound({
+            onSuccess: () => setSwitchResult('success'),
+            onError: () => setSwitchResult('error'),
+          })
+        }
+        disabled={isSwitching}
+        className="fixed top-1/2 left-1/2 -translate-1/2 text-[24px] leading-[18px] font-semibold tracking-[-0.48px] whitespace-nowrap text-navy opacity-60"
+      >
         아직 준비 중입니다 :)
-      </p>
+      </button>
+      {switchResult && (
+        // 로그아웃 버튼 위
+        <div className="fixed bottom-[calc(max(31px,env(safe-area-inset-bottom))+171px)] left-1/2 z-10 -translate-x-1/2">
+          <Toast message={switchMessage} />
+        </div>
+      )}
       {/* 하단 탭(TabLayout) 위 43px */}
       <button
         type="button"

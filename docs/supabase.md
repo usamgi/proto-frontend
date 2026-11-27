@@ -133,7 +133,7 @@ missions (날짜와 회차당 1개, unique(mission_date, round))
 | `active_round` | smallint    | 지금 회차 1 또는 2      |
 | `updated_at`   | timestamptz |                         |
 
-로그인한 사람은 누구나 읽는다. 바꾸기는 `switch_mission_round()`로만 하고, 바꾸면 실시간(`supabase_realtime`)으로 퍼진다. 프로필 화면의 "아직 준비 중입니다" 문구를 누르면 이 함수를 부르게 할 예정이다(UT 한정). 홈의 알림 버튼은 부르지 않는다.
+로그인한 사람은 누구나 읽는다. 바꾸기는 `switch_mission_round()`로만 하고, 바꾸면 실시간(`supabase_realtime`)으로 퍼진다. 프로필 화면의 "아직 준비 중입니다" 문구를 누르면 이 함수를 부른다(UT 한정). 홈의 알림 버튼은 부르지 않는다.
 
 ## 함수(RPC)
 
