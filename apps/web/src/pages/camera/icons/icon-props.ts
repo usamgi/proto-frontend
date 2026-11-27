@@ -1,3 +1,4 @@
+/** 이 폴더의 아이콘이 함께 쓰는 props */
 export interface IconProps {
   /** 크기와 색을 정하는 클래스. 색은 `currentColor`라 `text-*`로 줍니다. 비우면 아이콘마다 정해 둔 크기로 그립니다. */
   className?: string;

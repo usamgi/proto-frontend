@@ -1,7 +1,6 @@
 import { Link } from 'react-router';
 
-import { AddRoomPopoverButton } from './AddRoomPopoverButton';
-import { AddRoomSheetButton } from './AddRoomSheetButton';
+import { AddRoomPopoverButton, AddRoomSheetButton } from './add-room';
 import { BellIcon } from './icons/BellIcon';
 import { LogoIcon } from './icons/LogoIcon';
 import { PersonIcon } from './icons/PersonIcon';

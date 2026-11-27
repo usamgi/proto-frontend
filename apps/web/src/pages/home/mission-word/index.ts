@@ -1,0 +1,1 @@
+export { MissionWord } from './MissionWord';

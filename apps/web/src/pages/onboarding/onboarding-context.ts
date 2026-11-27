@@ -1,8 +1,10 @@
 import { createContext, use } from 'react';
 
 export interface Group {
+  id: string;
   name: string;
   createdAt: Date;
+  inviteCode: string;
 }
 
 export type Agreement = 'age' | 'terms' | 'privacy' | 'marketing';
@@ -23,9 +25,6 @@ export function useOnboarding() {
   if (!state) throw new Error('OnboardingProvider 안에서만 쓸 수 있다');
   return state;
 }
-
-/** 서버 연동 전까지 초대 링크로 들어오는 그룹을 대신한다 */
-export const INVITED_GROUP: Group = { name: '우3기', createdAt: new Date(2026, 10, 24) };
 
 export function formatDate(date: Date) {
   const pad = (value: number) => String(value).padStart(2, '0');

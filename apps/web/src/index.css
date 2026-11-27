@@ -7,7 +7,6 @@
   --font-sans:
     'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-logo: 'SUIT', var(--font-sans);
-  --font-word: 'SD UNICEF Hearty', var(--font-sans);
 
   --color-background: #f7f7f8;
   --color-ink: #05080f;
@@ -24,6 +23,19 @@
   --color-avatar-from: #81c3ff;
   --color-avatar-to: #b6d4ef;
   --color-handle: #d1d6db;
+  --color-group-1-center: #ffb668;
+  --color-group-1-edge: #ffe5fb;
+  --color-group-2-center: #68f7ff;
+  --color-group-2-edge: #f1ffe5;
+  --color-group-3-center: #ff689a;
+  --color-group-3-edge: #ffe5ee;
+  --color-group-4-center: #fff768;
+  --color-group-4-edge: #ffe5ee;
+  --color-group-5-center: #68c5ff;
+  --color-group-5-edge: #edffe5;
+
+  --drop-shadow-menu: 0 0 12px rgb(26 36 51 / 0.02);
+  --drop-shadow-chip: 0 9px 2px rgb(98 131 160 / 0.12);
 
   --text-title: 32px;
   --text-title--line-height: 44px;
@@ -86,14 +98,6 @@
       opacity: 0;
     }
   }
-}
-
-/* 라이선스가 포맷 변경을 막아 받은 TTF를 그대로 쓴다 */
-@font-face {
-  font-family: 'SD UNICEF Hearty';
-  src: url('./assets/fonts/SDUNICEFHeartyTT.ttf') format('truetype');
-  font-weight: 400;
-  font-display: block;
 }
 
 @layer base {

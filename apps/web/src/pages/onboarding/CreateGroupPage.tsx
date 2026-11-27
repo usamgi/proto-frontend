@@ -6,23 +6,34 @@ import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
 import { ScreenTitle } from '@/shared/ui/ScreenTitle';
 import { TextField } from '@/shared/ui/TextField';
+import { ErrorText } from './ErrorText';
+import { createGroup } from './group-api';
 import { useOnboarding } from './onboarding-context';
 
 export function CreateGroupPage() {
   const navigate = useNavigate();
   const { setGroup } = useOnboarding();
   const [name, setName] = useState('');
+  const [pending, setPending] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  const next = () => {
-    setGroup({ name: name.trim(), createdAt: new Date() });
-    navigate('/group/invite');
+  const next = async () => {
+    setPending(true);
+    setFailed(false);
+    try {
+      setGroup(await createGroup(name.trim()));
+      void navigate('/group/invite');
+    } catch {
+      setFailed(true);
+      setPending(false);
+    }
   };
 
   return (
     <Screen
       header={<Header />}
       footer={
-        <Button disabled={!name.trim()} onClick={next}>
+        <Button disabled={!name.trim() || pending} onClick={() => void next()}>
           다음
         </Button>
       }
@@ -33,6 +44,7 @@ export function CreateGroupPage() {
       />
       <div className="mt-[172px] px-4">
         <TextField value={name} onChange={setName} />
+        {failed && <ErrorText>그룹을 만들지 못했어요. 다시 시도해 주세요</ErrorText>}
       </div>
     </Screen>
   );

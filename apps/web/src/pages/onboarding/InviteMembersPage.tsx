@@ -12,10 +12,9 @@ import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
 import { ScreenTitle } from '@/shared/ui/ScreenTitle';
 import { Toast } from '@/shared/ui/Toast';
+import { inviteLinkOf } from './group-api';
 import { useOnboarding } from './onboarding-context';
 
-/** 서버 연동 전까지 쓰는 가짜 초대 링크 */
-const INVITE_LINK = `${window.location.origin}/invite/u3k9x2`;
 const TOAST_DURATION = 2000;
 
 export function InviteMembersPage() {
@@ -32,8 +31,10 @@ export function InviteMembersPage() {
 
   if (!group) return <Navigate to="/group/new" replace />;
 
+  const inviteLink = inviteLinkOf(group);
+
   const copyLink = () => {
-    void navigator.clipboard.writeText(INVITE_LINK).then(() => setCopied(true));
+    void navigator.clipboard.writeText(inviteLink).then(() => setCopied(true));
   };
 
   return (
@@ -59,7 +60,7 @@ export function InviteMembersPage() {
           <p className="text-[13px] leading-[18px] font-semibold text-ink-sub">초대 링크</p>
           <div className="flex h-[54px] items-center gap-1.5 rounded-full bg-fill px-5">
             <p className="flex-1 truncate text-[16px] leading-[38px] font-medium text-ink/40">
-              {INVITE_LINK}
+              {inviteLink}
             </p>
             <button type="button" aria-label="초대 링크 복사" onClick={copyLink}>
               <img src={contentCopy} alt="" />
