@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import share from '@/assets/share.svg';
 import { homeQueries } from '@/pages/home/home-queries';
@@ -68,7 +68,7 @@ function MissionPhotos({ userId, groupId, rows, mission, isCurrentMission }: Mis
  * @description 방 하나의 미션별 사진을 크게 보는 화면. 위쪽 칩으로 지난 미션의 사진도 봅니다.
  *
  * @remarks
- * 처음에는 지금 미션을 보입니다. 오른쪽 위 공유 버튼은 아직 하는 일이 없습니다.
+ * 처음에는 지금 미션을 보입니다. 오른쪽 위 공유 버튼은 고른 미션의 공유 화면으로 갑니다. 지금 미션에 내가 아직 안 보냈으면(친구 사진을 가린 동안) 누를 수 없습니다.
  * @internal
  * @name RoomDetailPage
  * @tag div
@@ -90,6 +90,13 @@ export function RoomDetailPage() {
     chips.find((chip) => chip.id === selectedId) ??
     chips.find((chip) => chip.id === currentMissionId) ??
     chips[0];
+  const isLocked =
+    detail.status === 'ready' &&
+    selected?.id === currentMissionId &&
+    !detail.rows.photos.some(
+      (photo) => photo.mission_id === selected.id && photo.user_id === userId,
+    );
+  const navigate = useNavigate();
 
   function renderBody() {
     if (detail.status === 'loading') return null;
@@ -129,7 +136,11 @@ export function RoomDetailPage() {
             <button
               type="button"
               aria-label="공유"
-              className="absolute top-1/2 right-4 flex size-11 -translate-y-1/2 items-center justify-center"
+              disabled={!selected || isLocked}
+              onClick={() =>
+                selected && void navigate(`/rooms/${groupId}/share?mission=${selected.id}`)
+              }
+              className="absolute top-1/2 right-4 flex size-11 -translate-y-1/2 items-center justify-center disabled:opacity-40"
             >
               <img src={share} alt="" />
             </button>
