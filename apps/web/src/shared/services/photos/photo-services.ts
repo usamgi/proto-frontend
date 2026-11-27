@@ -1,9 +1,12 @@
 import { supabase } from '@/shared/api/supabase';
 
-import { PHOTO_BUCKET, type PhotoRow, type UploadPhotoRequest } from './photo-types';
+import {
+  PHOTO_BUCKET,
+  SIGNED_URL_SECONDS,
+  type PhotoRow,
+  type UploadPhotoRequest,
+} from './photo-types';
 
-/** 화면을 열어 둔 동안 사진이 보이도록 넉넉히 잡은 서명 URL 유효 시간(초) */
-const SIGNED_URL_SECONDS = 60 * 60;
 /** 찍은 사진은 긴 변 1600px JPEG라 보통 1MB 안쪽입니다. 원본이 실수로 올라가지 않게 막는 상한입니다. */
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 

@@ -3,6 +3,9 @@ import type { TableRow } from '@/shared/services/database-types';
 /** 미션 사진을 두는 비공개 버킷. 올리기와 읽기가 이 이름 하나를 함께 씁니다. */
 export const PHOTO_BUCKET = 'mission-photos';
 
+/** 화면을 열어 둔 동안 사진이 보이도록 넉넉히 잡은 서명 URL 유효 시간(초) */
+export const SIGNED_URL_SECONDS = 60 * 60;
+
 /** `photos` 표에서 읽는 칸 */
 export type PhotoRow = Pick<
   TableRow<'photos'>,
