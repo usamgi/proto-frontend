@@ -25,8 +25,8 @@ export interface MissionChipData {
 export type DetailCellData =
   | { kind: 'photo'; id: string; nickname: string; photoPath: string; caption: string }
   | { kind: 'locked'; id: string; nickname: string; photoPath: string }
-  /** 내가 안 올린 칸. 지금 미션이면 사진 찍기 버튼을, 지난 미션이면 내 이름 첫 글자를 그립니다. */
-  | { kind: 'mine-empty'; id: string; nickname: string; canSend: boolean }
+  /** 지금 미션에 내가 아직 안 올린 칸. 사진 찍기 버튼을 그립니다. */
+  | { kind: 'mine-empty'; id: string; nickname: string }
   | { kind: 'waiting'; id: string; nickname: string };
 
 /**
@@ -52,7 +52,7 @@ export function missionChipsOf(
 }
 
 /**
- * @description 한 미션의 그리드 칸을 만듭니다. 올린 사람이 올린 순서로 앞에, 그다음 내가(안 올렸으면), 그다음 안 올린 사람이 들어온 순서로 옵니다.
+ * @description 한 미션의 그리드 칸을 만듭니다. 올린 사람이 올린 순서로 앞에(나도 올렸으면 그 순서에 섞입니다), 그다음 내가 안 올렸으면 내 칸, 그다음 안 올린 사람이 들어온 순서로 옵니다. 안 올린 내 칸은 지금 미션이면 사진 찍기 버튼, 지난 미션이면 다른 사람처럼 이름 첫 글자입니다.
  *
  * @remarks
  * 지금 미션에 내가 아직 안 보냈으면 친구 사진을 가립니다(홈 방 카드와 같습니다). 지난 미션은 더 보낼 수 없어서 가리지 않습니다.
@@ -87,7 +87,13 @@ export function detailCellsOf(
   });
   const mine: DetailCellData[] = hasMine
     ? []
-    : [{ kind: 'mine-empty', id: userId, nickname: nicknameOf(userId), canSend: isCurrentMission }];
+    : [
+        {
+          kind: isCurrentMission ? 'mine-empty' : 'waiting',
+          id: userId,
+          nickname: nicknameOf(userId),
+        },
+      ];
   const waiting = roomMembers
     .filter(
       (member) =>

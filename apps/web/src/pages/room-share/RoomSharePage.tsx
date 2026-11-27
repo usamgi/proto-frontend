@@ -6,6 +6,7 @@ import airdropIcon from '@/assets/share-airdrop.png';
 import downloadIcon from '@/assets/share-download.svg';
 import instagramIcon from '@/assets/share-instagram.png';
 import kakaoIcon from '@/assets/share-kakao.png';
+import { FadeInPhoto } from '@/pages/home/FadeInPhoto';
 import { homeQueries } from '@/pages/home/home-queries';
 import { detailCellsOf, missionChipsOf } from '@/pages/room-detail/room-detail-data';
 import { useRoomDetail } from '@/pages/room-detail/use-room-detail';
@@ -15,7 +16,7 @@ import { Header } from '@/shared/ui/Header';
 import { Screen } from '@/shared/ui/Screen';
 import { Toast } from '@/shared/ui/Toast';
 
-import { drawShareCard, type ShareCardCell } from './draw-share-card';
+import { drawShareCard, shareCardHeight, type ShareCardCell } from './draw-share-card';
 
 const NOTICE_MS = 2000;
 
@@ -168,14 +169,20 @@ export function RoomSharePage() {
         </p>
       );
     }
-    if (!previewUrl) return null;
+    if (!isReady || !mission) return null;
 
+    // 이미지를 만드는 동안 같은 크기의 빈 카드를 먼저 보여, 다 만들어졌을 때 화면이 줄었다 늘지 않게 합니다
     return (
-      <img
-        src={previewUrl}
-        alt={`${isReady ? detail.name : ''} ${mission?.keyword ?? ''} 사진 카드`}
-        className="mx-auto mt-6 w-80 rounded-[27.676px] shadow-[0_7.784px_3.459px_rgba(98,131,160,0.12)]"
-      />
+      <div style={{ height: shareCardHeight(cells.length) }} className="relative mx-auto mt-6 w-80">
+        <div className="absolute inset-0 rounded-[27.676px] border-[0.692px] border-blue/50 bg-white bg-linear-to-b from-blue/[0.016] to-blue/4 shadow-[0_7.784px_3.459px_rgba(98,131,160,0.12)]" />
+        {previewUrl && (
+          <FadeInPhoto
+            src={previewUrl}
+            alt={`${detail.name} ${mission.keyword} 사진 카드`}
+            className="absolute inset-0 size-full rounded-[27.676px]"
+          />
+        )}
+      </div>
     );
   }
 
@@ -218,9 +225,10 @@ export function RoomSharePage() {
           <button
             key={label}
             type="button"
+            // 이미지가 준비되기 전에는 누르는 것만 막고 모양은 그대로 둡니다(흐려졌다 돌아오는 깜빡임 방지)
             disabled={!card.data}
             onClick={() => void onClick()}
-            className="flex flex-col items-center gap-2 disabled:opacity-40"
+            className="flex flex-col items-center gap-2"
           >
             <img src={icon} alt="" className="size-11 rounded-full" />
             <span className="text-[14px] leading-[22px] font-medium tracking-[0.203px] whitespace-nowrap text-navy">
