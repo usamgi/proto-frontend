@@ -1,3 +1,5 @@
+import type { IntroKind } from '@/shared/stores/today-shot';
+
 /** 시안 모션(홈화면 모션 예시)의 시간입니다. 단위는 ms입니다. */
 const TIMELINE = {
   beforeFadeOut: { delay: 300, duration: 300 },
@@ -13,6 +15,17 @@ const TIMELINE = {
   nextCardsAppear: { delay: 3300, duration: 500 },
   dotsAppear: { delay: 3500, duration: 250 },
 };
+
+/** 이미 보낸 방이 있을 때 쓰는 짧은 모션의 시간입니다. 시안이 없어 방 형성 모션의 뒷부분 길이에 맞춰 정했습니다. 단위는 ms입니다. */
+const JOIN_TIMELINE = {
+  /** 떠오른 뒤 한 번 커졌다 돌아옵니다. `riseEnd`와 `pulsePeak`는 전체 길이에 대한 비율입니다. */
+  cardArrive: { duration: 1000, riseEnd: 0.4, pulsePeak: 0.7 },
+  nextCardsAppear: { delay: 250, duration: 500 },
+  dotsAppear: { delay: 500, duration: 250 },
+};
+
+/** 방금 보낸 방 카드가 떠오르기 시작하는 자리. 카드가 새로 생긴 것이 아니라 제자리에 놓이는 것으로 보이게 짧게 잡았습니다. */
+const JOIN_CARD_FROM = 'translateY(24px)';
 
 /** 시안 키프레임의 곡선입니다. 자리를 잡을 때는 빠르게 다가가 천천히 멈춥니다. */
 const SETTLE = 'cubic-bezier(0.2, 0, 0, 1)';
@@ -101,21 +114,7 @@ function revealRest(root: HTMLElement, add: AddAnimation) {
   add(find('[data-intro="dots"]'), [{ opacity: 0 }, { opacity: 1 }], TIMELINE.dotsAppear);
 }
 
-/**
- * @description 방 형성 모션의 애니메이션을 모두 만들어 시작합니다.
- *
- * @remarks
- * `root` 안의 `data-chip-slot`(칩 자리), `data-intro-cell`(카드 칸), `data-intro`(나머지 조각)를 찾습니다. 칩의 실제 위치를 재서 칸까지 옮기므로, 칩과 카드가 화면에 그려진 뒤에 불러야 합니다.
- * @internal
- * @param root 촬영 전 칩 보드와 촬영 후 화면을 함께 담은 요소
- * @returns 시작한 애니메이션들. 호출부가 끝나기를 기다리거나 취소합니다.
- */
-export function buildRoomIntro(root: HTMLElement) {
-  const animations: Animation[] = [];
-  const add: AddAnimation = (element, keyframes, timing) => {
-    if (element) animations.push(element.animate(keyframes, { fill: 'backwards', ...timing }));
-  };
-
+function formRoom(root: HTMLElement, add: AddAnimation) {
   add(root.querySelector<HTMLElement>('[data-intro="before"]'), [{ opacity: 1 }, { opacity: 0 }], {
     ...TIMELINE.beforeFadeOut,
     fill: 'forwards',
@@ -124,6 +123,64 @@ export function buildRoomIntro(root: HTMLElement) {
     gatherCell(root, cell, add);
   }
   revealRest(root, add);
+}
+
+function joinRoom(root: HTMLElement, add: AddAnimation) {
+  const { cardArrive, nextCardsAppear, dotsAppear } = JOIN_TIMELINE;
+
+  add(
+    root.querySelector<HTMLElement>('[data-intro="target"]'),
+    [
+      { opacity: 0, transform: `${JOIN_CARD_FROM} scale(1)`, easing: SETTLE },
+      {
+        opacity: 1,
+        transform: 'translateY(0) scale(1)',
+        offset: cardArrive.riseEnd,
+        easing: 'ease-in-out',
+      },
+      {
+        transform: 'translateY(0) scale(1.03)',
+        offset: cardArrive.pulsePeak,
+        easing: 'ease-in-out',
+      },
+      { transform: 'translateY(0) scale(1)' },
+    ],
+    { duration: cardArrive.duration },
+  );
+  for (const card of root.querySelectorAll<HTMLElement>('[data-intro="next"]')) {
+    add(
+      card,
+      [
+        { opacity: 0, transform: 'translateX(70px)' },
+        { opacity: 1, transform: 'none' },
+      ],
+      { ...nextCardsAppear, easing: SETTLE },
+    );
+  }
+  add(
+    root.querySelector<HTMLElement>('[data-intro="dots"]'),
+    [{ opacity: 0 }, { opacity: 1 }],
+    dotsAppear,
+  );
+}
+
+/**
+ * @description 보낸 직후 홈의 모션을 만들어 시작합니다.
+ *
+ * @remarks
+ * `root` 안의 `data-chip-slot`(칩 자리), `data-intro-cell`(카드 칸), `data-intro`(나머지 조각)를 찾습니다. `form`은 칩의 실제 위치를 재서 칸까지 옮기므로, 칩과 카드가 화면에 그려진 뒤에 불러야 합니다.
+ * @internal
+ * @param root 촬영 후 화면을 담은 요소. `form`이면 촬영 전 칩 보드도 함께 담겨 있어야 합니다.
+ * @returns 시작한 애니메이션들. 호출부가 끝나기를 기다리거나 취소합니다.
+ */
+export function buildRoomIntro(root: HTMLElement, kind: IntroKind) {
+  const animations: Animation[] = [];
+  const add: AddAnimation = (element, keyframes, timing) => {
+    if (element) animations.push(element.animate(keyframes, { fill: 'backwards', ...timing }));
+  };
+
+  if (kind === 'form') formRoom(root, add);
+  else joinRoom(root, add);
 
   return animations;
 }

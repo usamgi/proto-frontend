@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type ReactElement } from 'rea
 
 import type { Participant, Room } from '@/pages/home/home-mission';
 import { RoomCard, RoomCarousel } from '@/pages/home/room-card';
+import type { IntroKind } from '@/shared/stores/today-shot';
 
 import { cellsOf, doneCountOf, orderRooms, pickFriendIds } from './room-cells';
 import { TodaySummary } from './TodaySummary';
@@ -15,8 +16,10 @@ interface AfterUploadHomeProps {
   participants: Participant[];
   /** 내 방 전부. 내가 지금 회차에 사진을 보낸 방이 앞에 오고, 아직 안 보낸 방은 뒤에 가려진 카드로 붙습니다. */
   rooms: Room[];
-  /** 방 형성 모션의 출발 화면(촬영 전 칩 보드). 처음 그려질 때 있으면 모션을 한 번 재생하고, 없으면 바로 끝 모습입니다. */
-  intro: ReactElement | null;
+  /** 보낸 직후에 재생할 모션. 처음 그려질 때 값이 있으면 한 번 재생하고, `null`이면 바로 끝 모습입니다. */
+  intro: IntroKind | null;
+  /** `form` 모션의 출발 화면(촬영 전 칩 보드) */
+  introFrom: ReactElement;
   /** 모션을 시작할 때 한 번 불립니다. 호출부는 다음부터 `intro`를 `null`로 넘깁니다. */
   onIntroStart: () => void;
 }
@@ -37,12 +40,13 @@ export function AfterUploadHome({
   participants,
   rooms,
   intro,
+  introFrom,
   onIntroStart,
 }: AfterUploadHomeProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [introFrom, setIntroFrom] = useState(intro);
-  const isIntroPlaying = introFrom !== null;
-  const endIntro = useCallback(() => setIntroFrom(null), []);
+  const [playingIntro, setPlayingIntro] = useState(intro);
+  const isIntroPlaying = playingIntro !== null;
+  const endIntro = useCallback(() => setPlayingIntro(null), []);
   const shownRooms = orderRooms(rooms);
   const [pickedFriendIds] = useState(() => pickFriendIds(shownRooms));
   const me: Participant = { id: 'me', nickname: myNickname, avatarUrl: null };
@@ -50,14 +54,14 @@ export function AfterUploadHome({
   useEffect(() => {
     if (isIntroPlaying) onIntroStart();
   }, [isIntroPlaying, onIntroStart]);
-  useRoomIntro(rootRef, isIntroPlaying, endIntro);
+  useRoomIntro(rootRef, playingIntro, endIntro);
 
   return (
     <div
       ref={rootRef}
       className={`relative overflow-x-clip ${isIntroPlaying ? 'pointer-events-none' : ''}`}
     >
-      {introFrom && (
+      {playingIntro === 'form' && (
         <div data-intro="before" inert className="absolute inset-x-0 top-0">
           {introFrom}
         </div>

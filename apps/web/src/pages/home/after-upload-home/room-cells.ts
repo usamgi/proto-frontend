@@ -16,15 +16,19 @@ function pickRandom<T>(items: T[], count: number) {
 }
 
 /**
- * @description 카드로 보일 방을 고릅니다. 내가 보낸 방이 앞에, 아직 안 보낸 방이 뒤에 옵니다.
+ * @description 카드로 보일 방을 고릅니다. 내가 보낸 방이 최근에 보낸 순서로 앞에, 아직 안 보낸 방이 뒤에 옵니다.
  *
+ * @remarks
+ * 한 번에 여러 방에 보내면 보낸 시각이 같아서, 그 방들끼리는 받은 순서 그대로입니다.
  * @internal
  */
 export function orderRooms(rooms: Room[]) {
-  return [...rooms.filter((room) => room.myPhoto), ...rooms.filter((room) => !room.myPhoto)].slice(
-    0,
-    MAX_ROOMS,
-  );
+  const sentAtOf = (room: Room) => room.myPhoto?.uploadedAt ?? '';
+  const sent = rooms
+    .filter((room) => room.myPhoto)
+    .sort((a, b) => sentAtOf(b).localeCompare(sentAtOf(a)));
+
+  return [...sent, ...rooms.filter((room) => !room.myPhoto)].slice(0, MAX_ROOMS);
 }
 
 /**
