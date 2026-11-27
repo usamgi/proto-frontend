@@ -24,6 +24,12 @@ export function MissionChips({ chips, selectedId, currentMissionId, onSelect }: 
         return (
           <button
             key={chip.id}
+            // 고른 칩이 줄 밖에 있으면(뒤로 와서 지난 미션이 골라져 있을 때) 보이게 넘깁니다
+            ref={
+              isSelected
+                ? (button) => button?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+                : undefined
+            }
             type="button"
             aria-pressed={isSelected}
             onClick={() => onSelect(chip.id)}

@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 
 import share from '@/assets/share.svg';
 import { homeQueries } from '@/pages/home/home-queries';
@@ -68,7 +67,7 @@ function MissionPhotos({ userId, groupId, rows, mission, isCurrentMission }: Mis
  * @description 방 하나의 미션별 사진을 크게 보는 화면. 위쪽 칩으로 지난 미션의 사진도 봅니다.
  *
  * @remarks
- * 처음에는 지금 미션을 보입니다. 오른쪽 위 공유 버튼은 고른 미션의 공유 화면으로 갑니다. 지금 미션에 내가 아직 안 보냈으면(친구 사진을 가린 동안) 누를 수 없습니다.
+ * 처음에는 지금 미션을 보입니다. 고른 미션은 주소(`?mission=`)에 남겨, 다른 화면에 갔다가 뒤로 오면 그 미션이 다시 골라져 있습니다. 오른쪽 위 공유 버튼은 고른 미션의 공유 화면으로 갑니다. 지금 미션에 내가 아직 안 보냈으면(친구 사진을 가린 동안) 누를 수 없습니다.
  * @internal
  * @name RoomDetailPage
  * @tag div
@@ -80,7 +79,9 @@ export function RoomDetailPage() {
   const detail = useRoomDetail(userId, groupId);
   const { mission: currentMission } = useTodayMission();
   const currentMissionId = currentMission?.id ?? null;
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // 고른 미션을 주소에 둬서, 꾸미기·공유 화면에 갔다가 뒤로 와도 그 미션이 골라져 있게 합니다
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedId = searchParams.get('mission');
 
   const chips =
     detail.status === 'ready'
@@ -112,7 +113,7 @@ export function RoomDetailPage() {
           chips={chips}
           selectedId={selected.id}
           currentMissionId={currentMissionId}
-          onSelect={setSelectedId}
+          onSelect={(missionId) => setSearchParams({ mission: missionId }, { replace: true })}
         />
         <MissionPhotos
           key={selected.id}
