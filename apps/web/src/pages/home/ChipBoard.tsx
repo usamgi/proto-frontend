@@ -31,7 +31,7 @@ const FLOAT_DELAYS = ['0s', '-1.6s', '-0.8s'];
 const MY_FLOAT_DELAY = '-2.3s';
 
 const CARD =
-  'relative flex h-51 w-[153.8px] flex-col items-center justify-center overflow-hidden rounded-3xl border-[0.4px] border-blue bg-white bg-linear-to-r from-blue/16 to-blue/16 drop-shadow-chip';
+  'relative flex h-51 w-[153.8px] flex-col items-center justify-center overflow-hidden rounded-3xl border-[0.4px] border-blue bg-white bg-linear-to-r from-blue/16 to-blue/16 shadow-chip';
 const LABEL = 'text-body-18 leading-8 font-medium text-navy/50';
 
 function InviteChip() {
