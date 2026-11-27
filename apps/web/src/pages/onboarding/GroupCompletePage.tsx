@@ -1,9 +1,9 @@
+import { QRCodeSVG } from 'qrcode.react';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router';
 
 import close from '@/assets/close-24.svg';
 import contentCopy from '@/assets/content-copy.svg';
-import inviteQr from '@/assets/invite-qr.svg';
 import kakaoLogo from '@/assets/kakao-logo.svg';
 import qrCode from '@/assets/qr-code.svg';
 import { Button } from '@/shared/ui/Button';
@@ -107,8 +107,13 @@ export function GroupCompletePage() {
                 {group.name}
               </p>
             </div>
-            {/* TODO: 실제 초대 링크로 QR 생성 */}
-            <img src={inviteQr} alt="초대 QR코드" />
+            <QRCodeSVG
+              value={inviteLink}
+              size={120}
+              fgColor="#1f2124"
+              bgColor="transparent"
+              title="초대 QR코드"
+            />
           </div>
         </div>
       )}
