@@ -13,13 +13,13 @@ export interface HomeRows {
   urls: Map<string, string>;
 }
 
+/** 방 안의 사람은 그 방에서 정한 닉네임으로 부릅니다. 정하지 않았으면 프로필 이름으로 부릅니다. */
 function roomsOf(
   userId: string,
   { groups, members, photos }: HomeRows,
   personOf: (id: string) => Participant,
   roomPhotoOf: (photo: PhotoRow) => RoomMember['photo'],
 ): Room[] {
-  // 방 안에서는 그 방의 닉네임(group_members.nickname)을, 정하지 않았으면 프로필 이름을 쓴다
   const roomPersonOf = (member: MemberRow): Participant => {
     const person = personOf(member.user_id);
     return { ...person, nickname: member.nickname ?? person.nickname };

@@ -50,6 +50,7 @@ export function AfterUploadHome({
   const shownRooms = orderRooms(rooms);
   const [pickedFriendIds] = useState(() => pickFriendIds(shownRooms));
   const me: Participant = { id: 'me', nickname: myNickname, avatarUrl: null };
+  const meIn = (room: Room): Participant => ({ ...me, nickname: room.myNickname });
 
   useEffect(() => {
     if (isIntroPlaying) onIntroStart();
@@ -74,11 +75,7 @@ export function AfterUploadHome({
             <RoomCard
               key={room.id}
               name={room.name}
-              cells={cellsOf(
-                { ...me, nickname: room.myNickname },
-                room,
-                pickedFriendIds.get(room.id) ?? [],
-              )}
+              cells={cellsOf(meIn(room), room, pickedFriendIds.get(room.id) ?? [])}
               doneCount={doneCountOf(room)}
               sendTo={room.myPhoto ? undefined : `/camera?group=${room.id}`}
               isIntroTarget={index === 0}
