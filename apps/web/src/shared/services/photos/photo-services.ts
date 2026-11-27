@@ -28,6 +28,24 @@ export async function servFetchMissionPhotos(missionId: string): Promise<PhotoRo
 }
 
 /**
+ * @description 내가 한 회차에 사진을 보낸 방이 하나라도 있는지 읽습니다(`photos`).
+ *
+ * @public
+ * @param userId 로그인한 내 id
+ * @throws 읽기에 실패하면 Supabase 오류
+ */
+export async function servHasSentPhoto(userId: string, missionId: string) {
+  const { count, error } = await supabase
+    .from('photos')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .eq('mission_id', missionId);
+  if (error) throw error;
+
+  return (count ?? 0) > 0;
+}
+
+/**
  * @description 저장소 경로들을 1시간짜리 서명 URL로 바꿉니다. 버킷이 비공개라 이 주소로만 사진이 보입니다.
  *
  * @public

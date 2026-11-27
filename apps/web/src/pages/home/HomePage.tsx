@@ -11,7 +11,7 @@ import { HomeHeader } from './HomeHeader';
 import { useHomeData } from './use-home-data';
 
 function HomeBody({ word, data }: { word: string; data: HomeData }) {
-  const isIntroPending = useTodayShot((state) => state.isIntroPending);
+  const pendingIntro = useTodayShot((state) => state.pendingIntro);
   const markIntroShown = useTodayShot((state) => state.markIntroShown);
 
   const beforeUpload = (
@@ -26,7 +26,8 @@ function HomeBody({ word, data }: { word: string; data: HomeData }) {
       myNickname={data.myNickname}
       participants={data.participants}
       rooms={data.rooms}
-      intro={isIntroPending ? beforeUpload : null}
+      intro={pendingIntro}
+      introFrom={beforeUpload}
       onIntroStart={markIntroShown}
     />
   );
@@ -50,7 +51,7 @@ export function HomePage() {
   const { session } = useAuth();
   const { mission, status: missionStatus } = useTodayMission();
   const home = useHomeData(session?.user.id ?? '', mission?.id ?? null);
-  const isIntroPending = useTodayShot((state) => state.isIntroPending);
+  const isIntroPending = useTodayShot((state) => state.pendingIntro !== null);
   useTodayMissionSync();
 
   function renderBody() {

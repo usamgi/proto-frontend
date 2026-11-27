@@ -10,7 +10,7 @@ interface RoomCardProps {
   cells: (RoomMember | null)[];
   /** 방 전체에서 오늘 올린 사람 수(나 포함) */
   doneCount: number;
-  /** 방 형성 모션이 칩에서 모아 만드는 카드면 `true`. 나머지 카드는 옆에서 밀려 들어옵니다. */
+  /** 보낸 직후의 모션이 주인공으로 삼는 카드(방금 보낸 방)면 `true`. 나머지 카드는 옆에서 밀려 들어옵니다. */
   isIntroTarget: boolean;
   /** 내가 이 방에 아직 안 보냈을 때 주는 촬영 화면 주소. 주면 친구 사진을 가리고, 네 칸을 누르면 이 주소로 갑니다. */
   sendTo?: string;
@@ -43,7 +43,7 @@ export function RoomCard({ name, cells, doneCount, isIntroTarget, sendTo }: Room
   return (
     <article
       aria-label={name}
-      data-intro={isIntroTarget ? undefined : 'next'}
+      data-intro={isIntroTarget ? 'target' : 'next'}
       className="flex w-77 shrink-0 snap-start flex-col gap-3"
     >
       {sendTo ? (
