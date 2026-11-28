@@ -120,9 +120,11 @@ export function AuthGate({ allow }: { allow: AuthStatus }) {
   if (loading) return null;
 
   const status = getAuthStatus(session);
-  return status === allow ? <Outlet /> : <Navigate to={START_PAGE[status]} replace />;
+  return status === allow ? <Outlet /> : <Navigate to={startPageOf(status)} replace />;
 }
 ```
+
+(실제 코드는 6번의 "돌아갈 주소" 처리가 더 들어 있다.)
 
 `App.tsx`에서 화면을 상태별로 묶는다.
 
@@ -136,7 +138,7 @@ export function AuthGate({ allow }: { allow: AuthStatus }) {
 랜딩(`/`)은 구글 OAuth 앱 홈페이지라 로그인 상태와 상관없이 보인다. 대신 "시작하기"가 지금 상태의 첫 화면으로 보낸다.
 
 ```tsx
-<Button onClick={() => navigate(START_PAGE[getAuthStatus(session)])}>시작하기</Button>
+<Button onClick={() => navigate(startPageOf(getAuthStatus(session)))}>시작하기</Button>
 ```
 
 ### 예시
@@ -238,6 +240,45 @@ const welcome = useWelcomeToast(); // "박지우님 환영합니다" → 2초 �
 
 ---
 
+## 6. 로그인하고 나면 원래 가려던 화면으로 돌아가기
+
+### 문제
+
+로그아웃 상태로 QR 초대 링크(`/join?code=abc`)를 열면 `AuthGate`가 `/login`으로 보낸다. 로그인을 마치면 상태별 첫 화면(약관 동의 또는 홈)으로 가서 **초대 코드가 사라지고 방에 들어갈 수 없다.**
+
+### 개념: 돌아갈 주소(return path)
+
+- 막힌 순간의 주소를 적어 두었다가, 들어올 수 있는 상태가 되면 그 주소로 보내는 방식이다. 로그인이 필요한 서비스가 흔히 쓰는 방식이다.
+- 소셜 로그인은 구글·카카오 사이트에 다녀오는 동안 페이지가 새로 열려서 React 상태와 history state가 모두 사라진다. 그래서 **브라우저 저장소(localStorage)**에 적는다. 로그인 토큰도 같은 곳에 있다.
+
+### 해결
+
+`auth-context.ts`의 함수 세 개와 `AuthGate`가 처리한다.
+
+| 함수                       | 하는 일                                                            |
+| -------------------------- | ------------------------------------------------------------------ |
+| `rememberReturnPath(path)` | `localStorage`의 `usagi:return-path`에 주소를 적는다               |
+| `startPageOf(status)`      | 상태의 첫 화면. `member`이고 적어 둔 주소가 있으면 홈 대신 그 주소 |
+| `forgetReturnPath()`       | 적어 둔 주소를 지운다                                              |
+
+1. **막을 때 적는다**: `member` 전용 화면에서 `guest`나 `agreement` 사용자를 돌려보낼 때 `pathname + search`를 적는다.
+2. **보낼 때 읽는다**: `AuthGate`, `/auth/callback`, 랜딩의 시작하기가 모두 `startPageOf`로 첫 화면을 정한다. 약관 동의를 마쳐 `member`가 되는 순간에도 `AuthGate allow="agreement"`가 같은 함수로 보내므로 적어 둔 주소로 간다.
+3. **도착하면 지운다**: `member` 사용자가 보호된 화면에 들어오면 `AuthGate`가 지운다. 다음 로그인 때 그 주소로 다시 가지 않는다.
+
+적는 일은 렌더링 중에 하지만 같은 값을 덮어쓸 뿐이라 여러 번 그려져도 결과가 같다. 지우는 일은 렌더링 중에 하면 StrictMode의 두 번째 렌더링에서 주소를 못 읽으므로 `useEffect`에서 한다.
+
+### 예시
+
+```
+QR 스캔 → /join?code=abc (로그아웃)
+  → 적기: "/join?code=abc" → /login → 구글·카카오 로그인 → /auth/callback
+     ├─ 처음 가입:   /agreement → 동의 → /join?code=abc
+     └─ 이미 동의함: /join?code=abc
+  → 참여 화면이 code를 읽어 입력칸을 채운다 → 지우기
+```
+
+---
+
 ## 직접 확인하는 법
 
 - **로그아웃 상태 만들기**: 프로필(`/profile`)의 "로그아웃 (임시)" 버튼을 누른다. `supabase.auth.signOut()`이 `SIGNED_OUT` 이벤트를 보내 세션이 비고, `member` 화면을 감싼 `AuthGate`가 `/login`으로 보낸다.
@@ -249,3 +290,4 @@ const welcome = useWelcomeToast(); // "박지우님 환영합니다" → 2초 �
   4. 로그인 상태로 `/login` → 홈으로 간다.
   5. 로그인 상태로 `/` → 랜딩이 보이고, 시작하기를 누르면 홈으로 간다.
   6. 로그아웃 후 다시 로그인 → 약관 없이 홈 + 환영 토스트가 뜬다.
+  7. 로그아웃 상태로 `/join?code=초대코드` → 로그인(필요하면 약관 동의) → 참여 화면에 코드가 채워져 있다.
