@@ -14,7 +14,7 @@ const BOX: Record<Placement, string> = {
 };
 
 function textSize(word: string, placement: Placement) {
-  if (placement === 'detail') return 'text-[48px] leading-[53.077px] tracking-[-0.6449px]';
+  if (placement === 'detail') return 'text-word-detail';
   if (placement === 'after') return 'text-word-md';
 
   return word.length >= LONG_WORD_LENGTH ? 'text-word-sm' : 'text-word';
