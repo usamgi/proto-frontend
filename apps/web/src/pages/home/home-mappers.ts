@@ -53,6 +53,23 @@ function roomsOf(
 }
 
 /**
+ * @description 방을 가리지 않는 자리(칩, 참여자 묶음)에서 부를 방 닉네임을 고릅니다.
+ *
+ * @remarks
+ * 닉네임은 방마다 달라서, 오늘 사진을 보낸 방의 닉네임을 먼저 쓰고 없으면 내가 먼저 들어간 방의 닉네임을 씁니다. 어느 방에도 닉네임이 없으면 `undefined`이고 호출부가 프로필 이름을 씁니다.
+ */
+function roomNicknameOf(id: string, { groups, members, photos }: HomeTableRows) {
+  const nicknameIn = (groupId: string) =>
+    members.find((member) => member.user_id === id && member.group_id === groupId)?.nickname;
+  const photo = photos.find((row) => row.user_id === id);
+
+  return (
+    (photo && nicknameIn(photo.group_id)) ||
+    groups.map((group) => nicknameIn(group.id)).find(Boolean)
+  );
+}
+
+/**
  * @description 표 모양으로 읽어 온 내용을 홈이 그리는 모양으로 바꿉니다. 같은 입력에는 늘 같은 결과를 돌려줍니다.
  *
  * @remarks
@@ -68,6 +85,10 @@ export function toHomeData(userId: string, rows: HomeRows): HomeData {
     nickname: profileOf.get(id)?.name ?? '',
     avatarUrl: null,
   });
+  const homePersonOf = (id: string): Participant => {
+    const person = personOf(id);
+    return { ...person, nickname: roomNicknameOf(id, rows) || person.nickname };
+  };
   const roomPhotoOf = (photo: PhotoRow) => ({
     url: urls.get(photo.image_path) ?? '',
     uploadedAt: photo.created_at ?? '',
@@ -82,13 +103,13 @@ export function toHomeData(userId: string, rows: HomeRows): HomeData {
   const friends: Friend[] = friendIds.map((id) => {
     const photo = friendPhotos.find((friendPhoto) => friendPhoto.user_id === id);
 
-    return { ...personOf(id), photo: photo ? roomPhotoOf(photo) : null };
+    return { ...homePersonOf(id), photo: photo ? roomPhotoOf(photo) : null };
   });
 
   return {
-    myNickname: profileOf.get(userId)?.name ?? '',
+    myNickname: homePersonOf(userId).nickname,
     hasSent: photos.some((photo) => photo.user_id === userId),
-    participants: participantIds.map(personOf),
+    participants: participantIds.map(homePersonOf),
     friends,
     rooms: roomsOf(userId, rows, personOf, roomPhotoOf),
   };

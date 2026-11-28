@@ -24,6 +24,21 @@ interface AfterUploadHomeProps {
   onIntroStart: () => void;
 }
 
+/** 보낸 직후 모션을 처음 그려질 때 한 번만 재생합니다. 재생을 시작하면 `onIntroStart`를 부릅니다. */
+function useIntroPlayback(intro: IntroKind | null, onIntroStart: () => void) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [playingIntro, setPlayingIntro] = useState(intro);
+  const isIntroPlaying = playingIntro !== null;
+  const endIntro = useCallback(() => setPlayingIntro(null), []);
+
+  useEffect(() => {
+    if (isIntroPlaying) onIntroStart();
+  }, [isIntroPlaying, onIntroStart]);
+  useRoomIntro(rootRef, playingIntro, endIntro);
+
+  return { rootRef, playingIntro, isIntroPlaying };
+}
+
 /**
  * @description 사진을 보낸 뒤의 홈. 오늘의 단어와 오늘 올린 사람, 내 방 카드를 보입니다.
  *
@@ -43,19 +58,11 @@ export function AfterUploadHome({
   introFrom,
   onIntroStart,
 }: AfterUploadHomeProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [playingIntro, setPlayingIntro] = useState(intro);
-  const isIntroPlaying = playingIntro !== null;
-  const endIntro = useCallback(() => setPlayingIntro(null), []);
+  const { rootRef, playingIntro, isIntroPlaying } = useIntroPlayback(intro, onIntroStart);
   const shownRooms = orderRooms(rooms);
   const [pickedFriendIds] = useState(() => pickFriendIds(shownRooms));
   const me: Participant = { id: 'me', nickname: myNickname, avatarUrl: null };
   const meIn = (room: Room): Participant => ({ ...me, nickname: room.myNickname });
-
-  useEffect(() => {
-    if (isIntroPlaying) onIntroStart();
-  }, [isIntroPlaying, onIntroStart]);
-  useRoomIntro(rootRef, playingIntro, endIntro);
 
   return (
     <div

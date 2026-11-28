@@ -9,6 +9,7 @@ const DRAG_RESISTANCE = 0.4;
 /** 이만큼 옆으로 움직여야 끌기로 봅니다. 덜 움직이고 떼면 클릭이라 카드 링크로 갑니다. */
 const DRAG_THRESHOLD_PX = 8;
 
+/** 포인터는 끌기로 본 뒤에만 붙잡습니다. 누르자마자 붙잡으면 클릭이 이 감싸개에서 끝나 카드 링크에 닿지 않습니다. */
 function SingleRoom({ card }: { card: ReactElement }) {
   const [pressStartX, setPressStartX] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -29,7 +30,6 @@ function SingleRoom({ card }: { card: ReactElement }) {
           const deltaX = event.clientX - pressStartX;
           if (!isDragging) {
             if (Math.abs(deltaX) < DRAG_THRESHOLD_PX) return;
-            // 누르자마자 붙잡으면 클릭이 이 감싸개에서 끝나 링크에 닿지 않아서, 끌기로 본 뒤에만 붙잡습니다
             event.currentTarget.setPointerCapture(event.pointerId);
             setIsDragging(true);
           }
