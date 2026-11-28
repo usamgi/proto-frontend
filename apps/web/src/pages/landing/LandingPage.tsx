@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router';
 
-import { getAuthStatus, START_PAGE, useAuth } from '@/shared/auth/auth-context';
+import { getAuthStatus, startPageOf, useAuth } from '@/shared/auth/auth-context';
 import { BrandHero } from '@/shared/ui/BrandHero';
 import { Button } from '@/shared/ui/Button';
 import { Screen } from '@/shared/ui/Screen';
@@ -22,7 +22,7 @@ export function LandingPage() {
             <br />
             그룹 친구들과 같은 주제의 사진을 나란히 모아 봐요
           </p>
-          <Button onClick={() => navigate(START_PAGE[getAuthStatus(session)])}>시작하기</Button>
+          <Button onClick={() => navigate(startPageOf(getAuthStatus(session)))}>시작하기</Button>
           <nav className="flex gap-3 text-[13px] text-ink-sub">
             <Link to="/privacy" className="font-semibold underline">
               개인정보처리방침
