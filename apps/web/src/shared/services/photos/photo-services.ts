@@ -129,3 +129,23 @@ export async function servUploadPhoto({
     }),
   );
 }
+
+/**
+ * @description 내가 볼 수 있는 사진이 올라오거나 바뀌면 `onChange`를 부르는 실시간 구독을 켭니다(`photos`).
+ *
+ * @remarks
+ * 정책(RLS)을 따라 내 방의 사진이 바뀔 때만 알림이 옵니다. 지우기(`DELETE`)는 정책을 거치지 않고 모든 구독자에게 가서 받지 않습니다. 알림에 든 내용은 쓰지 않고, 받은 쪽이 다시 읽습니다.
+ * @public
+ * @returns 구독을 끄는 함수. 화면을 떠날 때 반드시 부릅니다.
+ */
+export function servSubscribePhotoChange(onChange: () => void) {
+  const channel = supabase
+    .channel(`photos-${crypto.randomUUID()}`)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'photos' }, onChange)
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'photos' }, onChange)
+    .subscribe();
+
+  return () => {
+    void supabase.removeChannel(channel);
+  };
+}

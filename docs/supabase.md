@@ -101,6 +101,8 @@ missions (날짜와 회차당 1개, unique(mission_date, round))
 
 `unique(group_id, user_id, mission_id)`. 인덱스: `(group_id, mission_id)`.
 
+실시간(`supabase_realtime`) 대상이다. 홈은 사진이 올라오거나 바뀌면(`INSERT`, `UPDATE`) 다시 읽는다. 알림은 RLS를 따라 내 방 사진일 때만 온다. `DELETE` 알림은 RLS를 거치지 않고 모두에게 가서 받지 않는다.
+
 ### `comments` — 사진 댓글
 
 | 컬럼         | 타입          | 메모                   |
