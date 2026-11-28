@@ -1,3 +1,5 @@
+import { useCallback, useState } from 'react';
+
 import { useAuth } from '@/shared/auth/auth-context';
 import { useWelcomeToast } from '@/shared/auth/use-welcome-toast';
 import { useTodayMission, useTodayMissionSync } from '@/shared/services/mission/use-today-mission';
@@ -9,11 +11,19 @@ import { AfterUploadHome } from './after-upload-home';
 import { BeforeUploadHome } from './BeforeUploadHome';
 import type { HomeData } from './home-mission';
 import { HomeHeader } from './HomeHeader';
+import { useHomePhotoSync } from './use-home-photo-sync';
 import { useHomeData } from './use-home-data';
 
 function HomeBody({ word, data }: { word: string; data: HomeData }) {
   const pendingIntro = useTodayShot((state) => state.pendingIntro);
   const markIntroShown = useTodayShot((state) => state.markIntroShown);
+  const [isIntroPlaying, setIsIntroPlaying] = useState(false);
+  const startIntro = useCallback(() => {
+    markIntroShown();
+    setIsIntroPlaying(true);
+  }, [markIntroShown]);
+  const endIntro = useCallback(() => setIsIntroPlaying(false), []);
+  useHomePhotoSync(isIntroPlaying);
 
   const beforeUpload = (
     <BeforeUploadHome word={word} participants={data.participants} friends={data.friends} />
@@ -29,7 +39,8 @@ function HomeBody({ word, data }: { word: string; data: HomeData }) {
       rooms={data.rooms}
       intro={pendingIntro}
       introFrom={beforeUpload}
-      onIntroStart={markIntroShown}
+      onIntroStart={startIntro}
+      onIntroEnd={endIntro}
     />
   );
 }

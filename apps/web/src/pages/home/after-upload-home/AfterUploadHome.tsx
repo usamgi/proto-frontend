@@ -22,14 +22,23 @@ interface AfterUploadHomeProps {
   introFrom: ReactElement;
   /** 모션을 시작할 때 한 번 불립니다. 호출부는 다음부터 `intro`를 `null`로 넘깁니다. */
   onIntroStart: () => void;
+  /** 모션이 끝나면 한 번 불립니다. 모션 줄이기 설정이면 시작하자마자 불립니다. */
+  onIntroEnd: () => void;
 }
 
-/** 보낸 직후 모션을 처음 그려질 때 한 번만 재생합니다. 재생을 시작하면 `onIntroStart`를 부릅니다. */
-function useIntroPlayback(intro: IntroKind | null, onIntroStart: () => void) {
+/** 보낸 직후 모션을 처음 그려질 때 한 번만 재생합니다. 재생을 시작하면 `onIntroStart`를, 끝나면 `onIntroEnd`를 부릅니다. */
+function useIntroPlayback(
+  intro: IntroKind | null,
+  onIntroStart: () => void,
+  onIntroEnd: () => void,
+) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [playingIntro, setPlayingIntro] = useState(intro);
   const isIntroPlaying = playingIntro !== null;
-  const endIntro = useCallback(() => setPlayingIntro(null), []);
+  const endIntro = useCallback(() => {
+    setPlayingIntro(null);
+    onIntroEnd();
+  }, [onIntroEnd]);
 
   useEffect(() => {
     if (isIntroPlaying) onIntroStart();
@@ -57,8 +66,13 @@ export function AfterUploadHome({
   intro,
   introFrom,
   onIntroStart,
+  onIntroEnd,
 }: AfterUploadHomeProps) {
-  const { rootRef, playingIntro, isIntroPlaying } = useIntroPlayback(intro, onIntroStart);
+  const { rootRef, playingIntro, isIntroPlaying } = useIntroPlayback(
+    intro,
+    onIntroStart,
+    onIntroEnd,
+  );
   const shownRooms = orderRooms(rooms);
   const [pickedFriendIds] = useState(() => pickFriendIds(shownRooms));
   const me: Participant = { id: 'me', nickname: myNickname, avatarUrl: null };
